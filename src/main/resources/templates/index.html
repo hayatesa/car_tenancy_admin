@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>乘风租车后台管理系统</title>
+    <link rel="stylesheet" href="/fonts/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="/layui-v2.4.3/css/layui.css">
+</head>
+<body>
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">
+            <a class="logo" href="/">
+                <img src="/img/logo.png" style="padding-left: 15px" alt="乘风租车">
+            </a>
+        </div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item">
+                <a href="javascript:;" data-id="15" data-title="系统设置" data-url="/"
+                                          class="site-menu-active" data-type="tabAdd">系统设置</a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:;">其它系统</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">邮件管理</a></dd>
+                    <dd><a href="">消息管理</a></dd>
+                    <dd><a href="">授权管理</a></dd>
+                </dl>
+            </li>
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <img src="/img/logo.png" class="layui-nav-img">
+                    管理员
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">基本资料</a></dd>
+                    <dd><a href="">安全设置</a></dd>
+                    <dd><a href="/logout">退出登录</a></dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <!-- 左侧垂直导航区域-->
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                <li class="layui-nav-item">
+                    <a id="homePage" href="javascript:;" data-id="0" data-title="首页" data-url="/tenancy/p/home"
+                       class="site-menu-active" data-type="tabAdd">首&emsp;&emsp;页</a>
+                </li>
+                <li class="layui-nav-item">
+                    <a class="" href="javascript:;">统计报表</a>
+                    <dl class="layui-nav-child">
+                        <dd>
+                            <a href="javascript:;" data-id="1" data-title="销量统计" data-url="/"
+                               class="site-menu-active" data-type="tabAdd">销量统计</a>
+                        </dd>
+                        <dd>
+                            <a href="javascript:;" data-id="2" data-title="财务报表" data-url="/"
+                               class="site-menu-active" data-type="tabAdd">财务报表</a>
+                        </dd>
+                        <dd>
+                            <a href="javascript:;" data-id="3" data-title="门店统计" data-url="/"
+                               class="site-menu-active" data-type="tabAdd">门店统计</a>
+                        </dd>
+                        <dd>
+                            <a href="javascript:;" data-id="4" data-title="热度统计" data-url="/"
+                               class="site-menu-active" data-type="tabAdd">热度统计</a>
+                        </dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a class="" href="javascript:;">套餐管理</a>
+                    <dl class="layui-nav-child">
+                        <dd>
+                            <a href="javascript:;" data-id="5" data-title="套餐管理" data-url="/"
+                               class="site-menu-active" data-type="tabAdd">套餐管理</a>
+                        </dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a class="" href="javascript:;">订单管理</a>
+                    <dl class="layui-nav-child">
+                        <dd>
+                            <a href="javascript:;" data-id="6" data-title="订单管理" data-url="/"
+                               class="site-menu-active" data-type="tabAdd">订单管理</a>
+                        </dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a class="" href="javascript:;">客户管理</a>
+                    <dl class="layui-nav-child">
+                        <dd>
+                            <a href="javascript:;" data-id="7" data-title="客户管理" data-url="/"
+                               class="site-menu-active" data-type="tabAdd">客户管理</a>
+                        </dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a class="" href="javascript:;">门店管理</a>
+                    <dl class="layui-nav-child">
+                        <dd>
+                            <a href="javascript:;" data-id="8" data-title="门店管理" data-url="/"
+                               class="site-menu-active" data-type="tabAdd">门店管理</a>
+                        </dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a class="" href="javascript:;">车辆管理</a>
+                    <dl class="layui-nav-child">
+                        <dd>
+                            <a href="javascript:;" data-id="9" data-title="品牌管理" data-url="/"
+                               class="site-menu-active" data-type="tabAdd">品牌管理</a>
+                        </dd>
+                        <dd>
+                            <a href="javascript:;" data-id="10" data-title="车辆管理" data-url="/"
+                               class="site-menu-active" data-type="tabAdd">车辆管理</a>
+                        </dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a class="" href="javascript:;">综合管理</a>
+                    <dl class="layui-nav-child">
+                        <dd>
+                            <a href="javascript:;" data-id="11" data-title="广告管理" data-url="/"
+                               class="site-menu-active" data-type="tabAdd">广告管理</a>
+                        </dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a class="" href="javascript:;">权限管理</a>
+                    <dl class="layui-nav-child">
+                        <dd>
+                            <a href="javascript:;" data-id="12" data-title="用户管理" data-url="/"
+                               class="site-menu-active" data-type="tabAdd">用户管理</a>
+                        </dd>
+                        <dd>
+                            <a href="javascript:;" data-id="13" data-title="角色管理" data-url="/"
+                               class="site-menu-active" data-type="tabAdd">角色管理</a>
+                        </dd>
+                        <dd>
+                            <a href="javascript:;" data-id="14" data-title="角色管理" data-url="/"
+                               class="site-menu-active" data-type="tabAdd">角色管理</a>
+                        </dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!--tab标签-->
+    <div class="layui-tab" lay-filter="index-content" lay-allowclose="true" style="margin-left: 200px;">
+        <ul class="layui-tab-title"></ul>
+        <div class="layui-tab-content"></div>
+    </div>
+
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        © wind.com - 乘风租车
+    </div>
+</div>
+
+
+<!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+<!--[if lt IE 9]>
+<script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+<script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/layui-v2.4.3/layui.all.js"></script>
+<script src="/vue-2.5.17/vue.min.js"></script>
+<script src="/js/common/common.js"></script>
+<script src="/js/tenancy/index.js"></script>
+
+</body>
+</html>
