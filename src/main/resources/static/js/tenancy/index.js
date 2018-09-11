@@ -49,11 +49,13 @@ layui.use(['element', 'layer', 'jquery', 'table'], function () {
     };
     function FrameWH() {
         var h = $(window).height();
-        $("iframe").css("height",h+"px");
+        $("iframe").css("height",h-145+"px"); // 减去一部分高度，解决底部部分内容不显示问题
     }
+    window.onresize=FrameWH; // 监听窗口缩放事件，随时调整内容页高度
 
+    // 设置默认打开的页
     var home = $('#homePage');
     active.tabAdd(home.attr("data-url"), home.attr("data-id"), home.attr("data-title"));
     active.tabChange(home.attr("data-id"));
-    home
+
 });
