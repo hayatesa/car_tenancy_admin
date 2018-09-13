@@ -15,5 +15,4 @@
         <setting name="lazyLoadTriggerMethods" value="clone"/>
     </settings>
 
-
 </configuration>
