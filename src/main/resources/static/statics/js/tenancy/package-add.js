@@ -48,6 +48,12 @@ $(document).ready(function () {
 
 })
 
+//取消编辑 执行关闭
+function doCancel(){
+    var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+    parent.layer.close(index); //再执行关闭
+}
+
 //添加套餐
 function doAdd() {
     var data = p_app.package

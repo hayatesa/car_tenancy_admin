@@ -60,7 +60,7 @@
                     <button class="layui-btn" v-if="package.btn_add" lay-submit lay-filter="formDemo" id="add" > <i class="layui-icon layui-icon-add-1"></i> 添加</button>
                     <button class="layui-btn" v-if="package.btn_edit" lay-submit lay-filter="formDemo" id="edit"> <i class="layui-icon layui-icon-edit"></i> 编辑</button>
                     <button type="reset" v-if="package.btn_add" class="layui-btn layui-btn-danger" id="reset"> <i class="layui-icon layui-icon-refresh"></i> 重置</button>
-                    <button v-if="package.btn_edit" class="layui-btn layui-btn-danger" id="cancel"> <i class="layui-icon layui-icon-close"></i> 取消</button>
+                    <button v-if="package.btn_edit" class="layui-btn layui-btn-danger" onclick="doCancel()"> <i class="layui-icon layui-icon-close"></i> 取消</button>
                 </div>
             </div>
         </form>
