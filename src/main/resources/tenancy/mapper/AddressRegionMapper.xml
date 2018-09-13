@@ -12,8 +12,14 @@
   <sql id="Base_Column_List" >
     id, code, name, parent_id, first_letter, level
   </sql>
+
+  <select id="query" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from address_region
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from address_region
     where id = #{id,jdbcType=BIGINT}
@@ -23,10 +29,10 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.dev.main.tenancy.domain.AddressRegion" >
-    insert into address_region (id, code, name, 
+    insert into address_region (id, code, name,
       parent_id, first_letter, level
       )
-    values (#{id,jdbcType=BIGINT}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=BIGINT}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
       #{parentId,jdbcType=BIGINT}, #{firstLetter,jdbcType=VARCHAR}, #{level,jdbcType=TINYINT}
       )
   </insert>

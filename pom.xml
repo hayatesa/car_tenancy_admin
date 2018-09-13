@@ -45,6 +45,7 @@
         <mybatis-generator.version>1.3.2</mybatis-generator.version>
         <mybatisplus.version>2.1.9</mybatisplus.version>
         <mybatisplus.spring.boot.version>1.0.5</mybatisplus.spring.boot.version>
+        <pageHelper.version>5.1.6</pageHelper.version>
         <shiro-version>1.4.0</shiro-version>
         <shiro-redis-version>3.1.0</shiro-redis-version>
     </properties>
@@ -180,6 +181,11 @@
             <version>${fast-json-version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper</artifactId>
+            <version>${pageHelper.version}</version>
+        </dependency>
 
         <!--生成代码插件 -->
         <dependency>
