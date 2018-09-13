@@ -12,14 +12,4 @@ public class PageController {
         return pageName;
     }
 
-    @GetMapping("/index")
-    public String index() {
-        return "index";
-    }
-
-    @GetMapping("/login")
-    public String loginPage() {
-        return "login";
-    }
-
 }

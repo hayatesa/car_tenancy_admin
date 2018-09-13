@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>首页</title>
-    <link rel="stylesheet" href="/fonts/font-awesome-4.7.0/css/font-awesome.css">
-    <link rel="stylesheet" href="/layui-v2.4.3/css/layui.css">
+    <link rel="stylesheet" href="/statics/fonts/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="/statics/layui-v2.4.3/css/layui.css">
 </head>
 <body style="padding: 10px;">
 <blockquote class="layui-elem-quote layui-text">
@@ -450,16 +450,16 @@
     </div>
 </form>
 
-<script src="/js/jquery-3.3.1.min.js"></script>
-<script src="/layui-v2.4.3/layui.all.js"></script>
-<script src="/vue-2.5.17/vue.min.js"></script>
-<script src="/js/common/common.js"></script>
+<script src="/statics/js/jquery-3.3.1.min.js"></script>
+<script src="/statics/layui-v2.4.3/layui.all.js"></script>
+<script src="/statics/vue-2.5.17/vue.min.js"></script>
+<script src="/statics/js/common/common.js"></script>
 <script>
     layui.use('table', function(){
         var table = layui.table;
         table.render({
             elem: '#tableDemo'
-            ,url:'/table_data.json'
+            ,url:'/statics/table_data.json'
             ,toolbar: '#toolbarDemo'
             ,title: '用户数据表'
             ,totalRow: true
