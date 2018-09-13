@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>广告管理</title>
+    <link rel="stylesheet" href="/fonts/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="/layui-v2.4.3/css/layui.css">
+</head>
+<body style="padding: 10px;">
+
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>广告表</legend>
+</fieldset>
+<table class="layui-hide" id="tableDemo" lay-filter="tableDemo"></table>
+
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
+    </div>
+</script>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+<script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/layui-v2.4.3/layui.all.js"></script>
+<script src="/vue-2.5.17/vue.min.js"></script>
+<script src="/js/common/common.js"></script>
+<script>
+    layui.use('table', function(){
+        var table = layui.table;
+        table.render({
+            elem: '#tableDemo'
+            ,url:'/ad_table.json'
+            ,toolbar: '#toolbarDemo'
+            ,title: '广告表'
+            ,cols: [
+                [{type: 'checkbox', fixed: 'left'}
+                    ,{field:'title', title:'标题', fixed: 'left', unresize: true, sort: true, totalRowText: '合计'}
+                    ,{field:'url', title:'跳转链接', edit: 'text'}
+                    ,{field:'image_path', title:'图片路径', edit: 'text'}
+                    ,{field:'type', title:'类型', sort: true, totalRow: true}
+                    ,{field:'gmt_create', title:'创建时间', edit: 'text', sort: true}
+                    ,{field:'gmt_modified', title:'修改时间', sort: true, totalRow: true}
+                    ,{fixed: 'right', title:'操作', toolbar: '#barDemo'}]
+            ]
+            ,page: true
+            ,limits:[5,10]
+            ,limit:5
+        });
+
+
+        table.on('toolbar(tableDemo)', function(obj){
+            if(obj.event=='add'){
+                showForm()
+            }
+        });
+        table.on('tool(tableDemo)', function(obj){
+            if(obj.event=='edit'){
+                showForm()
+            }
+        });
+        function showForm(){
+            layer.open({
+                type: 2 //此处以iframe举例
+                ,title: '当你选择该窗体时，即会在最顶端'
+                ,area: ['630px', '400px']
+                ,shade: 0
+                ,closeBtn: 0
+                ,resize:false
+                ,id:1
+                ,isOutAnim: false
+                ,shade: [0.8, '#393D49']
+                ,offset: ['10px', '281px']
+                ,content: 'model.html'
+                ,btn: ['添加', '关闭'] //只是为了演示
+                ,btn2: function(){
+                    layer.close();
+                }
+
+                ,zIndex: layer.zIndex //重点1
+                ,success: function(layero){
+                    layer.setTop(layero); //重点2
+                }
+            });
+        }
+    });
+</script>
+</body>
+</html>
