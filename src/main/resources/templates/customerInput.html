@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>我帮你</title>
+    <link rel="stylesheet" href="/fonts/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="/layui-v2.4.3/css/layui.css">
+</head>
+<style>
+    .input_width {
+        width: 50%;
+    }
+    .div_margin {
+        margin-bottom: 20px;
+    }
+</style>
+<body style="padding: 10px;">
+<fieldset class="layui-elem-field layui-field-title">
+    <legend>管的太多</legend>
+</fieldset>
+<form class="layui-form" action="">
+    <div class="layui-form-item div_margin">
+        <label class="layui-form-label">姓名</label>
+        <div class="layui-input-block">
+            <input type="text" name="title" lay-verify="required" placeholder="请输入真实姓名" class="layui-input input_width">
+        </div>
+    </div>
+    <div class="layui-form-item div_margin">
+        <label class="layui-form-label">手机号</label>
+        <div class="layui-input-block">
+            <input type="text" name="username" lay-verify="required|phone" placeholder="请输入手机号码" class="layui-input input_width">
+        </div>
+    </div>
+    <div class="layui-form-item div_margin">
+        <label class="layui-form-label">登录密码</label>
+        <div class="layui-input-block">
+            <input type="password" name="password" lay-verify="required" maxlength="18" placeholder="建议6-18位数字、字母、符号的组合密码" class="layui-input input_width">
+        </div>
+    </div>
+    <div class="layui-form-item div_margin">
+        <label class="layui-form-label">确认密码</label>
+        <div class="layui-input-block">
+            <input type="password" name="password" lay-verify="required" placeholder="再次输入密码" class="layui-input input_width">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit="" lay-filter="demo1">确定</button>
+            <button type="button" class="layui-btn layui-btn-primary" onclick="userInput_back()">取消</button>
+        </div>
+    </div>
+</form>
+</body>
+<script>
+    var userInput_back = function(){
+        window.history.back();
+    };
+</script>
+</html>
