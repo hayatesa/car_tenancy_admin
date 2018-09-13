@@ -7,7 +7,7 @@ layui.use('table', function(){
         // ,height: 312
         ,toolbar: '#toolbarDemo'
         ,totalRow: true
-        ,url: '/package_data.json' //数据接口
+        ,url: '/statics/package_data.json' //数据接口
         ,page: true //开启分页
         ,cols: [[ //表头
              //{type: 'checkbox',width:'5%',fixed: 'left'}
