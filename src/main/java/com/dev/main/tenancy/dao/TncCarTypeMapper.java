@@ -2,7 +2,7 @@ package com.dev.main.tenancy.dao;
 
 import com.dev.main.tenancy.domain.TncCarType;
 
-public interface TncCarTypeMapper {
+public interface TncCarTypeMapper extends BaseMapper<TncCarType> {
     int deleteByPrimaryKey(Long id);
 
     int insert(TncCarType record);

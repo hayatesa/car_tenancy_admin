@@ -2,7 +2,7 @@ package com.dev.main.tenancy.dao;
 
 import com.dev.main.tenancy.domain.TncStore;
 
-public interface TncStoreMapper {
+public interface TncStoreMapper extends BaseMapper<TncStore> {
     int deleteByPrimaryKey(Long id);
 
     int insert(TncStore record);
