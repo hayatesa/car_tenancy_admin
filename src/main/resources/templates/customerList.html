@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>客户信息贩售页</title>
+    <link rel="stylesheet" href="/fonts/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="/layui-v2.4.3/css/layui.css">
+</head>
+<body style="padding: 10px;">
+
+<fieldset class="layui-elem-field layui-field-title">
+    <legend>客户管理</legend>
+</fieldset>
+<table class="layui-hide" id="tableDemo" lay-filter="tableDemo"></table>
+
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm">
+            <i class="layui-icon">&#xe608;</i> 添加
+        </button>
+        <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
+    </div>
+</script>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-normal layui-btn-xs">禁用</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/layui-v2.4.3/layui.all.js"></script>
+<script src="/vue-2.5.17/vue.min.js"></script>
+<script src="/js/common/common.js"></script>
+<script>
+    layui.use('table', function () {
+        var table = layui.table;
+        table.render({
+            elem: '#tableDemo'
+            , url: '/table_data.json'
+            , toolbar: '#toolbarDemo'
+            , title: '用户数据表'
+            , cols: [
+                [
+                    {field: 'id', title: 'ID', width: 70, fixed: 'left', unresize: true, sort: true, align: 'center'}
+                    , {field: 'username', title: '用户名', width: 80, edit: 'text', align: 'center'}
+                    , {field: 'sex', title: '性别', width: 65, edit: 'text', sort: true, align: 'center'}
+                    , {field: 'phone', title: '手机', width: 120, align: 'center'}
+                    , {
+                    field: 'email', title: '邮箱', width: 150, edit: 'text', templet: function (res) {
+                        return '<em>' + res.email + '</em>'
+                    }, align: 'center'
+                }
+                    , {field: 'experience', title: '积分', width: 65, sort: true}
+                    , {field: 'city', title: '地址', width: 170, align: 'center'}
+                    , {field: 'emergencyname', title: '紧急联系人', width: 100, edit: 'text', align: 'center'}
+                    , {field: 'emergencyPhone', title: '紧急联系号', width: 120, align: 'center'}
+                    , {field: 'lastLoginTime', title: '上次登录时间', width: 130, edit: 'text', sort: true, align: 'center'}
+                    , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 170, align: 'center'}]
+            ]
+            , page: true
+        });
+
+        //工具栏事件
+        table.on('toolbar(tableDemo)', function (obj) {
+            var checkStatus = table.checkStatus(obj.config.id);
+            switch (obj.event) {
+                case 'getCheckData':
+                    var data = checkStatus.data;
+                    layer.alert(JSON.stringify(data));
+                    break;
+                case 'getCheckLength':
+                    var data = checkStatus.data;
+                    layer.msg('选中了：' + data.length + ' 个');
+                    break;
+                case 'isAll':
+                    layer.msg(checkStatus.isAll ? '全选' : '未全选')
+                    break;
+            }
+            ;
+        });
+    });
+</script>
+</body>
+</html>
