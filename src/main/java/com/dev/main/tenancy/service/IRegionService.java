@@ -1,11 +1,15 @@
 package com.dev.main.tenancy.service;
 
 import com.dev.main.common.util.Page;
-
-import java.util.Map;
+import com.dev.main.common.util.QueryObject;
 
 public interface IRegionService {
 
-    Page queryByPage(Map<String, Object> queryParams);
+    /**
+     * 查询一页数据
+     * @param queryObject
+     * @return
+     */
+    Page queryByPage(QueryObject queryObject);
 
 }

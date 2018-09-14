@@ -2,7 +2,7 @@ package com.dev.main.tenancy.dao;
 
 import com.dev.main.tenancy.domain.TncOrder;
 
-public interface TncOrderMapper {
+public interface TncOrderMapper extends BaseMapper<TncOrder> {
     int deleteByPrimaryKey(Long id);
 
     int insert(TncOrder record);

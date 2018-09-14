@@ -2,7 +2,7 @@ package com.dev.main.tenancy.dao;
 
 import com.dev.main.tenancy.domain.TncPointLog;
 
-public interface TncPointLogMapper {
+public interface TncPointLogMapper extends BaseMapper<TncPointLogMapper> {
     int deleteByPrimaryKey(Long id);
 
     int insert(TncPointLog record);

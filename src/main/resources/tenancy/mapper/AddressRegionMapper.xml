@@ -17,6 +17,14 @@
     select
     <include refid="Base_Column_List" />
     from address_region
+    <where>
+      <if test="search!=null">AND (
+        name LIKE CONCAT('%',#{search},'%')
+        OR code LIKE CONCAT('%',#{search},'%')
+        OR first_letter LIKE CONCAT('%',#{search},'%')
+        )
+      </if>
+    </where>
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select

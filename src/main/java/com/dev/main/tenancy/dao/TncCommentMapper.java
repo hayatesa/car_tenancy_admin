@@ -2,7 +2,7 @@ package com.dev.main.tenancy.dao;
 
 import com.dev.main.tenancy.domain.TncComment;
 
-public interface TncCommentMapper {
+public interface TncCommentMapper extends BaseMapper<TncComment> {
     int deleteByPrimaryKey(Long id);
 
     int insert(TncComment record);

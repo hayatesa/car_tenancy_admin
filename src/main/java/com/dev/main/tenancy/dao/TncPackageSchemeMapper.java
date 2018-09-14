@@ -2,7 +2,7 @@ package com.dev.main.tenancy.dao;
 
 import com.dev.main.tenancy.domain.TncPackageScheme;
 
-public interface TncPackageSchemeMapper {
+public interface TncPackageSchemeMapper extends BaseMapper<TncPackageScheme> {
     int deleteByPrimaryKey(Long id);
 
     int insert(TncPackageScheme record);

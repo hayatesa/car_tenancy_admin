@@ -2,7 +2,7 @@ package com.dev.main.tenancy.dao;
 
 import com.dev.main.tenancy.domain.TncPriceScheme;
 
-public interface TncPriceSchemeMapper {
+public interface TncPriceSchemeMapper extends BaseMapper<TncPriceScheme> {
     int deleteByPrimaryKey(Long id);
 
     int insert(TncPriceScheme record);

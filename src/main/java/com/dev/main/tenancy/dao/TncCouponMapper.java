@@ -2,7 +2,7 @@ package com.dev.main.tenancy.dao;
 
 import com.dev.main.tenancy.domain.TncCoupon;
 
-public interface TncCouponMapper {
+public interface TncCouponMapper extends BaseMapper<TncCoupon> {
     int deleteByPrimaryKey(Long id);
 
     int insert(TncCoupon record);

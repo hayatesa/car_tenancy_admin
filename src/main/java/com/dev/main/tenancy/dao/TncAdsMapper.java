@@ -2,7 +2,7 @@ package com.dev.main.tenancy.dao;
 
 import com.dev.main.tenancy.domain.TncAds;
 
-public interface TncAdsMapper {
+public interface TncAdsMapper extends BaseMapper<TncAds> {
     int deleteByPrimaryKey(Long id);
 
     int insert(TncAds record);
