@@ -35,7 +35,8 @@
         var table = layui.table;
         table.render({
             elem: '#tableDemo'
-            , url: '/statics/table_data.json'
+            , url: '/api/customer/list'
+            , height: 523
             , toolbar: '#toolbarDemo'
             , title: '用户数据表'
             , cols: [
