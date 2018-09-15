@@ -23,6 +23,19 @@
     id, phone, id_card, password, salt, last_access_time, gender, name, email, addr_id, 
     emergency_name, emergency_phone, status, is_deleted, gmt_create, gmt_modified
   </sql>
+
+  <select id="query" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tnc_customer
+    <where>
+      <if test="search!=null">AND (
+        name LIKE CONCAT('%',#{search},'%')
+        OR phone LIKE CONCAT('%',#{search},'%')
+        )
+      </if>
+    </where>
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
