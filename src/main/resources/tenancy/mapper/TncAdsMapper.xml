@@ -14,6 +14,21 @@
   <sql id="Base_Column_List" >
     id, title, url, image_path, type, is_deleted, gmt_create, gmt_modified
   </sql>
+  <select id="query" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from
+    tnc_ads
+    <where>
+      is_deleted = 0
+      <if test="search!=null">AND(
+        title LIKE CONCAT('%',#{search},'%')
+        or url like concat('%',#{search},'%')
+        or image_path like concat('%',#{search},'%')
+        )
+      </if>
+    </where>
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
