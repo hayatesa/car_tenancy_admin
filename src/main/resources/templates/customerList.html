@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>客户信息贩售页</title>
-    <link rel="stylesheet" href="/fonts/font-awesome-4.7.0/css/font-awesome.css">
-    <link rel="stylesheet" href="/layui-v2.4.3/css/layui.css">
+    <link rel="stylesheet" href="/statics/fonts/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="/statics/layui-v2.4.3/css/layui.css">
 </head>
 <body style="padding: 10px;">
 
@@ -26,35 +26,36 @@
     <a class="layui-btn layui-btn-normal layui-btn-xs">禁用</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
-<script src="/js/jquery-3.3.1.min.js"></script>
-<script src="/layui-v2.4.3/layui.all.js"></script>
-<script src="/vue-2.5.17/vue.min.js"></script>
-<script src="/js/common/common.js"></script>
+<script src="/statics/js/jquery-3.3.1.min.js"></script>
+<script src="/statics/layui-v2.4.3/layui.all.js"></script>
+<script src="/statics/vue-2.5.17/vue.min.js"></script>
+<script src="/statics/js/common/common.js"></script>
 <script>
     layui.use('table', function () {
         var table = layui.table;
         table.render({
             elem: '#tableDemo'
-            , url: '/table_data.json'
+            , url: '/api/customer/list'
+            , height: 523
             , toolbar: '#toolbarDemo'
             , title: '用户数据表'
             , cols: [
                 [
-                    {field: 'id', title: 'ID', width: 70, fixed: 'left', unresize: true, sort: true, align: 'center'}
-                    , {field: 'username', title: '用户名', width: 80, edit: 'text', align: 'center'}
-                    , {field: 'sex', title: '性别', width: 65, edit: 'text', sort: true, align: 'center'}
-                    , {field: 'phone', title: '手机', width: 120, align: 'center'}
+                    {field: 'id', title: 'ID', width: 70, fixed: 'left', unresize: true, sort: true}
+                    , {field: 'username', title: '用户名', width: 80, edit: 'text'}
+                    , {field: 'sex', title: '性别', width: 65, edit: 'text', sort: true}
+                    , {field: 'phone', title: '手机', width: 120}
                     , {
                     field: 'email', title: '邮箱', width: 150, edit: 'text', templet: function (res) {
                         return '<em>' + res.email + '</em>'
-                    }, align: 'center'
+                    }
                 }
                     , {field: 'experience', title: '积分', width: 65, sort: true}
-                    , {field: 'city', title: '地址', width: 170, align: 'center'}
-                    , {field: 'emergencyname', title: '紧急联系人', width: 100, edit: 'text', align: 'center'}
-                    , {field: 'emergencyPhone', title: '紧急联系号', width: 120, align: 'center'}
-                    , {field: 'lastLoginTime', title: '上次登录时间', width: 130, edit: 'text', sort: true, align: 'center'}
-                    , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 170, align: 'center'}]
+                    , {field: 'city', title: '地址', width: 170}
+                    , {field: 'emergencyname', title: '紧急联系人', width: 100, edit: 'text'}
+                    , {field: 'emergencyPhone', title: '紧急联系号', width: 120}
+                    , {field: 'lastLoginTime', title: '上次登录时间', width: 130, edit: 'text', sort: true}
+                    , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 170}]
             ]
             , page: true
         });
