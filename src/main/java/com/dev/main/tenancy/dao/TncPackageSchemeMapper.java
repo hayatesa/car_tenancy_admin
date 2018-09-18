@@ -14,4 +14,6 @@ public interface TncPackageSchemeMapper extends BaseMapper<TncPackageScheme> {
     int updateByPrimaryKeySelective(TncPackageScheme record);
 
     int updateByPrimaryKey(TncPackageScheme record);
+
+    TncPackageScheme selectPackageSchemeByNmae(TncPackageScheme name);
 }

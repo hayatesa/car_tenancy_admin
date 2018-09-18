@@ -13,6 +13,21 @@
   <sql id="Base_Column_List" >
     id, name, days_min, days_max, is_deleted, gmt_create, gmt_modified
   </sql>
+
+  <select id="query" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tnc_package_scheme
+    <where>
+      <if test="search!=null">AND (
+        name LIKE CONCAT('%',#{search},'%')
+        OR days_min LIKE CONCAT('%',#{search},'%')
+        OR days_max LIKE CONCAT('%',#{search},'%')
+        )
+      </if>
+    </where>
+  </select>
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
@@ -114,4 +129,17 @@
       gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+
+  <select id="selectPackageSchemeByNmae" resultType="com.dev.main.tenancy.domain.TncPackageScheme" parameterType="com.dev.main.tenancy.domain.TncPackageScheme">
+    select *  from tnc_package_scheme
+    <where>
+      <if test="name!=null">
+        name = #{name}
+      </if>
+    <if test="id!=null">
+      and id != #{id}
+    </if>
+    </where>
+  </select>
 </mapper>

@@ -1,53 +1,57 @@
 layui.use('table', function(){
     var table = layui.table;
 
-    //第一个实例
     table.render({
-        elem: '#demo'
-        // ,height: 312
-        ,toolbar: '#toolbarDemo'
+        elem: '#PackageScheme'
+        ,height:564
+        ,loading:true
+        ,toolbar: '#toolbarPackageScheme'
         ,totalRow: true
-        ,url: '/statics/package_data.json' //数据接口
+        ,url: '/api/PackageScheme/list' //数据接口
         ,page: true //开启分页
         ,cols: [[ //表头
              //{type: 'checkbox',width:'5%',fixed: 'left'}
             {field: 'id', title: 'ID', width:'15%', sort: true, fixed: 'left',align:"center"}
-            ,{field: 'pName', title: '套餐名', width:'25%',align:"center"}
-            ,{field: 'pMin', title: '天数下限', width:"15%", sort: true,align:"center"}
-            ,{field: 'pMax', title: '天数上限', width:"15%",sort: true,align:"center"}
-            ,{field: 'discount', title: '折扣', width: "15%",sort: true,align:"center"}
-            ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:"15%",align:"center"}
+            ,{field: 'name', title: '套餐名', width:'25%',align:"center"}
+            ,{field: 'daysMin', title: '天数下限', width:"20%", sort: true,align:"center"}
+            ,{field: 'daysMax', title: '天数上限', width:"20%",sort: true,align:"center"}
+            // ,{field: 'discount', title: '折扣', width: "15%",sort: true,align:"center"}
+            ,{fixed: 'right', title:'操作', toolbar: '#barPackageScheme', width:"20%",align:"center"}
         ]]
     });
 
-    //工具条
-    table.on('tool(demo)', function(obj){
-        var data = obj.data;
-        console.log(obj.event)
+    //操作列
+    table.on('tool(PackageScheme)', function(obj){
+        let data = obj.data;
         if(obj.event === 'del'){
             layer.confirm('真的删除行么', function(index){
-                obj.del();
+                del(data.id);
                 layer.close(index);
             });
         } else if(obj.event === 'edit'){
-           // layer.alert('编辑行：<br>'+ JSON.stringify(data))
             op(JSON.stringify(data))
         }else if(obj.event === 'add'){
             op()
         }
 
     });
-    //添加套餐
-    $('#addPackage').on('click', function(){
-      op()
-    });
+    //工具条
+    table.on('toolbar(PackageScheme)', function(obj){
+        if(obj.event === 'add') {
+            op()
+        }
+    })
 
 });
 
+/**
+ * 添加
+ * 编辑
+ * @param data PackageScheme
+ */
 function op(data){
-    console.log(data)
-    var str = encodeURIComponent(data)//编码
-    var url =""
+    let str = encodeURIComponent(data)//编码
+    let url =""
     if(data !=null){
         url = './packageAdd.html?pack='+str
     }else{
@@ -70,3 +74,30 @@ function op(data){
     });
 }
 
+/**
+ * 删除 套餐
+ * @param id
+ */
+function del(id) {
+    $.ajax({
+        type:"POST",
+        url:"/api/PackageScheme/delete",
+        data:{
+            pid:id
+        },
+        // contentType:"application/json",
+        success:function (res) {
+            console.log(res)
+            if(res.code == 0){
+                layer.msg(res.msg,
+                    {
+                        time:1500
+                    },
+                    function () {
+                 layui.table.reload("PackageScheme")
+                })
+            }else{
+            }
+        }
+    })
+}
