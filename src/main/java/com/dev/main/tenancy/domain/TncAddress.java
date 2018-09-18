@@ -10,13 +10,13 @@ public class TncAddress extends BaseDomain {
     private Long id;
 
     // 省 外键
-    private Long provinceId;
+    private AddressRegion province;
 
     // 市 外键
-    private Long cityId;
+    private AddressRegion city;
 
     // 区 外键
-    private Long areaId;
+    private AddressRegion area;
 
     // 地址 详细地址
     private String detail;
@@ -44,28 +44,28 @@ public class TncAddress extends BaseDomain {
         this.id = id;
     }
 
-    public Long getProvinceId() {
-        return provinceId;
+    public AddressRegion getProvince() {
+        return province;
     }
 
-    public void setProvinceId(Long provinceId) {
-        this.provinceId = provinceId;
+    public void setProvince(AddressRegion province) {
+        this.province = province;
     }
 
-    public Long getCityId() {
-        return cityId;
+    public AddressRegion getCity() {
+        return city;
     }
 
-    public void setCityId(Long cityId) {
-        this.cityId = cityId;
+    public void setCity(AddressRegion city) {
+        this.city = city;
     }
 
-    public Long getAreaId() {
-        return areaId;
+    public AddressRegion getArea() {
+        return area;
     }
 
-    public void setAreaId(Long areaId) {
-        this.areaId = areaId;
+    public void setArea(AddressRegion area) {
+        this.area = area;
     }
 
     public String getDetail() {

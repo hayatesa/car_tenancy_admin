@@ -3,18 +3,18 @@
 <mapper namespace="com.dev.main.tenancy.dao.TncAddressMapper" >
   <resultMap id="BaseResultMap" type="com.dev.main.tenancy.domain.TncAddress" >
     <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="province_id" property="provinceId" jdbcType="BIGINT" />
-    <result column="city_id" property="cityId" jdbcType="BIGINT" />
-    <result column="area_id" property="areaId" jdbcType="BIGINT" />
     <result column="detail" property="detail" jdbcType="VARCHAR" />
     <result column="store_or_user" property="storeOrUser" jdbcType="TINYINT" />
     <result column="longitude" property="longitude" jdbcType="DECIMAL" />
     <result column="latitude" property="latitude" jdbcType="DECIMAL" />
     <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
     <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+    <association column="province_id" property="province" select="com.dev.main.tenancy.dao.AddressRegionMapper.selectByPrimaryKey" javaType="com.dev.main.tenancy.domain.AddressRegion" />
+    <association column="city_id" property="city" select="com.dev.main.tenancy.dao.AddressRegionMapper.selectByPrimaryKey" javaType="com.dev.main.tenancy.domain.AddressRegion" />
+    <association column="area_id" property="area" select="com.dev.main.tenancy.dao.AddressRegionMapper.selectByPrimaryKey" javaType="com.dev.main.tenancy.domain.AddressRegion" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, province_id, city_id, area_id, detail, store_or_user, longitude, latitude, gmt_create, 
+    id, province_id, city_id, area_id, detail, store_or_user, longitude, latitude, gmt_create,
     gmt_modified
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
