@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>门店管理</title>
+    <link rel="stylesheet" href="/fonts/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="/layui-v2.4.3/css/layui.css">
+</head>
+<body style="padding: 10px;">
+
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>门店管理</legend>
+</fieldset>
+<table class="layui-hide" id="tableDemo" lay-filter="tableDemo"></table>
+
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
+        <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
+        <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
+    </div>
+</script>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>门店管理</legend>
+</fieldset>
+
+<form class="layui-form" action="">
+    <!--门店名称-->
+    <div class="layui-form-item">
+        <label class="layui-form-label">门店名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="storeName" lay-verify="required" autocomplete="off" placeholder="请输入名称"
+                   class="layui-input">
+        </div>
+    </div>
+    <!--门店负责人姓名-->
+    <div class="layui-form-item">
+        <label class="layui-form-label">门店负责人</label>
+        <div class="layui-input-inline">
+            <input type="text" name="managerName" lay-verify="required" placeholder="请输入姓名" autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+    <!--门店负责人手机-->
+    <div class="layui-form-item">
+        <label class="layui-form-label">负责人手机</label>
+        <div class="layui-input-inline">
+            <input type="tel" name="managerPhone" lay-verify="required|phone" placeholder="请输入手机号" autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+    <!--客服电话-->
+    <div class="layui-form-item">
+        <label class="layui-form-label">客服电话</label>
+        <div class="layui-input-inline">
+            <input type="tel" name="serviceTel" lay-verify="required" placeholder="请输入电话号" autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+
+    <!--门店地址-->
+    <div class="layui-form-item">
+        <label class="layui-form-label">联动选择框</label>
+        <div class="layui-input-inline">
+            <select name="quiz1">
+                <option value="">请选择省</option>
+                <option value="浙江" selected="">浙江省</option>
+                <option value="你的工号">江西省</option>
+                <option value="你最喜欢的老师">福建省</option>
+            </select>
+        </div>
+        <div class="layui-input-inline">
+            <select name="quiz2">
+                <option value="">请选择市</option>
+                <option value="杭州">杭州</option>
+                <option value="宁波" disabled="">宁波</option>
+                <option value="温州">温州</option>
+                <option value="温州">台州</option>
+                <option value="温州">绍兴</option>
+            </select>
+        </div>
+        <div class="layui-input-inline">
+            <select name="quiz3">
+                <option value="">请选择县/区</option>
+                <option value="西湖区">西湖区</option>
+                <option value="余杭区">余杭区</option>
+                <option value="拱墅区">临安市</option>
+            </select>
+        </div>
+        <div class="layui-form-mid layui-word-aux">此处只是演示联动排版，并未做联动交互</div>
+    </div>
+
+    <!--状态：1：营业（开），0：歇业（关）-->
+    <div class="layui-form-item">
+        <label class="layui-form-label">状态</label>
+        <div class="layui-input-block">
+            <input type="checkbox" checked="" name="status" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+
+<script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/layui-v2.4.3/layui.all.js"></script>
+<script src="/vue-2.5.17/vue.min.js"></script>
+<script src="/js/common/common.js"></script>
+<script>
+    layui.use('table', function () {
+        var table = layui.table;
+        table.render({
+            elem: '#tableDemo'
+            , url: '/table_data.json'
+            , toolbar: '#toolbarDemo'
+            , title: '用户数据表'
+            , totalRow: true
+            , cols: [
+                [{
+                    field: 'id',
+                    title: 'ID',
+                    width: 80,
+                    align: 'center',
+                    fixed: 'left',
+                    unresize: true,
+                    sort: true,
+                    totalRowText: '合计'
+                }
+                    , {field: 'storeName', title: '门店名称', width: 150, align: 'center'}
+                    , {field: 'managerName', title: '门店负责人', width: 150, align: 'center'}
+                    , {field: 'managerPhone', title: '门店负责人手机', width: 150, align: 'center'}
+                    , {field: 'storeAddress', title: '门店地址', align: 'center'}
+                    , {field: 'serviceTel', title: '客服电话', width: 100, align: 'center'}
+                    , {field: 'createdTime', title: '创建时间', width: 150, align: 'center',}
+                    , {field: 'modifiedTime', title: '修改时间', width: 150, align: 'center',}
+                    , {field: 'status', title: '状态', width: 80, align: 'center',}
+                    , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150, align: 'center',}]
+            ]
+            , page: true
+        });
+
+        //工具栏事件
+        table.on('toolbar(tableDemo)', function (obj) {
+            var checkStatus = table.checkStatus(obj.config.id);
+            switch (obj.event) {
+                case 'getCheckData':
+                    var data = checkStatus.data;
+                    layer.alert(JSON.stringify(data));
+                    break;
+                case 'getCheckLength':
+                    var data = checkStatus.data;
+                    layer.msg('选中了：' + data.length + ' 个');
+                    break;
+                case 'isAll':
+                    layer.msg(checkStatus.isAll ? '全选' : '未全选')
+                    break;
+            }
+            ;
+        });
+    });
+
+    $('#addStore').click(function () {
+        layer.open({
+            title: '添加门店',
+            content: '<blockquote class="layui-elem-quote layui-text">注意事项: 请填写相关的数据信息! </blockquote>' +
+                '<form class="layui-form">' +
+                '<div class="layui-form-item">' +
+                '<label class="layui-form-label">品牌名称</label>' +
+                '<div class="layui-input-block">' +
+                '<input type="text" name="storeName" required="required" lay-verify="required" placeholder="请输入名称" autocomplete="off" class="layui-input">' +
+                '</div></div>' +
+                '<div class="layui-form-item">' +
+                '<label class="layui-form-label">门店负责人</label>' +
+                '<div class="layui-input-inline">' +
+                '<input type="text" name="managerName" lay-verify="required" placeholder="请输入姓名" autocomplete="off" class="layui-input">' +
+                '</div></div>' +
+                '<div class="layui-form-item">' +
+                '<label class="layui-form-label">负责人手机</label>' +
+                '<div class="layui-input-inline">' +
+                '<input type="tel" name="managerPhone" lay-verify="required|phone" placeholder="请输入手机号" autocomplete="off" class="layui-input">' +
+                '</div></div>' +
+                '<div class="layui-form-item">' +
+                ' <label class="layui-form-label">客服电话</label>' +
+                '<div class="layui-input-inline">' +
+                '<input type="tel" name="serviceTel" lay-verify="required" placeholder="请输入电话号" autocomplete="off" class="layui-input">' +
+                '</div> </div>' +
+                '<div class="layui-form-item">' +
+                '<label class="layui-form-label">联动选择框</label>' +
+                '<div class="layui-input-inline">' +
+                '<select name="quiz1">' +
+                '<option value="">请选择省</option>' +
+                '<option value="浙江" selected="">浙江省</option>' +
+                '<option value="你的工号">江西省</option>' +
+                '<option value="你最喜欢的老师">福建省</option>' +
+                '</select></div>' +
+                '<div class="layui-input-inline">' +
+                '<select name="quiz2">' +
+                '<option value="">请选择市</option>' +
+                '<option value="杭州">杭州</option>' +
+                '<option value="宁波" disabled="">宁波</option>' +
+                '<option value="温州">温州</option>' +
+                '<option value="温州">台州</option>' +
+                '<option value="温州">绍兴</option>' +
+                '</select> </div>' +
+                ' <div class="layui-input-inline">' +
+                '<select name="quiz3">' +
+                '<option value="">请选择县/区</option>' +
+                '<option value="西湖区">西湖区</option>' +
+                '<option value="余杭区">余杭区</option>' +
+                '<option value="拱墅区">临安市</option>' +
+                '</select> </div>' +
+                '<div class="layui-form-mid layui-word-aux">此处只是演示联动排版，并未做联动交互</div>' +
+                '</div>' +
+                '<div class="layui-form-item">' +
+                '<label class="layui-form-label">状态</label>' +
+                '<div class="layui-input-block">' +
+                '<input type="checkbox" checked="" name="status" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF">' +
+                '</div</div>' +
+                '</form>',
+            btnAlign: 'c',
+            btn: ['确定', '取消'],
+            yes: function (index, layero) {
+                if ($("input[name=carBrand]").val() == null || $("input[name=carBrand]").val() == "") {
+                    layer.msg('请输入品牌名称', {icon: 5, time: 2000, area: '200px', type: 0, anim: 6,}, function () {
+                        $("input[name=carBrand]").focus();
+                    });
+                    return false;
+                }
+                var formData = {
+                    carBrand: $("input[name=carBrand]").val(),
+                };
+                console.log(formData);
+                $.post('${pageContext.request.contextPath}/addStore', formData, function (data) {
+                    //判断是否发送成功
+                    if (data.code == 200) {
+                        layer.msg(data.message);
+                    } else {
+                        layer.msg("保存失败...");
+                    }
+                })
+            }, btn2: function (index, layero) {
+                layer.msg("取消");
+                //return false 开启该代码可禁止点击该按钮关闭
+            }, cancel: function () {
+                layer.msg("关闭窗口");
+                //右上角关闭回调
+                //return false 开启该代码可禁止点击该按钮关闭
+            }
+        })
+    });
+</script>
+</body>
+</html>
