@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加门店</title>
+    <link rel="stylesheet" href="/statics/fonts/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="/statics/css/m-defineStyle.css">
+    <link rel="stylesheet" href="/statics/layui-v2.4.3/css/layui.css">
+</head>
+<body>
+<div>
+    <div class="m-define1 layui-row">
+        <div class="layui-col-md11 layui-col-md-offset1">
+            <form id="storeAdd" class="layui-form layui-form-pane" action="">
+                <!--门店名称-->
+                <div class="layui-form-item">
+                    <label class="layui-form-label">门店名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="storeName" lay-verify="required" autocomplete="off" placeholder="请输入名称"
+                               class="layui-input">
+                    </div>
+                </div>
+                <!--门店负责人姓名-->
+                <div class="layui-form-item">
+                    <label class="layui-form-label">门店负责人</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="managerName" lay-verify="required" placeholder="请输入姓名" autocomplete="off"
+                               class="layui-input">
+                    </div>
+                </div>
+                <!--门店负责人手机-->
+                <div class="layui-form-item">
+                    <label class="layui-form-label">负责人手机</label>
+                    <div class="layui-input-inline">
+                        <input type="tel" name="managerPhone" lay-verify="required|phone" placeholder="请输入手机号" autocomplete="off"
+                               class="layui-input">
+                    </div>
+                </div>
+                <!--客服电话-->
+                <div class="layui-form-item">
+                    <label class="layui-form-label">客服电话</label>
+                    <div class="layui-input-inline">
+                        <input type="tel" name="serviceTel" lay-verify="required" placeholder="请输入电话号" autocomplete="off"
+                               class="layui-input">
+                    </div>
+                </div>
+
+                <!--门店地址-->
+                <div class="layui-form-item">
+                    <label class="layui-form-label">联动选择框</label>
+                    <div class="layui-input-inline">
+                        <select name="quiz1">
+                            <option value="">请选择省</option>
+                            <option value="浙江" selected="">浙江省</option>
+                            <option value="你的工号">江西省</option>
+                            <option value="你最喜欢的老师">福建省</option>
+                        </select>
+                    </div>
+                    <div class="layui-input-inline">
+                        <select name="quiz2">
+                            <option value="">请选择市</option>
+                            <option value="杭州">杭州</option>
+                            <option value="宁波" disabled="">宁波</option>
+                            <option value="温州">温州</option>
+                            <option value="温州">台州</option>
+                            <option value="温州">绍兴</option>
+                        </select>
+                    </div>
+                    <div class="layui-input-inline">
+                        <select name="quiz3">
+                            <option value="">请选择县/区</option>
+                            <option value="西湖区">西湖区</option>
+                            <option value="余杭区">余杭区</option>
+                            <option value="拱墅区">临安市</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!--状态：1：营业（开），0：歇业（关）-->
+                <div class="layui-form-item">
+                    <label class="layui-form-label">状态</label>
+                    <div class="layui-input-block">
+                        <input type="checkbox" checked="" name="status" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="m-define2">
+                        <button id="add" class="layui-btn" lay-submit lay-filter="demo1">
+                            <i class="layui-icon layui-icon-add-1"></i> 添加
+                        </button>
+                        <button type="reset" class="layui-btn layui-btn-danger">
+                            <i class="layui-icon layui-icon-refresh"></i> 重置
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="/statics/js/jquery-3.3.1.min.js"></script>
+<script src="/statics/layui-v2.4.3/layui.all.js"></script>
+<script src="/statics/vue-2.5.17/vue.min.js"></script>
+<script src="/statics/js/tenancy/store-crud.js"></script>
+<script src="/statics/js/common/common.js"></script>
+</body>
+</html>

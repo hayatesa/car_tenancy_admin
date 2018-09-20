@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.dev.main.tenancy.domain.TncStore" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="addr_id" property="addrId" jdbcType="BIGINT" />
+    <!--<result column="addr_id" property="addrId" jdbcType="BIGINT" />-->
     <result column="service_tel" property="serviceTel" jdbcType="VARCHAR" />
     <result column="manager_phone" property="managerPhone" jdbcType="VARCHAR" />
     <result column="manager_name" property="managerName" jdbcType="VARCHAR" />
@@ -12,6 +12,7 @@
     <result column="is_deleted" property="isDeleted" jdbcType="TINYINT" />
     <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
     <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+    <association property="tncAddress" column="addr_id" select="com.dev.main.tenancy.dao.TncAddressMapper.selectByPrimaryKey" javaType="com.dev.main.tenancy.domain.TncAddress"></association>
   </resultMap>
   <sql id="Base_Column_List" >
     id, name, addr_id, service_tel, manager_phone, manager_name, status, is_deleted, 
@@ -150,4 +151,20 @@
       gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="query" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tnc_store
+    <where>
+    <if test="search!=null">AND (
+      name LIKE CONCAT('%',#{search},'%')
+      OR manager_name LIKE CONCAT('%',#{search},'%')
+      OR manager_phone LIKE CONCAT('%',#{search},'%')
+      OR service_tel LIKE CONCAT('%',#{search},'%')
+      )
+    </if>
+    </where>
+  </select>
+
 </mapper>

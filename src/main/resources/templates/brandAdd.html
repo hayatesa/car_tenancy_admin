@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加品牌</title>
+    <link rel="stylesheet" href="/statics/fonts/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="/statics/css/m-defineStyle.css">
+    <link rel="stylesheet" href="/statics/layui-v2.4.3/css/layui.css">
+</head>
+<body>
+<div>
+    <div class="m-define1 layui-row">
+        <div class="layui-col-md11 layui-col-md-offset1">
+            <form id="brandAdd" class="layui-form layui-form-pane" action="">
+                <!--输入门店信息-->
+                <div class="layui-form-item">
+                    <label class="layui-form-label">品牌名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" v-model="brand.name" name="brandName" lay-verify="required|repeat"
+                               placeholder="请输入品牌名称" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="m-define2">
+                        <button id="add" class="layui-btn" lay-submit lay-filter="demo1">
+                            <i class="layui-icon layui-icon-add-1"></i> 添加
+                        </button>
+                        <button type="reset" class="layui-btn layui-btn-danger">
+                            <i class="layui-icon layui-icon-refresh"></i> 重置
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="/statics/js/jquery-3.3.1.min.js"></script>
+<script src="/statics/layui-v2.4.3/layui.all.js"></script>
+<script src="/statics/vue-2.5.17/vue.min.js"></script>
+<script src="/statics/js/common/common.js"></script>
+<script src="/statics/js/tenancy/brand-crud.js"></script>
+</body>
+</html>

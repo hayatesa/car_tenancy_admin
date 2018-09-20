@@ -59,4 +59,5 @@ public class TncBrand extends BaseDomain {
     public void setGmtModified(Date gmtModified) {
         this.gmtModified = gmtModified;
     }
+
 }

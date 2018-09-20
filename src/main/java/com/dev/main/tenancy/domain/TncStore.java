@@ -11,8 +11,8 @@ public class TncStore extends BaseDomain {
     // 门店名称
     private String name;
 
-    // 门店地址 外键
-    private Long addrId;
+    //门店地址
+    private TncAddress tncAddress;
 
     // 客服电话
     private String serviceTel;
@@ -51,12 +51,12 @@ public class TncStore extends BaseDomain {
         this.name = name == null ? null : name.trim();
     }
 
-    public Long getAddrId() {
-        return addrId;
+    public TncAddress getTncAddress() {
+        return tncAddress;
     }
 
-    public void setAddrId(Long addrId) {
-        this.addrId = addrId;
+    public void setTncAddress(TncAddress tncAddress) {
+        this.tncAddress = tncAddress;
     }
 
     public String getServiceTel() {
@@ -114,4 +114,5 @@ public class TncStore extends BaseDomain {
     public void setGmtModified(Date gmtModified) {
         this.gmtModified = gmtModified;
     }
+
 }

@@ -12,7 +12,7 @@
     id, name, is_deleted, gmt_create, gmt_modified
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from tnc_brand
     where id = #{id,jdbcType=BIGINT}
@@ -90,4 +90,33 @@
       gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="query" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tnc_brand
+    <where>
+      AND ( is_deleted = 0 )
+      <if test="search!=null">AND (
+        name LIKE CONCAT('%',#{search},'%')
+        OR gmt_create LIKE CONCAT('%',#{search},'%')
+        OR gmt_modified LIKE CONCAT('%',#{search},'%')
+        )
+      </if>
+    </where>
+  </select>
+
+  <select id="selectByName" resultMap="BaseResultMap" parameterType="com.dev.main.tenancy.domain.TncBrand">
+    select
+    <include refid="Base_Column_List"/>
+    from tnc_brand
+    <where>
+      <if test="name!=null">
+        name = #{name}
+      </if>
+      <if test="id!=null">
+        and id != #{id}
+      </if>
+    </where>
+  </select>
 </mapper>

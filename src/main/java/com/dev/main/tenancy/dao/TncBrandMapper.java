@@ -14,4 +14,6 @@ public interface TncBrandMapper extends BaseMapper<TncBrand> {
     int updateByPrimaryKeySelective(TncBrand record);
 
     int updateByPrimaryKey(TncBrand record);
+
+    TncBrand selectByName(TncBrand record);
 }
