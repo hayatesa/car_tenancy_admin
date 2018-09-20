@@ -114,4 +114,20 @@
       gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="getCarItemListByCarId" resultMap="BaseResultMap">
+        select id, number, status, car_id  from tnc_car_item where car_id=#{carId} and is_deleted =0
+  </select>
+  <update id="updateDeleteFieldByPrimaryKey" >
+    update tnc_car_item set is_deleted = 1 where id=#{id}
+  </update>
+  <update id="updateCarItemStatus">
+    update  tnc_car_item set status = #{arg1} where id=#{arg0}
+  </update>
+
+  <select id="getCarItemListBySearch" resultMap="BaseResultMap">
+    select id, number, status, car_id
+    from tnc_car_item
+      where  number LIKE CONCAT('%',#{search},'%')
+  </select>
 </mapper>

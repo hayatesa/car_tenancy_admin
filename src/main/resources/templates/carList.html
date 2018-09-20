@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/statics/fonts/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="/statics/layui-v2.4.3/css/layui.css">
+</head>
+<body style="padding: 10px;">
+
+<table class="layui-hide" id="carList" lay-filter="lf_carList"></table>
+
+
+<script type="text/html" id="carListToolbar">
+    <div class="layui-btn-container">
+        <div class="layui-row layui-col-space10">
+            <div class="layui-col-md8">
+                <button class="layui-btn layui-btn-sm" lay-event="addCar" ><i class="layui-icon">&#xe608;</i> 添加</button>
+                <button class="layui-btn  layui-btn-danger  layui-btn-sm" lay-event="deleteSelected"><i class="layui-icon"> &#xe640;</i>批量删除</button>
+                <button class="layui-btn layui-btn-sm" lay-event="uploadSelected"><i class="layui-icon"> &#xe67c;</i>批量上传</button>
+            </div>
+            <div class="layui-col-md4">
+                <input  name="title" id="searchText"  class="layui-text" autocomplete="off" maxlength="25" style="height: 30px;">
+                <button class="layui-btn layui-btn-sm" lay-event="search"><i class="layui-icon"> &#xe615;</i>搜索</button>
+            </div>
+        </div>
+    </div>
+
+    </div>
+</script>
+<script type="text/html" id="sideBar">
+    <a class="layui-btn layui-btn-xs" lay-event="detail">详情</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-xs" lay-event="license">录入车辆</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+
+<script src="/statics/js/jquery-3.3.1.min.js"></script>
+<script src="/statics/js/common/common.js"></script>
+<script src="/statics/vue-2.5.17/vue.min.js"></script>
+<script src="/statics/layui-v2.4.3/layui.all.js"></script>
+<script src="/statics/js/tenancy/index.js"></script>
+<script src="/statics/js/tenancy/carList.js"></script>
+
+</body>
+</html>
