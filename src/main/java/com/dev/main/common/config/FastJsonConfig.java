@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import java.util.List;
 
 @Configuration
-public class FastJsonConfig extends WebMvcConfigurerAdapter {
+public class FastJsonConfig implements WebMvcConfigurer {
 
     // fastjson配置
     @Override
