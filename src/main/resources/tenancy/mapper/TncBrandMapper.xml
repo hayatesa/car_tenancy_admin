@@ -95,13 +95,15 @@
     select
     <include refid="Base_Column_List" />
     from tnc_brand
-    where is_deleted = 0
+    <where>
+      AND ( is_deleted = 0 )
       <if test="search!=null">AND (
         name LIKE CONCAT('%',#{search},'%')
-        OR code LIKE CONCAT('%',#{search},'%')
-        OR first_letter LIKE CONCAT('%',#{search},'%')
+        OR gmt_create LIKE CONCAT('%',#{search},'%')
+        OR gmt_modified LIKE CONCAT('%',#{search},'%')
         )
       </if>
+    </where>
   </select>
 
   <select id="selectByName" resultMap="BaseResultMap" parameterType="com.dev.main.tenancy.domain.TncBrand">

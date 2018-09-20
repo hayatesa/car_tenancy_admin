@@ -13,7 +13,7 @@ layui.use('table', function () {
                 width: '10%',
                 fixed: 'left',
                 unresize: true,
-                sort: true,
+                sort: true
             }
                 , {field: 'name', title: '品牌名称', edit: 'text', sort: true}
                 , {field: 'gmtCreate', title: '创建时间', width: '20%', sort: true}
@@ -25,7 +25,6 @@ layui.use('table', function () {
     //操作事件
     table.on('tool(brand)', function (obj) {
         var data = obj.data;
-        console.log(data);
         if (obj.event === 'del') {
             layer.confirm('真的删除行么', function (index) {
                 delB(data.id);
@@ -39,7 +38,7 @@ layui.use('table', function () {
     //工具栏事件
     table.on('toolbar(brand)', function (obj) {
         if (obj.event === 'add') {
-            addB()
+            addB();
         }
     });
 
