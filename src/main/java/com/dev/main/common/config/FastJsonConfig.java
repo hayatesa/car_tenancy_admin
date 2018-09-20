@@ -21,8 +21,10 @@ public class FastJsonConfig extends WebMvcConfigurerAdapter {
                 SerializerFeature.WriteMapNullValue, // 显示空字段
                 SerializerFeature.WriteNullStringAsEmpty, // 字符串类型字段为null时间输出""而非null
                 SerializerFeature.WriteNullBooleanAsFalse, // Boolean类型字段为null时输出false而null
-                SerializerFeature.PrettyFormat); // 美化json输出，否则会作为整行输出
-        //converter.setDateFormat("yyyy-MM-dd HH:mm:ss"); // 时间格式
+                SerializerFeature.PrettyFormat, // 美化json输出，否则会作为整行输出
+                SerializerFeature.WriteNullNumberAsZero, // 数值字段如果为null,输出为0,而非null
+                SerializerFeature.WriteNullBooleanAsFalse);  // Boolean字段如果为null,输出为false,而非null
+        converter.setDateFormat("yyyy-MM-dd HH:mm:ss"); // 时间格式
         converter.setFastJsonConfig(config);
         converters.add(converter);
     }
