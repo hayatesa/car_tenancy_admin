@@ -1,6 +1,21 @@
+//工具集合Tools
+window.T = {};
+
+// 获取请求参数
+// 使用示例
+// location.href = http://localhost:8080/index.html?id=123
+// T.p('id') --> 123;
+var url = function(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg);
+    if(r != null) return unescape(r[2]);
+    return null;
+};
+T.p = url;
 // ajax全局配置
 $.ajaxSetup({
     dataType: "json",
+    contentType: 'application/json',
     cache: false,
     error: function (xhr, msg, exception) {
         if (xhr.status == "403")
@@ -24,4 +39,28 @@ function handleAjax(data) {
     } else {
         layer.msg(data.msg);
     }
+}
+
+//重写alert
+window.alert = function(msg, callback) {
+    parent.layer.alert(msg, function(index) {
+        parent.layer.close(index);
+        if(typeof(callback) === "function") {
+            callback("ok");
+        }
+    });
+}
+
+
+//重写confirm式样框
+window.confirm = function(msg, callback) {
+    parent.layer.confirm(msg, {
+            btn: ['确定', '取消']
+        },
+        function() { //确定事件
+            if(typeof(callback) === "function") {
+                callback("ok");
+            }
+            layer.closeAll('dialog');
+        });
 }
