@@ -39,9 +39,16 @@ layui.use('upload', function(){
     //执行实例
     var uploadInst = upload.render({
         elem: '#uploadPhoto' //绑定元素
-        ,url: '/upload/' //上传接口
+        ,url: '/api/pic/upload' //上传接口
         ,auto: false //选择文件后不自动上传
+        ,multiple: true
         ,bindAction: '#uploadListAction' //指向一个按钮触发上传
+        ,before: function(obj){
+            //预读本地文件示例，不支持ie8
+            obj.preview(function(index, file, result){
+                $('#demo2').append('<img src="'+ result +'" alt="'+ file.name +'" class="layui-upload-img">')
+            });
+        }
         ,choose: function(obj){
             //将每次选择的文件追加到文件队列
             var files = obj.pushFile();
@@ -63,9 +70,11 @@ layui.use('upload', function(){
         }
         ,done: function(res){
             //上传完毕回调
+            console.log(res);
         }
-        ,error: function(){
+        ,error: function(res){
             //请求异常回调
+            console.log(res);
         }
     });
 });
