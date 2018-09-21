@@ -99,3 +99,9 @@ mybatis-plus:
     map-underscore-to-camel-case: true
     cache-enabled: false
     call-setters-on-nulls: true
+
+
+file:
+  img:
+    linux: /opt/zuche/img
+    windows: D:/zuche/img
