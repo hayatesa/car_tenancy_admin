@@ -9,6 +9,7 @@ import com.dev.main.shiro.controller.exception.ShiroExceptionResolver;
 import com.dev.main.tenancy.domain.TncCustomer;
 import com.dev.main.tenancy.service.ICustomerService;
 import com.dev.main.tenancy.service.IRegionService;
+import com.dev.main.tenancy.vo.TncCustomerVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,6 +50,7 @@ public class CustomerController {
         return result;
     }
 
+    /**添加兼修改*/
     @PostMapping("/save")
     public ResultMap save(@RequestBody String data) {
         ResultMap result = null;
@@ -62,6 +64,14 @@ public class CustomerController {
         tncCustomer.setGmtCreate(new Date());
         tncCustomer.setGmtModified(new Date());
         result = customerService.save(tncCustomer);
+        return result;
+    }
+
+    @PostMapping("/edit")
+    public ResultMap edit(String uid) {
+        ResultMap result = new ResultMap();
+        TncCustomerVo tncCustomerVo = customerService.findCustomerVo(Long.valueOf(uid));
+        result.put("data", tncCustomerVo);
         return result;
     }
 

@@ -4,6 +4,7 @@ import com.dev.main.common.util.Page;
 import com.dev.main.common.util.QueryObject;
 import com.dev.main.common.util.ResultMap;
 import com.dev.main.tenancy.domain.TncCustomer;
+import com.dev.main.tenancy.vo.TncCustomerVo;
 
 public interface ICustomerService {
     /**
@@ -18,4 +19,7 @@ public interface ICustomerService {
 
     /**添加与保存*/
     ResultMap save(TncCustomer tncCustomer);
+
+    /**单个查询*/
+    TncCustomerVo findCustomerVo(Long uid);
 }

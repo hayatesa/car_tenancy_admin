@@ -69,16 +69,14 @@
                     }
             }]
             ]
-            , page: true
-        }
+            , page: true}
         );
-
         //工具栏事件
         table.on('tool(customer)', function (obj) {
             switch (obj.event) {
                 case 'edit':
                     var data = obj.data;
-                    editCustomer(data);
+                    editCustomer(data.id);
                     break;
             };
         });
@@ -167,9 +165,8 @@
 
     };
     /*编辑用户*/
-    var editCustomer = function (data) {
-        var customer = encodeURIComponent(JSON.stringify(data));    //编码
-        $(this)[0].location.href = '/tenancy/p/customerEdit?customer'
+    var editCustomer = function (id) {
+        $(this)[0].location.href = '/tenancy/p/customerEdit?id=' + id;
     }
 </script>
 </body>

@@ -60,6 +60,20 @@
       </if>
     </where>
   </select>
+  <select id="findVo"  resultMap="MapWithRelation" parameterType="java.lang.Long">
+    SELECT
+    c.id cid, phone, id_card, last_access_time, gender, name, email, addr_id,
+    emergency_name, emergency_phone, c.status, c.is_deleted deleted, c.gmt_create, c.gmt_modified,
+    p.point point
+    FROM tnc_customer c LEFT JOIN tnc_point p ON p.uid = c.id
+    <where>
+      AND (
+      c.id = #{id,jdbcType=BIGINT}
+      )AND (
+      c.is_deleted = 0
+      )
+    </where>
+  </select>
 
   <select id="query" resultMap="BaseResultMap">
     SELECT

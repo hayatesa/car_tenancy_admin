@@ -97,6 +97,12 @@ public class CustomerServiceImpl implements ICustomerService {
         return resultMap;
     }
 
+    @Override
+    public TncCustomerVo findCustomerVo(Long uid) {
+        TncCustomerVo tncCustomerVo = tncCustomerMapper.findVo(uid);
+        return tncCustomerVo;
+    }
+
     public void setTncCustomerMapper(TncCustomerMapper tncCustomerMapper) {
         this.tncCustomerMapper = tncCustomerMapper;
     }

@@ -124,9 +124,6 @@
         var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
         parent.layer.close(index); //再执行关闭
     }
-    // var userInput_back = function(){
-    //     window.history.back();
-    // };
     window.onkeydown = function(){
         if (event.keyCode===13){  //回车键的键值为13
             $("#add").click();//模拟按下submit确认按钮

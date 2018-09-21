@@ -22,4 +22,6 @@ public interface TncCustomerMapper extends BaseMapper<TncCustomer> {
     List<TncCustomerVo> queryVo(QueryObject queryObject);
 
     TncCustomer selectByPhone(String phone);
+
+    TncCustomerVo findVo(Long id);
 }
