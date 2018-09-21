@@ -18,7 +18,6 @@
         <button class="layui-btn layui-btn-sm" onclick="userList_add()">
             <i class="layui-icon">&#xe608;</i> 添加
         </button>
-        <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
     </div>
 </script>
 <script src="/statics/js/jquery-3.3.1.min.js"></script>
@@ -26,8 +25,6 @@
 <script src="/statics/vue-2.5.17/vue.min.js"></script>
 <script src="/statics/js/common/common.js"></script>
 <script>
-
-
     layui.use('table', function () {
         var table = layui.table;
         table.render({
@@ -41,22 +38,13 @@
                     {field: 'id', title: 'ID', width: 70, fixed: 'left', unresize: true, sort: true}
                     , {field: 'name', title: '用户名', width: 80}
                     , {field: 'gender', title: '性别', width: 65, sort: true,templet: function (res) {
-                        if(res.gender=='1') {
-                           return "男"
-                       }else {
-                           return "女"
-                       }
+                        if(res.gender=='1') {return "男"}
+                        else {return "女"}
                     }}
                     , {field: 'phone', title: '手机', width: 120}
-                    , {
-                    field: 'email', title: '邮箱', width: 150, templet: function (res) {
-                        return '<em>' + res.email + '</em>'
-                    }
-                }
+                    , {field: 'email', title: '邮箱', width: 150}
                     , {field: 'tncPoint', title: '积分', width: 65, sort: true, templet:(res)=>{
-                        if(!res.tncPoint) {
-                            return 0;
-                        }
+                        if(!res.tncPoint) {return 0;}
                         return res.tncPoint.point;
                      }}
                     , {field: 'tncAddress', title: '地址', width: 170 , templet:function (res) {
@@ -70,13 +58,12 @@
                     , {field: 'emergencyPhone', title: '紧急联系号', width: 120}
                     , {field: 'lastAccessTime', title: '上次登录时间', width: 130,sort: true}
                     , {fixed: 'right', title: '操作', width: 170, templet:function (res) {
-                        var a =
-                        '<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>'+
-                        '<a class="layui-btn layui-btn-danger layui-btn-xs"  lay-event="del">删除</a>';
-                        if(res.status === 0) {
-                            a= a+'<a class="layui-btn layui-btn-normal layui-btn-xs" onclick="disable_customer('+res.id+')">禁用</a>'
+                        var a = '<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>'+
+                        '<a class="layui-btn layui-btn-danger layui-btn-xs"  onclick="deleteCustomer('+res.id+')">删除</a>';
+                        if(res.status === 1) {
+                            a= a+'<a class="layui-btn layui-btn-normal layui-btn-xs" onclick="disableCustomer('+res.id+')">禁用</a>'
                         }else {
-                            a= a+'<a class="layui-btn layui-btn-warm layui-btn-xs" onclick="disabled_customer('+res.id+')">已禁用</a>'
+                            a= a+'<a class="layui-btn layui-btn-warm layui-btn-xs" onclick="disabledCustomer('+res.id+')">已禁用</a>'
                         }
                         return a;
                     }
@@ -88,52 +75,16 @@
 
         //工具栏事件
         table.on('tool(customer)', function (obj) {
-            var data = obj.data;
-            alert(data);
             switch (obj.event) {
-                case 'del':
-                    layer.alert("dddddddddd");
+                case 'edit':
+                    var data = obj.data;
+                    editCustomer(data);
                     break;
-                case 'getCheckData':
-                    var data = checkStatus.data;
-                    layer.alert(JSON.stringify(data));
-                    break;
-                case 'getCheckLength':
-                    var data = checkStatus.data;
-                    layer.msg('选中了：' + data.length + ' 个');
-                    break;
-                case 'isAll':
-                    layer.msg(checkStatus.isAll ? '全选' : '未全选')
-                    break;
-            }
-            ;
+            };
         });
     });
     /*禁用客户*/
-    var disable_customer = function(id){
-        $.ajax({
-            type:"POST",
-            url:"/api/customer/disable",
-            data:{
-                uid:id,
-                select:1
-            },
-            success:function (res) {
-                if(res.code == 0){
-                    layer.msg(res.msg,
-                        {
-                            time:1500
-                        },
-                        function () {
-                            layui.table.reload("tableDemo")
-                        })
-                }else{
-                }
-            }
-        })
-    }
-    /*解禁客户*/
-    var disabled_customer = function(id){
+    var disableCustomer = function(id){
         $.ajax({
             type:"POST",
             url:"/api/customer/disable",
@@ -143,22 +94,83 @@
             },
             success:function (res) {
                 if(res.code == 0){
-                    layer.msg(res.msg,
-                        {
-                            time:1500
-                        },
-                        function () {
-                            layui.table.reload("tableDemo")
-                        })
-                }else{
+                    layer.msg(res.msg, {
+                        time:1500
+                    }, function () {
+                        layui.table.reload("tableDemo")
+                    })
                 }
             }
         })
     }
-
+    /*解禁客户*/
+    var disabledCustomer = function(id){
+        $.ajax({
+            type:"POST",
+            url:"/api/customer/disable",
+            data:{
+                uid:id,
+                select:1
+            },
+            success:function (res) {
+                if(res.code == 0){
+                    layer.msg(res.msg, {
+                        time:1500
+                    }, function () {
+                        layui.table.reload("tableDemo")
+                    })
+                }
+            }
+        })
+    }
+    //根据Id删除客户
+    var deleteCustomer = function(id) {
+        $.ajax({
+            type: "Post",
+            url: "/api/customer/delete",
+            data: {
+                uid: id,
+                select:3
+            },
+            success: function (res) {
+                if (res.code === 0) {
+                    layer.msg(res.msg, {
+                        time: 1500
+                    }, function () {
+                        layui.table.reload("tableDemo");
+                    })
+                }
+            },
+            fail: function (res) {
+                console.log(res);
+            }
+        })
+    }
+    //跳转添加页面
     var userList_add = function() {
-        $(this)[0].location.href = '/tenancy/p/CustomerInput'
+        var url = './CustomerInput.html';
+        layer.open({
+            type: 2 //此处以iframe举例
+            , title: '添加KEHU'
+            , area: ['500px', '380px']
+            , shade: 0
+            , id: "2"
+            , anim: 4
+            , maxmin: true
+            , offset: 'auto'
+            , content: url
+            , zIndex: layer.zIndex //重点1
+            , success: function (layero) {
+                layer.setTop(layero); //重点2
+            }
+        });
+
     };
+    /*编辑用户*/
+    var editCustomer = function (data) {
+        var customer = encodeURIComponent(JSON.stringify(data));    //编码
+        $(this)[0].location.href = '/tenancy/p/customerEdit?customer'
+    }
 </script>
 </body>
 </html>

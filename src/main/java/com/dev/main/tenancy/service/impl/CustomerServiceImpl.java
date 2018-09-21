@@ -1,8 +1,6 @@
 package com.dev.main.tenancy.service.impl;
 
-import com.dev.main.common.util.Page;
-import com.dev.main.common.util.QueryObject;
-import com.dev.main.common.util.ResultMap;
+import com.dev.main.common.util.*;
 import com.dev.main.tenancy.dao.TncCustomerMapper;
 import com.dev.main.tenancy.domain.AddressRegion;
 import com.dev.main.tenancy.domain.TncCustomer;
@@ -33,22 +31,22 @@ public class CustomerServiceImpl implements ICustomerService {
 
     @Override
     public ResultMap disable_delete(Long uid, int select) {
-        /**1、禁用 0、解禁  3、删除*/
+        /**0、禁用 1、解禁  3、删除*/
         TncCustomer tncCustomer = new TncCustomer();
         tncCustomer.setId(uid);
         tncCustomer.setGmtModified(new Date());
         ResultMap resultMap = new ResultMap();
 
-        if(select==0) {
-            tncCustomer.setStatus((byte)0);
+        if(select==1) {
+            tncCustomer.setStatus((byte)1);
             int res = tncCustomerMapper.updateByPrimaryKeySelective(tncCustomer);
             if(res > 0){
                 resultMap.put("msg","操作成功");
             }else{
                 resultMap.put("msg","操作失败");
             }
-        }else if(select==1) {
-            tncCustomer.setStatus((byte)1);
+        }else if(select==0) {
+            tncCustomer.setStatus((byte)0);
             int res = tncCustomerMapper.updateByPrimaryKeySelective(tncCustomer);
             if(res > 0){
                 resultMap.put("msg","操作成功");
@@ -67,6 +65,37 @@ public class CustomerServiceImpl implements ICustomerService {
         return resultMap;
     }
 
+    @Override
+    public ResultMap save(TncCustomer tncCustomer) {
+        ResultMap resultMap = new ResultMap();
+
+        if(tncCustomer.getId()==null||tncCustomer.getId()==0) {
+            if(tncCustomerMapper.selectByPhone(tncCustomer.getPhone())==null) {
+                // 产随机产生6位数作为盐值
+                String salt = RandomUtil.getRandomNumString(6);
+                // 盐值加密
+                String password = CryptographyUtil.MD5Hash(tncCustomer.getPassword(), salt);
+                tncCustomer.setSalt(salt);
+                tncCustomer.setPassword(password);
+                int res = tncCustomerMapper.insertSelective(tncCustomer);
+                if (res > 0) {
+                    resultMap.put("msg", "添加成功");
+                } else {
+                    resultMap.put("msg", "添加失败");
+                }
+            } else {
+                resultMap.put("repeat","用户已存在");
+            }
+        }else {
+            int res = tncCustomerMapper.updateByPrimaryKeySelective(tncCustomer);
+            if(res > 0){
+                resultMap.put("msg","编辑成功");
+            }else{
+                resultMap.put("msg","编辑失败");
+            }
+        }
+        return resultMap;
+    }
 
     public void setTncCustomerMapper(TncCustomerMapper tncCustomerMapper) {
         this.tncCustomerMapper = tncCustomerMapper;

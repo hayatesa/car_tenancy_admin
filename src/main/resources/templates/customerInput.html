@@ -8,44 +8,45 @@
 </head>
 <style>
     .input_width {
-        width: 50%;
+        width: 100%;
     }
     .div_margin {
         margin-bottom: 20px;
     }
 </style>
-<body style="padding: 10px;">
-<fieldset class="layui-elem-field layui-field-title">
-    <legend>管的太多</legend>
-</fieldset>
+<body style="padding: 20px 20px 20px 20px;">
+
+<form id="customerAdd" class="layui-form layui-form-pane" action="">
     <div class="layui-form-item div_margin">
         <label class="layui-form-label">姓名</label>
         <div class="layui-input-block">
-            <input type="text" name="title" lay-verify="required" placeholder="请输入真实姓名" class="layui-input input_width">
+            <input type="text" name="title" v-model="customer.name" lay-verify="required" placeholder="请输入真实姓名" class="layui-input input_width">
         </div>
     </div>
     <div class="layui-form-item div_margin">
         <label class="layui-form-label">手机号</label>
         <div class="layui-input-block">
-            <input type="text" name="username" lay-verify="required|phone" placeholder="请输入手机号码" class="layui-input input_width">
+            <input type="text" name="username" v-model="customer.phone" lay-verify="required|phone" placeholder="请输入手机号码" class="layui-input input_width">
         </div>
     </div>
     <div class="layui-form-item div_margin">
         <label class="layui-form-label">登录密码</label>
         <div class="layui-input-block">
-            <input type="password" name="password" lay-verify="required" maxlength="18" placeholder="建议6-18位数字、字母、符号的组合密码" class="layui-input input_width">
+            <input type="password" name="password" id="password" v-model="customer.password" lay-verify="required" maxlength="18" placeholder="建议6-18位数字、字母、符号的组合密码" class="layui-input input_width">
         </div>
     </div>
     <div class="layui-form-item div_margin">
         <label class="layui-form-label">确认密码</label>
         <div class="layui-input-block">
-            <input type="password" name="password" lay-verify="required" placeholder="再次输入密码" class="layui-input input_width">
+            <input type="password" name="repeatPassword" id="repeatPassword" lay-verify="required|repeat" placeholder="再次输入密码" class="layui-input input_width">
         </div>
     </div>
     <div class="layui-form-item">
-        <div class="layui-input-block">
-            <button class="layui-btn" lay-submit="" lay-filter="demo1">确定</button>
-            <button type="button" class="layui-btn layui-btn-primary" onclick="userInput_back()">取消</button>
+        <div class="layui-input-block" style="padding-left: 40px;">
+            <button class="layui-btn" lay-submit lay-filter="demo1" id="add"><i class="layui-icon layui-icon-add-1"></i>确定</button>
+            <button type="reset" class="layui-btn layui-btn-danger">
+                <i class="layui-icon layui-icon-refresh"></i> 重置
+            </button>
         </div>
     </div>
 </form>
@@ -55,8 +56,81 @@
 <script src="/statics/js/common/common.js"></script>
 </body>
 <script>
-    var userInput_back = function(){
-        window.history.back();
+    //data
+    var customer_data = {
+        customer:{
+            id:"",
+            name:"",
+            phone:"",
+            password:""
+        }
     };
+    //Vue app，添加页
+    var customerAdd_app = new Vue({
+        el: "#customerAdd",
+        data: customer_data
+    });
+
+    //监听提交
+    //layui form
+    layui.use('form', function () {
+        var form = layui.form;
+        //监听提交
+        form.on('submit(demo1)', function () {
+            addCustomer();
+            return false;
+        });
+
+        form.verify({
+            repeat: function (value, item) {
+                if($("#password").val()!=$("#repeatPassword")) {
+                    return "两次密码不一致";
+                    //layer.msg("两次密码不一致", { time: 1500})
+                }
+            }
+        });
+    });
+
+    var addCustomer = function () {
+        var data = JSON.stringify(customerAdd_app.customer);
+        $.ajax({
+            type: "post",
+            url: "/api/customer/save",
+            contentType: "application/json",
+            data: data,
+            success: function (res) {
+                if(res.hasOwnProperty('repeat')) {
+                    layer.msg(res.repeat, {
+                        time:1500
+                    })
+                }else {
+                    if (res.code === 0) {
+                        layer.msg(res.msg, {
+                            time: 1500
+                        }, function () {
+                            doCancel();
+                            parent.layui.table.reload("tableDemo");
+                        })
+                    }
+                }
+            },
+            fail: function (res) {
+                console.log(res)
+            }
+        })
+    }
+    //取消编辑 执行关闭
+    function doCancel() {
+        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+        parent.layer.close(index); //再执行关闭
+    }
+    // var userInput_back = function(){
+    //     window.history.back();
+    // };
+    window.onkeydown = function(){
+        if (event.keyCode===13){  //回车键的键值为13
+            $("#add").click();//模拟按下submit确认按钮
+        }
+    }
 </script>
 </html>
