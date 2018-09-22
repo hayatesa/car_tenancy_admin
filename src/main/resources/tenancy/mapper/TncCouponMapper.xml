@@ -15,8 +15,16 @@
   <sql id="Base_Column_List" >
     id, amount, description, status, begin_date, end_date, customer_id, gmt_create, gmt_modified
   </sql>
+  <update id="setExpired" >
+      update tnc_coupon set status = 1
+      where id in(
+          select ids.id from (select id from tnc_coupon
+          where status = 0 and end_date &lt;= now()
+          limit 0, 1000) ids
+      )
+  </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from tnc_coupon
     where id = #{id,jdbcType=BIGINT}
@@ -26,12 +34,12 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.dev.main.tenancy.domain.TncCoupon" >
-    insert into tnc_coupon (id, amount, description, 
-      status, begin_date, end_date, 
+    insert into tnc_coupon (id, amount, description,
+      status, begin_date, end_date,
       customer_id, gmt_create, gmt_modified
       )
-    values (#{id,jdbcType=BIGINT}, #{amount,jdbcType=DECIMAL}, #{description,jdbcType=VARCHAR}, 
-      #{status,jdbcType=TINYINT}, #{beginDate,jdbcType=TIMESTAMP}, #{endDate,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=BIGINT}, #{amount,jdbcType=DECIMAL}, #{description,jdbcType=VARCHAR},
+      #{status,jdbcType=TINYINT}, #{beginDate,jdbcType=TIMESTAMP}, #{endDate,jdbcType=TIMESTAMP},
       #{customerId,jdbcType=BIGINT}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}
       )
   </insert>
