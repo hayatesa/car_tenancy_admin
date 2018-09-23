@@ -1,16 +1,10 @@
 package com.dev.main.tenancy.schedule;
 
 import com.dev.main.tenancy.dao.TncCouponMapper;
-import com.dev.main.tenancy.domain.TncCoupon;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
 
 @Component
 public class CouponScheduler {
