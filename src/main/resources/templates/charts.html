@@ -58,7 +58,7 @@
         }
         @media (min-width: 1252px) {
             .data-block {
-                width: 20.2%;
+                width: 20%;
             }
         }
         @media (max-width: 1252px) {
@@ -118,7 +118,7 @@
          <span class="title">辆次</span>
         </div>
     </div>
-    <div class="data-block" style="background: #bfaaa6;margin-right: 0px;">
+    <div class="data-block" style="background: #bfaaa6;">
         <div class="data-icon">
             <span class="data-icon-text" style="color: #bfaaa6">车</span>
         </div>
@@ -193,14 +193,14 @@
         },
         tooltip: {},
         legend: {
-            data:['销售额','销量',]
+            data:['销售额','销量']
         },
         xAxis: {
             data: ["奥迪K2","灵越B12","奔驰C4","宝马A1","大众L55","雪佛兰P66","雪佛兰C7","劳斯莱斯K2", "海马ui-6", "五菱宏光-2B"],
             axisLabel: {
                 interval:0,
                 rotate:45
-            },
+            }
         },
         yAxis: [
             {
@@ -250,16 +250,18 @@
                 type: 'value'
             },
             {
-                name: '销量/辆',
+                name: '销量/辆次',
                 type: 'value'
             }
         ],
         series: [{
+            name: '销售额',
             yAxisIndex: 0,
             data: [50526, 55526, 75435, 67534, 39999, 45447, 47855, 78924, 79953, 45447, 58964, 64633, 67534, 56347, 45287, 79555, 56743, 78525, 46743, 45741, 63433, 45474, 67234, 85784, 95333, 45404, 78924, 47855, 78924, 64466],
             type: 'line',
             label: { normal: { show: true, position: 'top', textStyle: { color: '#c23531' } } }
         },{
+            name: '销量',
             yAxisIndex: 1,
             data: [12, 14, 10, 11, 13, 15, 14, 11, 8, 9, 10, 17, 15, 12, 21, 16, 15, 17, 13, 11, 15, 11, 12, 19, 20, 21, 27, 24, 20, 18],
             type: 'line',
