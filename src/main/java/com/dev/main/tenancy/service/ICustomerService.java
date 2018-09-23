@@ -22,4 +22,5 @@ public interface ICustomerService {
 
     /**单个查询*/
     TncCustomerVo findCustomerVo(Long uid);
+
 }

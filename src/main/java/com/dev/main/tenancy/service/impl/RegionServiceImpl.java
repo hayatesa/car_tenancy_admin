@@ -26,6 +26,13 @@ public class RegionServiceImpl implements IRegionService {
         return new Page(pageInfo.getTotal(), list);
     }
 
+    @Override
+    public List<AddressRegion> findAddress(Long aid, byte level) {
+        List<AddressRegion> addressRegions;
+        addressRegions = addressRegionMapper.searchAddress(aid, level);
+        return addressRegions;
+    }
+
     public void setAddressRegionMapper(AddressRegionMapper addressRegionMapper) {
         this.addressRegionMapper = addressRegionMapper;
     }

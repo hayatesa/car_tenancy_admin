@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 
 @RestController
 @ShiroExceptionResolver
@@ -21,6 +22,8 @@ import java.util.Date;
 public class CustomerController {
     @Autowired
     private ICustomerService customerService;
+    @Autowired
+    private IRegionService regionService;
     /**列表*/
     @GetMapping("/list")
     public Page list(@RequestParam(required = false) Integer page,
@@ -67,12 +70,20 @@ public class CustomerController {
         return result;
     }
 
-    @PostMapping("/edit")
+    @GetMapping("/edit")
     public ResultMap edit(String uid) {
         ResultMap result = new ResultMap();
         TncCustomerVo tncCustomerVo = customerService.findCustomerVo(Long.valueOf(uid));
         result.put("data", tncCustomerVo);
         return result;
+    }
+
+    @GetMapping("/address")
+    public ResultMap address(String aid, byte level) {
+        ResultMap result = new ResultMap();
+        Long id =  Long.valueOf(aid);
+        result.put("data", regionService.findAddress(id, level));
+        return  result;
     }
 
     public void setRegionService(IRegionService regionService) {

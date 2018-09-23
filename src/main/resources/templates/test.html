@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <select lay-search id="example-1">
+        <option value="">请选择省</option>
+        <option v-for="item in items">{{item.message}}</option>
+    </select>
+</ul>
+</div>
+</body>
+<script src="/statics/vue-2.5.17/vue.min.js"></script>
+<script>
+    var example1 = new Vue({
+        el: '#example-1',
+        data: {
+            items: [
+                { message: 'Foo' },
+                { message: 'Bar' }
+            ]
+        }
+    })
+</script>
+</html>

@@ -2,6 +2,9 @@ package com.dev.main.tenancy.service;
 
 import com.dev.main.common.util.Page;
 import com.dev.main.common.util.QueryObject;
+import com.dev.main.tenancy.domain.AddressRegion;
+
+import java.util.List;
 
 public interface IRegionService {
 
@@ -12,4 +15,6 @@ public interface IRegionService {
      */
     Page queryByPage(QueryObject queryObject);
 
+    /**查询下级所有地址*/
+    List<AddressRegion> findAddress(Long aid, byte level);
 }

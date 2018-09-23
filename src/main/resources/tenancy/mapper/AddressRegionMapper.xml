@@ -26,6 +26,19 @@
       </if>
     </where>
   </select>
+
+  <select id="searchAddress" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from address_region
+    <trim prefix="where "  suffixOverrides="and" >
+      <if test="id != 0">
+        parent_id= #{id,jdbcType=BIGINT} and
+      </if>
+        level = #{level,jdbcType=TINYINT}
+    </trim>
+  </select>
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select
     <include refid="Base_Column_List" />
