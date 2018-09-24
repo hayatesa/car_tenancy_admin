@@ -63,8 +63,10 @@ public class CustomerController {
 
     @GetMapping("/edit")
     public ResultMap edit(String uid) {
+        ResultMap result = new ResultMap();
         TncCustomerVo tncCustomerVo = customerService.findCustomerVo(Long.valueOf(uid));
-        return ResultMap.success();
+        result.put("data", tncCustomerVo);
+        return result;
     }
 
     @GetMapping("/address")
@@ -77,9 +79,7 @@ public class CustomerController {
 
     @PostMapping("/change")
     public ResultMap change(@RequestBody TncCustomerVo tncCustomerVo) {
-        TncAddress tncAddress = tncCustomerVo.getTncAddress();
-        //JSONObject jpsCustomer = JSONObject.parseObject(data);
-        //result = customerService.changeInfo(jpsCustomer);
+        customerService.changeInfo(tncCustomerVo);
         return ResultMap.success();
     }
 

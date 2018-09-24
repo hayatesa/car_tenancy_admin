@@ -189,22 +189,20 @@
         customerEdit_app.customer.tncAddress.city.id = addressCityId.substring(4);
         customerEdit_app.customer.tncAddress.area.id = addressAreaId.substring(4);
         customerEdit_app.customer.tncAddress.detail = $("#detail").val();
-        console.log($("#password").val);
         var data = JSON.stringify(customerEdit_app.customer);
-        password = $("#password").val;
         $.ajax({
             type: "POST",
             url: "/api/customer/change",
             contentType: "application/json",
             data: data,
             success: function (res) {
-                // if (res.code === 0) {
-                //     layer.msg(res.msg, {
-                //         time: 1500
-                //     }, function () {
-                //         parent.layui.table.reload("tableDemo");
-                //     })
-                // }
+                if (res.code === 0) {
+                    layer.msg(res.msg, {
+                        time: 1500
+                    }/*, function () {
+                        parent.layui.table.reload("tableDemo");
+                    }*/)
+                }
             },
             fail: function (res) {
                 console.log(res)

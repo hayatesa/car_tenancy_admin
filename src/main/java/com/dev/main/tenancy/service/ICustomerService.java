@@ -25,6 +25,6 @@ public interface ICustomerService {
     TncCustomerVo findCustomerVo(Long uid);
 
     /**更改信息*/
-    void changeInfo(JSONObject jpsCustomer);
+    void changeInfo(TncCustomerVo tncCustomerVo);
 
 }

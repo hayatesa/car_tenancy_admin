@@ -37,6 +37,7 @@
     <result column="deleted" property="isDeleted" jdbcType="TINYINT" />
     <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
     <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
     <association property="tncAddress" column="addr_id" select="com.dev.main.tenancy.dao.TncAddressMapper.selectByPrimaryKey" javaType="com.dev.main.tenancy.domain.TncAddress"></association>
     <association property="tncPoint" javaType="com.dev.main.tenancy.domain.TncPoint" >
       <id property="id" column="p.id"></id>

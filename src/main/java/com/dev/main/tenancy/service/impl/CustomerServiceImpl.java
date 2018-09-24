@@ -3,6 +3,7 @@ package com.dev.main.tenancy.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.dev.main.common.exception.CommonException;
 import com.dev.main.common.util.*;
+import com.dev.main.tenancy.dao.TncAddressMapper;
 import com.dev.main.tenancy.dao.TncCustomerMapper;
 import com.dev.main.tenancy.domain.AddressRegion;
 import com.dev.main.tenancy.domain.TncAddress;
@@ -77,21 +78,20 @@ public class CustomerServiceImpl implements ICustomerService {
     }
 
     @Override
-    public void changeInfo(JSONObject jpsCustomer) {
-        Object tncAddress = jpsCustomer.get("tncAddress");
-
+    public void changeInfo(TncCustomerVo tncCustomerVo) {
+        TncAddress tncAddress = tncCustomerVo.getTncAddress();
         TncCustomer tncCustomer = new TncCustomer();
-        tncCustomer.setId(jpsCustomer.getLong("id"));
-        tncCustomer.setName((jpsCustomer.getString("name")));
-        tncCustomer.setGender(jpsCustomer.getByte("gender"));
-        tncCustomer.setIdCard(jpsCustomer.getString("idCard"));
-        tncCustomer.setPhone((jpsCustomer.getString("phone")));
-        tncCustomer.setEmail(jpsCustomer.getString("email"));
-        tncCustomer.setEmergencyName(jpsCustomer.getString("emergencyName"));
-        tncCustomer.setEmergencyPhone(jpsCustomer.getString("emergencyPhone"));
+        tncCustomer.setId(tncCustomerVo.getId());
+        tncCustomer.setName(tncCustomerVo.getName());
+        tncCustomer.setGender(tncCustomerVo.getGender());
+        tncCustomer.setIdCard(tncCustomerVo.getIdCard());
+        tncCustomer.setPhone(tncCustomerVo.getPhone());
+        tncCustomer.setEmail(tncCustomerVo.getEmail());
+        tncCustomer.setEmergencyName(tncCustomerVo.getEmergencyName());
+        tncCustomer.setEmergencyPhone(tncCustomerVo.getEmergencyPhone());
         tncCustomer.setGmtModified(new Date());
-        String password = jpsCustomer.getString("password");
-        if(StringUtils.isEmpty(password)) {
+        String password = tncCustomerVo.getPassword();
+        if(!StringUtils.isEmpty(password)) {
             // 产随机产生6位数作为盐值
             String salt = RandomUtil.getRandomNumString(6);
             // 盐值加密
@@ -100,7 +100,6 @@ public class CustomerServiceImpl implements ICustomerService {
             tncCustomer.setPassword(password);
         }
         tncCustomerMapper.updateByPrimaryKeySelective(tncCustomer);
-
     }
 
     public void setTncCustomerMapper(TncCustomerMapper tncCustomerMapper) {
