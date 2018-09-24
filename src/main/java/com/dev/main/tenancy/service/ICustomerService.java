@@ -1,5 +1,6 @@
 package com.dev.main.tenancy.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.dev.main.common.util.Page;
 import com.dev.main.common.util.QueryObject;
 import com.dev.main.common.util.ResultMap;
@@ -22,5 +23,8 @@ public interface ICustomerService {
 
     /**单个查询*/
     TncCustomerVo findCustomerVo(Long uid);
+
+    /**更改信息*/
+    ResultMap changeInfo(JSONObject jpsCustomer);
 
 }

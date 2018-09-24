@@ -20,13 +20,13 @@
     <div class="layui-form-item div_margin">
         <label class="layui-form-label">姓名</label>
         <div class="layui-input-block">
-            <input type="text" name="title" v-model="customer.name" lay-verify="required" placeholder="请输入真实姓名" class="layui-input input_width">
+            <input type="text" name="name" v-model="customer.name" lay-verify="required" placeholder="请输入真实姓名" class="layui-input input_width">
         </div>
     </div>
     <div class="layui-form-item div_margin">
         <label class="layui-form-label">手机号</label>
         <div class="layui-input-block">
-            <input type="text" name="username" v-model="customer.phone" lay-verify="required|phone" placeholder="请输入手机号码" class="layui-input input_width">
+            <input type="text" name="phone" v-model="customer.phone" lay-verify="required|phone" placeholder="请输入手机号码" class="layui-input input_width">
         </div>
     </div>
     <div class="layui-form-item div_margin">
@@ -83,7 +83,7 @@
 
         form.verify({
             repeat: function (value, item) {
-                if($("#password").val()!=$("#repeatPassword")) {
+                if($("#password").val()!=$("#repeatPassword").val()) {
                     return "两次密码不一致";
                     //layer.msg("两次密码不一致", { time: 1500})
                 }
@@ -93,6 +93,7 @@
 
     var addCustomer = function () {
         var data = JSON.stringify(customerAdd_app.customer);
+        console.log(data);
         $.ajax({
             type: "post",
             url: "/api/customer/save",

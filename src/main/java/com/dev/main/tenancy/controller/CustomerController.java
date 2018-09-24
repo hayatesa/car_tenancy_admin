@@ -6,10 +6,12 @@ import com.dev.main.common.util.Page;
 import com.dev.main.common.util.QueryObject;
 import com.dev.main.common.util.ResultMap;
 import com.dev.main.shiro.controller.exception.ShiroExceptionResolver;
+import com.dev.main.tenancy.domain.TncAddress;
 import com.dev.main.tenancy.domain.TncCustomer;
 import com.dev.main.tenancy.service.ICustomerService;
 import com.dev.main.tenancy.service.IRegionService;
 import com.dev.main.tenancy.vo.TncCustomerVo;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,15 +55,10 @@ public class CustomerController {
         return result;
     }
 
-    /**添加兼修改*/
+    /**添加*/
     @PostMapping("/save")
-    public ResultMap save(@RequestBody String data) {
+    public ResultMap save(@RequestBody TncCustomer tncCustomer) {
         ResultMap result = null;
-        JSONObject jpsCustomer = JSONObject.parseObject(data);
-        TncCustomer tncCustomer = new TncCustomer();
-        tncCustomer.setName(jpsCustomer.getString("name"));
-        tncCustomer.setPhone(jpsCustomer.getString("phone"));
-        tncCustomer.setPassword(jpsCustomer.getString("password"));
         tncCustomer.setStatus((byte)1);
         tncCustomer.setIsDeleted((byte)0);
         tncCustomer.setGmtCreate(new Date());
@@ -84,6 +81,15 @@ public class CustomerController {
         Long id =  Long.valueOf(aid);
         result.put("data", regionService.findAddress(id, level));
         return  result;
+    }
+
+    @PostMapping("/change")
+    public ResultMap change(/*@RequestBody data*/@RequestBody TncCustomerVo tncCustomerVo) {
+        ResultMap result = new ResultMap();
+        TncAddress tncAddress = tncCustomerVo.getTncAddress();
+        //JSONObject jpsCustomer = JSONObject.parseObject(data);
+        //result = customerService.changeInfo(jpsCustomer);
+        return result;
     }
 
     public void setRegionService(IRegionService regionService) {
