@@ -197,11 +197,10 @@
             data: data,
             success: function (res) {
                 if (res.code === 0) {
-                    layer.msg(res.msg, {
-                        time: 1500
-                    }/*, function () {
-                        parent.layui.table.reload("tableDemo");
-                    }*/)
+                    layer.msg('操作成功');
+                    window.location.href='/tenancy/p/customerList';
+                } else {
+                    handleAjax(res);
                 }
             },
             fail: function (res) {
@@ -220,6 +219,9 @@
             },
             success:function(res) {
                 customerEdit_app.customer = res.data;
+                if(res.data.gender===1) {
+
+                }
                 console.log(res);
                 loadAddress(0, 0);
                 if(res.data.tncAddress!=null) {
