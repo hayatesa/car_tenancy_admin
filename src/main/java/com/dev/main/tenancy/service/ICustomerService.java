@@ -16,15 +16,15 @@ public interface ICustomerService {
     Page queryByPage(QueryObject queryObject);
 
     /**禁用与解禁与删除*/
-    ResultMap disable_delete(Long uid, int select);
+    void disable_delete(Long uid, int select);
 
     /**添加与保存*/
-    ResultMap save(TncCustomer tncCustomer);
+    void save(TncCustomer tncCustomer);
 
     /**单个查询*/
     TncCustomerVo findCustomerVo(Long uid);
 
     /**更改信息*/
-    ResultMap changeInfo(JSONObject jpsCustomer);
+    void changeInfo(JSONObject jpsCustomer);
 
 }

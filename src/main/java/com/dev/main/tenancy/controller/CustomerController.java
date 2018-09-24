@@ -39,40 +39,32 @@ public class CustomerController {
     /**禁不禁用*/
     @PostMapping("/disable")
     public ResultMap disable(String uid, String select) {
-        ResultMap result = null;
         int select_disable = Integer.valueOf(select);
-        result = customerService.disable_delete(Long.valueOf(uid), select_disable);
-        result.put("code", StatusCode.SUCCESS);
-        return result;
+        customerService.disable_delete(Long.valueOf(uid), select_disable);
+        return ResultMap.success();
     }
     /**删除*/
     @PostMapping("/delete")
     public ResultMap delete(String uid,String select) {
-        ResultMap result = null;
         int select_disable = Integer.valueOf(select);
-        result = customerService.disable_delete(Long.valueOf(uid), select_disable);
-        result.put("code", StatusCode.SUCCESS);
-        return result;
+        customerService.disable_delete(Long.valueOf(uid), select_disable);
+        return ResultMap.success();
     }
 
     /**添加*/
     @PostMapping("/save")
     public ResultMap save(@RequestBody TncCustomer tncCustomer) {
-        ResultMap result = null;
         tncCustomer.setStatus((byte)1);
         tncCustomer.setIsDeleted((byte)0);
         tncCustomer.setGmtCreate(new Date());
         tncCustomer.setGmtModified(new Date());
-        result = customerService.save(tncCustomer);
-        return result;
+        return ResultMap.success();
     }
 
     @GetMapping("/edit")
     public ResultMap edit(String uid) {
-        ResultMap result = new ResultMap();
         TncCustomerVo tncCustomerVo = customerService.findCustomerVo(Long.valueOf(uid));
-        result.put("data", tncCustomerVo);
-        return result;
+        return ResultMap.success();
     }
 
     @GetMapping("/address")
@@ -84,12 +76,11 @@ public class CustomerController {
     }
 
     @PostMapping("/change")
-    public ResultMap change(/*@RequestBody data*/@RequestBody TncCustomerVo tncCustomerVo) {
-        ResultMap result = new ResultMap();
+    public ResultMap change(@RequestBody TncCustomerVo tncCustomerVo) {
         TncAddress tncAddress = tncCustomerVo.getTncAddress();
         //JSONObject jpsCustomer = JSONObject.parseObject(data);
         //result = customerService.changeInfo(jpsCustomer);
-        return result;
+        return ResultMap.success();
     }
 
     public void setRegionService(IRegionService regionService) {
