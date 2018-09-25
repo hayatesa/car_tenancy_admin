@@ -12,6 +12,9 @@ public class TncPriceScheme extends BaseDomain {
     // 基础价(天)
     private BigDecimal basePrice;
 
+    // 基础价(时)
+    private BigDecimal baseHourPrice;
+
     // 服务费(天)
     private BigDecimal servicePrice;
 
@@ -50,6 +53,14 @@ public class TncPriceScheme extends BaseDomain {
 
     public void setBasePrice(BigDecimal basePrice) {
         this.basePrice = basePrice;
+    }
+
+    public BigDecimal getBaseHourPrice() {
+        return baseHourPrice;
+    }
+
+    public void setBaseHourPrice(BigDecimal baseHourPrice) {
+        this.baseHourPrice = baseHourPrice;
     }
 
     public BigDecimal getServicePrice() {

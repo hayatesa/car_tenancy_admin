@@ -130,4 +130,11 @@
       level = #{level,jdbcType=TINYINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  
+  <select id="selectAddressByLevel" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from address_region
+    where level = #{level,jdbcType=BIGINT}
+  </select>
 </mapper>

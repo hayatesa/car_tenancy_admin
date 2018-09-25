@@ -51,7 +51,7 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.dev.main.tenancy.domain.TncCar" >
-    insert into tnc_car (id, series, quantity, 
+    insert into tnc_car ( series, quantity,
       residual, year, config_section, 
       seat_quantity, door_quantity, fuel_type, 
       transmission_type, displacement, octane_rating, 
@@ -62,7 +62,7 @@
       store_id, brand_id, access_times, 
       status, is_deleted, gmt_create, 
       gmt_modified)
-    values (#{id,jdbcType=BIGINT}, #{series,jdbcType=VARCHAR}, #{quantity,jdbcType=INTEGER}, 
+    values ( #{series,jdbcType=VARCHAR}, #{quantity,jdbcType=INTEGER},
       #{residual,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{configSection,jdbcType=VARCHAR}, 
       #{seatQuantity,jdbcType=INTEGER}, #{doorQuantity,jdbcType=INTEGER}, #{fuelType,jdbcType=VARCHAR}, 
       #{transmissionType,jdbcType=VARCHAR}, #{displacement,jdbcType=INTEGER}, #{octaneRating,jdbcType=VARCHAR}, 
@@ -397,4 +397,36 @@
       gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <sql id="selected_Column_List" >
+    tnc_car.id,quantity, residual, type_id, store_id, brand_id, access_times ,
+    tnc_car_type.name type_name,tnc_store.name store_name, tnc_brand.name brand_name
+  </sql>
+<resultMap id="listMap" type="com.dev.main.tenancy.vo.TncCarVo">
+  <id column="id" property="id"/>
+  <result column="quantity" property="quantity"/>
+  <result column="residual" property="residual"/>
+  <result column="access_times" property="accessTimes"/>
+  <result column="is_deleted" property="isDeleted"/>
+  <association  column="type_id" property="tncCarType" javaType="com.dev.main.tenancy.domain.TncCarType">
+    <id column="type_id" property="id"/>
+    <result column="type_name" property="name"/>
+  </association>
+  <association column="brand_id" property="tncBrand" javaType="com.dev.main.tenancy.domain.TncBrand">
+    <id column="brand_id" property="id"/>
+    <result column="brand_name" property="name"/>
+  </association>
+  <association column="store_id" property="tncStore" javaType="com.dev.main.tenancy.domain.TncStore">
+    <id column="store_id" property="id"/>
+    <result column="store_name" property="name"/>
+    <result column="serviceTel" property="serviceTel"/>
+  </association>
+</resultMap>
+  <select id="getCarList" resultMap="listMap">
+    select
+    <include refid="selected_Column_List" />
+    from  tnc_car,tnc_car_type,tnc_store,tnc_brand
+    where type_id =tnc_car_type.id and store_id = tnc_store.id and brand_id = tnc_brand.id
+  </select>
+
 </mapper>

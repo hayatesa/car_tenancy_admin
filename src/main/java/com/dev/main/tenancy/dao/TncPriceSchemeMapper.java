@@ -14,4 +14,5 @@ public interface TncPriceSchemeMapper extends BaseMapper<TncPriceScheme> {
     int updateByPrimaryKeySelective(TncPriceScheme record);
 
     int updateByPrimaryKey(TncPriceScheme record);
+
 }

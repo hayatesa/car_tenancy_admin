@@ -33,6 +33,12 @@ public class RegionServiceImpl implements IRegionService {
         return addressRegions;
     }
 
+    @Override
+    public List<AddressRegion> getProvince() {
+
+        return addressRegionMapper.selectAddressByLevel(new Byte("0"));
+    }
+
     public void setAddressRegionMapper(AddressRegionMapper addressRegionMapper) {
         this.addressRegionMapper = addressRegionMapper;
     }

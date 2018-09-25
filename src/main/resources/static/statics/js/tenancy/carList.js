@@ -3,20 +3,26 @@ layui.use('table', function() {
     var table = layui.table;
     table.render({
         elem: '#carList'
-        , height: 523
-        , url: '/statics/carList_data.json'
+        , height: 525
+        , url: '/api/car/list'
         , toolbar: '#carListToolbar'
         , limit: 10
         , title: '车辆数据表'
         , cols: [
             [{type: 'checkbox', fixed: 'left'}
                 , {field: 'id', title: 'ID', fixed: 'left', unresize: true, sort: true, width: 80}
-                , {field: 'brand_id', title: '品牌'}
-                , {field: 'type_id', title: '车型'}
-                , {field: 'store_id', title: '门店'}
+                , {field: 'tncBrand', title: '品牌',templet:function (res) {
+                    return res.tncBrand.name;
+                }}
+                , {field: 'tncCarType', title: '车型',templet:function (res) {
+                    return res.tncCarType.name;
+                }}
+                , {field: 'tncStore', title: '门店',templet:function (res) {
+                    return res.tncStore.name;
+                }}
                 , {field: 'quantity', title: '数量', sort: true}
                 , {field: 'residual', title: '剩余车辆', sort: true}
-                , {field: 'access_times', title: '访问次数', sort: true}
+                , {field: 'accessTimes', title: '访问次数', sort: true}
                 , {field: 'status', title: '状态'}
                 , {fixed: 'right', title: '操作', toolbar: '#sideBar', unresize: true, width: 300}]
         ]

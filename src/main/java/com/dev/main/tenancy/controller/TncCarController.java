@@ -2,12 +2,11 @@ package com.dev.main.tenancy.controller;
 
 import com.dev.main.common.util.Page;
 import com.dev.main.common.util.QueryObject;
+import com.dev.main.common.util.ResultMap;
+import com.dev.main.tenancy.domain.TncCar;
 import com.dev.main.tenancy.service.ICarService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/car")
@@ -26,4 +25,15 @@ public class TncCarController {
         return carService.getCarList(queryObject);
     }
 
+
+    @GetMapping("/add")
+    public ResultMap addCar(TncCar tncCar){
+        int n = carService.addCar(tncCar);
+
+        if (n>0){
+            return ResultMap.success();
+        }else {
+            return ResultMap.fail("添加失败");
+        }
+    }
 }

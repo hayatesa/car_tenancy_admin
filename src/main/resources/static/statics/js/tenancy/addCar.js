@@ -1,3 +1,4 @@
+var carId = 1;
 const vueData={
     brands:[],
     carTypes:[],
@@ -17,8 +18,7 @@ const  doCreated =function ()
     doRequestArea();
     doRequestCity();
     doRequestStore();
-    /*请求套餐类型*/
-    //doRequestPackages();
+
 }
 
 const vueMethods={
@@ -32,6 +32,26 @@ var vueObj = new Vue({
     // methods:vueMethods
 });
 
+
+function doStoragePic(path) {
+    var data = {
+        carId:carId,
+        path :path,
+        isCover:0
+    }
+
+    $.ajax({
+        url:"/api/carPic/storage",
+        data:data,
+        success:function (res) {
+            if (res.code == 0){
+                layer.msg("上传成功！");
+            }else{
+                layer.msg("上传失败！");
+            }
+        }
+    })
+}
  /*上传汽车图片*/
 layui.use('upload', function(){
     var upload = layui.upload;
@@ -55,9 +75,9 @@ layui.use('upload', function(){
 
             //预读本地文件，如果是多文件，则会遍历。(不支持ie8/9)
             obj.preview(function(index, file, result){
-                console.log(index); //得到文件索引
-                console.log(file); //得到文件对象
-                console.log(result); //得到文件base64编码，比如图片
+                // console.log(index); //得到文件索引
+                // console.log(file); //得到文件对象
+                // console.log(result); //得到文件base64编码，比如图片
                 var pit = '<img src="'+result+'" class="layui-upload-img" style="width: 120px;height: 80px;margin-right: 10px;"/>';
                 $("#previewPicture").append(pit);
                 //obj.resetFile(index, file, '123.jpg'); //重命名文件名，layui 2.3.0 开始新增
@@ -71,10 +91,15 @@ layui.use('upload', function(){
         ,done: function(res){
             //上传完毕回调
             console.log(res);
+
+            if (res.code ==0){
+                doStoragePic(res.path);
+            }
         }
         ,error: function(res){
             //请求异常回调
             console.log(res);
+
         }
     });
 });
@@ -84,39 +109,47 @@ layui.use('upload', function(){
 layui.use('table', function(){
     var table = layui.table;
     var tableData=new Array();
-    tableData = {
-        "code": 0,
-        "msg": "",
-        "count": 3000000,
-        "data": [
-            {
-                "id": "10001",
-                "packageName": "日租",
-                "deposit":"3000",
-                "basePrice": "500",
-                "ServicePrice": "300",
-                "discount": "浙江杭州"
-            },
-            {
-                "id": "10002",
-                "packageName": "月租",
-                "deposit":"3000",
-                "basePrice": "600",
-                "ServicePrice": "200",
-                "discount": "浙江杭州"
-            }]
-    };
+    // tableData = {
+    //     "code": 0,
+    //     "msg": "",
+    //     "count": 3000000,
+    //     "data": [
+    //         {
+    //             "id": "10001",
+    //             "packageName": "日租",
+    //             "deposit":"3000",
+    //             "basePrice": "500",
+    //             "ServicePrice": "300",
+    //             "discount": "浙江杭州"
+    //         },
+    //         {
+    //             "id": "10002",
+    //             "packageName": "月租",
+    //             "deposit":"3000",
+    //             "basePrice": "600",
+    //             "ServicePrice": "200",
+    //             "discount": "浙江杭州"
+    //         }]
+    // };
     //第一个实例
     table.render({
         elem: '#package'
         ,height: 312
         ,toolbar: '#tnc_package_toolbar'
-        // ,url: "" //数据接口
-        ,data:tableData.data
+         ,url: "/api/PackageScheme/list" //数据接口
+        // ,data:tableData.data
+        ,parseData: function(res){ //res 即为原始返回的数据
+            return {
+                "code": res.code, //解析接口状态
+                "msg": res.msg, //解析提示文本
+                "count": res.count, //解析数据长度
+                "data": res.data //解析数据列表
+            };
+        }
         ,page: false //关闭分页
         ,cols:  [
             [{type: 'checkbox', fixed: 'left'}
-                ,{field:'packageName', title:'套餐名'}
+                ,{field:'name', title:'套餐名'}
                 ,{field:'basePrice', title:'基础价',  edit: 'text', sort: true, totalRow: true}
                 ,{field:'ServicePrice', title:'服务费', edit: 'text', sort: true, totalRow: true}
                 ,{field:'deposit', title:'押金', edit: 'text', sort: true}
@@ -188,7 +221,7 @@ layui.use('table', function(){
 function  doRequestBrand() {
     $.ajax({
         type:"GET",
-        url:"/statics/brand_data.json",
+        url:"/api/tncBrand/list",
         success:function (res) {
             if(res.code ==0){
                 console.log(res);
@@ -209,7 +242,7 @@ function  doRequestBrand() {
 function doRequestCarType() {
     $.ajax({
         type:"GET",
-        url:"/statics/carType_data.json",
+        url:"/api/carType/list",
         success:function (res) {
             if(res.code ==0){
                 console.log(res);
@@ -217,7 +250,7 @@ function doRequestCarType() {
                 // vueObj.data.brands = res.data;
                 for(var i=0;i<b_data.length;i++){
                     $("#car_type_id").append('<option value="'+b_data[i].id+'">'+b_data[i].name+'</option>');
-                    console.log(i+"ui");
+                    // console.log(i+"ui");
                 }
                 layui.form.render('select','carTypeFilter');
             }
@@ -229,7 +262,7 @@ function doRequestCarType() {
 function doRequestProvince() {
     $.ajax({
         type:"GET",
-        url:"/statics/province_data.json",
+        url:"/api/region/province",
         success:function (res) {
             if(res.code ==0){
                 console.log(res);
@@ -237,7 +270,7 @@ function doRequestProvince() {
                  // vueObj.data.province = res.data;
                 for(var i=0;i<b_data.length;i++){
                     $("#province_id").append('<option value="'+b_data[i].id+'">'+b_data[i].name+'</option>');
-                    console.log(i+"ui");
+                    // console.log(i+"ui");
                 }
                 layui.form.render('select','store_addr');
             }
@@ -301,19 +334,7 @@ function doRequestStore() {
         },
     })
 }
-/*请求套餐类型*/
-function doRequestPackages() {
-    $.ajax({
-        type:"GET",
-        url:"/statics/table_data.json",
-        success:function (res) {
-            if(res.code ==0){
-                console.log(res);
-                // vueObj.data.packages = res.data;
-            }
-        },
-    })
-}
+
 /*提交车辆基本信息*/
  function doSubmitCarBaseMsg() {
     console.log("submit");

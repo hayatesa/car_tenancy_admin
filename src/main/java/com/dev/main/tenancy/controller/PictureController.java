@@ -3,7 +3,6 @@ package com.dev.main.tenancy.controller;
 import com.dev.main.common.util.ResultMap;
 import com.dev.main.tenancy.controller.exception.SystemErrorException;
 import com.dev.main.tenancy.service.IFileUploadService;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -13,11 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+
 import java.io.IOException;
 
 @RestController
@@ -48,7 +46,6 @@ public class PictureController {
     /**
      * 读取服务器中的封面图片
      * @param imagePath
-     * @param request
      * @param response
      * @throws IOException
      */
