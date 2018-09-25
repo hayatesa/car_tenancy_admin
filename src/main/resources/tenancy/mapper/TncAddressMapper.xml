@@ -32,8 +32,8 @@
       area_id, detail, store_or_user, 
       longitude, latitude, gmt_create, 
       gmt_modified)
-    values (#{id,jdbcType=BIGINT}, #{provinceId,jdbcType=BIGINT}, #{cityId,jdbcType=BIGINT}, 
-      #{areaId,jdbcType=BIGINT}, #{detail,jdbcType=VARCHAR}, #{storeOrUser,jdbcType=TINYINT}, 
+    values (#{id,jdbcType=BIGINT}, #{province.id,jdbcType=BIGINT}, #{city.id,jdbcType=BIGINT},
+      #{area.id,jdbcType=BIGINT}, #{detail,jdbcType=VARCHAR}, #{storeOrUser,jdbcType=TINYINT},
       #{longitude,jdbcType=DECIMAL}, #{latitude,jdbcType=DECIMAL}, #{gmtCreate,jdbcType=TIMESTAMP}, 
       #{gmtModified,jdbcType=TIMESTAMP})
   </insert>
@@ -43,13 +43,13 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="provinceId != null" >
+      <if test="province.id != null" >
         province_id,
       </if>
-      <if test="cityId != null" >
+      <if test="city.id != null" >
         city_id,
       </if>
-      <if test="areaId != null" >
+      <if test="area.id != null" >
         area_id,
       </if>
       <if test="detail != null" >
@@ -75,14 +75,14 @@
       <if test="id != null" >
         #{id,jdbcType=BIGINT},
       </if>
-      <if test="provinceId != null" >
-        #{provinceId,jdbcType=BIGINT},
+      <if test="province.id != null" >
+        #{province.id,jdbcType=BIGINT},
       </if>
-      <if test="cityId != null" >
-        #{cityId,jdbcType=BIGINT},
+      <if test="city.id != null" >
+        #{city.id,jdbcType=BIGINT},
       </if>
-      <if test="areaId != null" >
-        #{areaId,jdbcType=BIGINT},
+      <if test="area.id != null" >
+        #{area.id,jdbcType=BIGINT},
       </if>
       <if test="detail != null" >
         #{detail,jdbcType=VARCHAR},
@@ -107,14 +107,14 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.dev.main.tenancy.domain.TncAddress" >
     update tnc_address
     <set >
-      <if test="provinceId != null" >
-        province_id = #{provinceId,jdbcType=BIGINT},
+      <if test="province.id != null" >
+        province_id = #{province.id,jdbcType=BIGINT},
       </if>
-      <if test="cityId != null" >
-        city_id = #{cityId,jdbcType=BIGINT},
+      <if test="city.id != null" >
+        city_id = #{city.id,jdbcType=BIGINT},
       </if>
-      <if test="areaId != null" >
-        area_id = #{areaId,jdbcType=BIGINT},
+      <if test="area.id != null" >
+        area_id = #{area.id,jdbcType=BIGINT},
       </if>
       <if test="detail != null" >
         detail = #{detail,jdbcType=VARCHAR},
@@ -139,9 +139,9 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.dev.main.tenancy.domain.TncAddress" >
     update tnc_address
-    set province_id = #{provinceId,jdbcType=BIGINT},
-      city_id = #{cityId,jdbcType=BIGINT},
-      area_id = #{areaId,jdbcType=BIGINT},
+    set province_id = #{province.id,jdbcType=BIGINT},
+      city_id = #{city.id,jdbcType=BIGINT},
+      area_id = #{area.id,jdbcType=BIGINT},
       detail = #{detail,jdbcType=VARCHAR},
       store_or_user = #{storeOrUser,jdbcType=TINYINT},
       longitude = #{longitude,jdbcType=DECIMAL},

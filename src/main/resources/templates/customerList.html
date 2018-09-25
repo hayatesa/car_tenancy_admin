@@ -92,7 +92,7 @@
             },
             success:function (res) {
                 if(res.code == 0){
-                    layer.msg(res.msg, {
+                    layer.msg("操作成功", {
                         time:1500
                     }, function () {
                         layui.table.reload("tableDemo")
@@ -112,7 +112,7 @@
             },
             success:function (res) {
                 if(res.code == 0){
-                    layer.msg(res.msg, {
+                    layer.msg("操作成功", {
                         time:1500
                     }, function () {
                         layui.table.reload("tableDemo")
@@ -132,7 +132,7 @@
             },
             success: function (res) {
                 if (res.code === 0) {
-                    layer.msg(res.msg, {
+                    layer.msg("删除成功", {
                         time: 1500
                     }, function () {
                         layui.table.reload("tableDemo");

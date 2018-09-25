@@ -122,7 +122,7 @@
       #{status,jdbcType=TINYINT}, #{isDeleted,jdbcType=TINYINT}, #{gmtCreate,jdbcType=TIMESTAMP}, 
       #{gmtModified,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.dev.main.tenancy.domain.TncCustomer" >
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="tncAddress.id" parameterType="com.dev.main.tenancy.domain.TncCustomer" >
     insert into tnc_customer
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

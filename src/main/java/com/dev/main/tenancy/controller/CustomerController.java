@@ -1,6 +1,7 @@
 package com.dev.main.tenancy.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.dev.main.common.controller.exception.GlobalExceptionResolver;
 import com.dev.main.common.statics.StatusCode;
 import com.dev.main.common.util.Page;
 import com.dev.main.common.util.QueryObject;
@@ -19,7 +20,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@ShiroExceptionResolver
+@GlobalExceptionResolver
 @RequestMapping("/api/customer")
 public class CustomerController {
     @Autowired

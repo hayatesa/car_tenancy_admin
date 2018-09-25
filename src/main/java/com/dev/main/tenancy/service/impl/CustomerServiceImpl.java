@@ -24,6 +24,8 @@ public class CustomerServiceImpl implements ICustomerService {
 
     @Autowired
     private TncCustomerMapper tncCustomerMapper;
+    @Autowired
+    private TncAddressMapper tncAddressMapper;
 
     @Override
     public Page queryByPage(QueryObject queryObject) {
@@ -98,6 +100,18 @@ public class CustomerServiceImpl implements ICustomerService {
             password = CryptographyUtil.MD5Hash(password, salt);
             tncCustomer.setSalt(salt);
             tncCustomer.setPassword(password);
+        }
+        if(tncAddress!=null) {
+            if(tncAddress.getId()!=null) {
+                tncAddress.setGmtModified(new Date());
+                tncAddressMapper.updateByPrimaryKeySelective(tncAddress);
+            }else {
+                tncAddress.setStoreOrUser((byte)1);
+                tncAddress.setGmtCreate(new Date());
+                tncAddress.setGmtModified(new Date());
+                tncAddressMapper.insertSelective(tncAddress);
+                System.out.println("ddddddddddddddd"+tncAddress.getId());
+            }
         }
         tncCustomerMapper.updateByPrimaryKeySelective(tncCustomer);
     }

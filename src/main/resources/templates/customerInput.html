@@ -100,19 +100,13 @@
             contentType: "application/json",
             data: data,
             success: function (res) {
-                if(res.hasOwnProperty('repeat')) {
-                    layer.msg(res.repeat, {
-                        time:1500
+                if (res.code === 0) {
+                    layer.msg(res.msg, {
+                        time: 1500
+                    }, function () {
+                        doCancel();
+                        parent.layui.table.reload("tableDemo");
                     })
-                }else {
-                    if (res.code === 0) {
-                        layer.msg(res.msg, {
-                            time: 1500
-                        }, function () {
-                            doCancel();
-                            parent.layui.table.reload("tableDemo");
-                        })
-                    }
                 }
             },
             fail: function (res) {
