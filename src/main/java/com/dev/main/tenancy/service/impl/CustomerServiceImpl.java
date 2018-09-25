@@ -110,7 +110,7 @@ public class CustomerServiceImpl implements ICustomerService {
                 tncAddress.setGmtCreate(new Date());
                 tncAddress.setGmtModified(new Date());
                 tncAddressMapper.insertSelective(tncAddress);
-                System.out.println("ddddddddddddddd"+tncAddress.getId());
+                tncCustomer.setAddrId(tncAddress.getId());
             }
         }
         tncCustomerMapper.updateByPrimaryKeySelective(tncCustomer);

@@ -37,7 +37,7 @@
       #{longitude,jdbcType=DECIMAL}, #{latitude,jdbcType=DECIMAL}, #{gmtCreate,jdbcType=TIMESTAMP}, 
       #{gmtModified,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.dev.main.tenancy.domain.TncAddress" >
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.dev.main.tenancy.domain.TncAddress" >
     insert into tnc_address
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

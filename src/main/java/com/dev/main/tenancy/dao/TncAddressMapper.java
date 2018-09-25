@@ -8,7 +8,7 @@ public interface TncAddressMapper extends BaseMapper<TncAddress> {
 
     int insert(TncAddress record);
 
-    int insertSelective(@Param("tncAddress") TncAddress tncAddress);
+    int insertSelective(TncAddress tncAddress);
 
     TncAddress selectByPrimaryKey(Long id);
 
