@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/car")
-public class CarController {
+public class TncCarController {
     @Autowired
     private ICarService carService;
 
@@ -23,10 +23,7 @@ public class CarController {
                         @RequestParam(required = false) String orderType){
 
         QueryObject queryObject = new QueryObject(page, limit, search, orderField, orderType);
-
-        return carService.doSearch(queryObject);
+        return carService.getCarList(queryObject);
     }
-
-
 
 }
