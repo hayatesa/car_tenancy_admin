@@ -134,98 +134,49 @@
     <div id="chart2" class="chart-md"></div>
     <div id="chart3" class="chart-lg"></div>
 </div>
-<script
-        src="https://code.jquery.com/jquery-3.3.1.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-        crossorigin="anonymous"></script>
+<script src="/statics/js/jquery-3.3.1.min.js"></script>
+<script src="/statics/layui-v2.4.3/layui.all.js"></script>
+<script src="/statics/vue-2.5.17/vue.min.js"></script>
 <script src="/statics/js/plugins/echarts.min.js"></script>
+<script src="/statics/js/common/common.js"></script>
 <script >
+
     var myChart1 = echarts.init($('#chart1')[0]);
-
-    // 指定图表的配置项和数据
-    var option1 = {
-        title: {
-            text: '近30日销量Top10'
+    $.ajax({
+        url: '/api/charts/topRentCars',
+        data: {
+            startDate: '2018-09-12',
+            endDate: '2018-10-12',
+            x: 10
         },
-        tooltip: {},
-        legend: {
-            data:['销量', '销售额']
-        },
-        xAxis: {
-            data: ["奥迪K2","灵越B12","奔驰C4","宝马A1","大众L55","雪佛兰P66","雪佛兰C7","劳斯莱斯K2", "海马ui-6", "五菱宏光-2B"],
-            axisLabel: {
-                interval:0,
-                rotate:45
-            },
-        },
-        yAxis: [
-            {
-                name: '销量/辆次',
-                type: 'value'
-            },
-            {
-                name: '销售额/元',
-                type: 'value'
+        success: function (res) {
+            if (res.code == 0) {
+                var option = res.option;
+                option.tooltip = {};
+                myChart1.setOption(option);
+            } else {
+                handleAjax(res);
             }
-        ],
-        series: [{
-            name: '销量',
-            type: 'bar',
-            yAxisIndex: 0,
-            data: [ 45, 34, 20, 12, 11, 10, 4, 2, 1,1]
-        },{
-            name: '销售额',
-            type: 'bar',
-            yAxisIndex: 1,
-            data: [ 27996, 16665, 4666, 2333, 1502, 500, 205, 106, 100, 50]
-        }]
-    };
-
-    // 使用刚指定的配置项和数据显示图表。
-    myChart1.setOption(option1);
-
+        }
+    });
     var myChart2 = echarts.init($('#chart2')[0]);
-
-    // 指定图表的配置项和数据
-    var option2 = {
-        title: {
-            text: '近30日销售额Top10'
+    $.ajax({
+        url: '/api/charts/topIncomesCars',
+        data: {
+            startDate: '2018-09-12',
+            endDate: '2018-10-12',
+            x: 10
         },
-        tooltip: {},
-        legend: {
-            data:['销售额','销量']
-        },
-        xAxis: {
-            data: ["奥迪K2","灵越B12","奔驰C4","宝马A1","大众L55","雪佛兰P66","雪佛兰C7","劳斯莱斯K2", "海马ui-6", "五菱宏光-2B"],
-            axisLabel: {
-                interval:0,
-                rotate:45
+        success: function (res) {
+            if (res.code == 0) {
+                var option = res.option;
+                option.tooltip = {};
+                myChart2.setOption(option);
+            } else {
+                handleAjax(res);
             }
-        },
-        yAxis: [
-            {
-                name: '销售额/元',
-                type: 'value'
-            },
-            {
-                name: '销量/辆次',
-                type: 'value'
-            }
-        ],
-        series: [{
-            name: '销售额',
-            type: 'bar',
-            yAxisIndex: 0,
-            data: [ 27996, 16665, 4666, 2333, 1502, 500, 205, 106, 100, 50]
-        },{
-            name: '销量',
-            type: 'bar',
-            yAxisIndex: 1,
-            data: [ 45, 34, 20, 12, 11, 10, 4, 2, 1,1]
-        }]
-    };
-    // 使用刚指定的配置项和数据显示图表。
-    myChart2.setOption(option2);
+        }
+    });
 
     var myChart3 = echarts.init($('#chart3')[0]);
     var option3 = {
@@ -270,16 +221,13 @@
     };
     myChart3.setOption(option3);
 
+
+    // 窗口改变时调整图表大小
     window.onresize = adjuest;
-    adjuest();
     function adjuest(){
-
         myChart3.resize();
-
         myChart2.resize();
-
         myChart1.resize();
-
     }
 </script>
 </body>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dev.main.tenancy.dao.CarRentIncomeMapper" >
+  <resultMap id="BaseResultMap" type="com.dev.main.tenancy.vo.CarRentIncomeVo" >
+    <id column="car_id" property="carId" jdbcType="BIGINT" />
+    <result column="car_name" property="carName" jdbcType="VARCHAR" />
+    <result column="sales_volume" property="salesVolume" jdbcType="BIGINT" />
+    <result column="sales_amount" property="salesAmount" jdbcType="BIGINT" />
+  </resultMap>
+  <select id="findTopRent" resultMap="BaseResultMap" >
+    select c.id car_id,CONCAT(b.`name`, c.series) car_name, COUNT(o.car_item_id) sales_volume, (CASE WHEN SUM(o.total_amount)>0 THEN SUM(o.total_amount) ELSE 0 END) AS sales_amount
+    from tnc_brand b
+    JOIN tnc_car c ON b.id = c.brand_id
+    LEFT JOIN tnc_car_item ci ON c.id = ci.car_id
+    LEFT JOIN tnc_order o ON o.car_item_id = ci.id
+    AND (o.start_date &gt;= #{startDate,jdbcType=TIMESTAMP} AND o.start_date &lt;= #{endDate,jdbcType=TIMESTAMP})
+    GROUP BY c.id
+    ORDER BY SUM(o.total_amount) DESC
+    LIMIT #{x,jdbcType=INTEGER}
+  </select>
+  <select id="findTopSalesAmount" resultMap="BaseResultMap" >
+    select c.id car_id,CONCAT(b.`name`, c.series) car_name, COUNT(o.car_item_id) sales_volume, (CASE WHEN SUM(o.total_amount)>0 THEN SUM(o.total_amount) ELSE 0 END) AS sales_amount
+    from tnc_brand b
+    JOIN tnc_car c ON b.id = c.brand_id
+    LEFT JOIN tnc_car_item ci ON c.id = ci.car_id
+    LEFT JOIN tnc_order o ON o.car_item_id = ci.id
+    AND (o.start_date &gt;= #{startDate,jdbcType=TIMESTAMP} AND o.start_date &lt;= #{endDate,jdbcType=TIMESTAMP})
+    GROUP BY c.id
+    ORDER BY COUNT(o.car_item_id) DESC
+    LIMIT #{x,jdbcType=INTEGER}
+  </select>
+
+  <select id="findSituationOfOneDay" resultMap="BaseResultMap" >
+    SELECT COUNT(o.car_item_id) sales_volume,SUM(o.total_amount) sales_amount
+    FROM tnc_order o
+    WHERE TO_DAYS(o.start_date) = TO_DAYS(#{date,jdbcType=TIMESTAMP})
+  </select>
+</mapper>
