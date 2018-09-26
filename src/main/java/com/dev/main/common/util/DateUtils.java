@@ -668,7 +668,7 @@ public class DateUtils {
 
     public static Date getDateByStr(String sdate) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        return formatter.parse("2018-9-12", new ParsePosition(0));
+        return formatter.parse(sdate, new ParsePosition(0));
     }
 
     /**

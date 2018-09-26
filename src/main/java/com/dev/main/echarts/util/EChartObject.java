@@ -51,6 +51,11 @@ public class EChartObject extends HashMap<String, Object> {
         title.put(EChartConstant.TEXT, text);
         chart.put(EChartConstant.TITLE, title);
 
+        // 设置tooltip
+        Map<String, String> tooltip = new HashMap<>();
+        tooltip.put(EChartConstant.TRIGGER, EChartConstant.ITEM);
+        chart.put(EChartConstant.TOOLTIP, tooltip);
+
         // 设置x轴
         Map<String, Object> xAxis = new HashMap<>();
         xAxis.put(EChartConstant.TYPE, EChartConstant.CATEGORY);

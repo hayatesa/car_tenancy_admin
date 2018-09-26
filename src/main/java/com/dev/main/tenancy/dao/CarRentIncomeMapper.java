@@ -1,6 +1,8 @@
 package com.dev.main.tenancy.dao;
 
 import com.dev.main.tenancy.vo.CarRentIncomeVo;
+import com.dev.main.tenancy.vo.DaySalesVo;
+import com.dev.main.tenancy.vo.SalesSituationVo;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -25,9 +27,17 @@ public interface CarRentIncomeMapper {
     List<CarRentIncomeVo> findTopSalesAmount(Map<String, Object> params);
 
     /**
-     * 某天销售量和销售额
+     * 统计一段时间内的销量
+     * @param params
      * @return
      */
-    CarRentIncomeVo findSituationOfOneDay(Date date);
+    List<DaySalesVo> getDaySales(Map<String, Object> params);
+
+    /**
+     * 统计一段时间内的销量及销售情况
+     * @param params
+     * @return
+     */
+    SalesSituationVo getSalesSituation(Map<String, Object> params);
 
 }

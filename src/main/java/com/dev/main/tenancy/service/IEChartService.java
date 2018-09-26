@@ -1,6 +1,8 @@
 package com.dev.main.tenancy.service;
 
 import com.dev.main.echarts.util.EChartObject;
+import com.dev.main.tenancy.vo.CarRentIncomeVo;
+import com.dev.main.tenancy.vo.SalesSituationVo;
 
 import java.util.Date;
 
@@ -26,42 +28,16 @@ public interface IEChartService {
 
     /**
      *
-     * 统计某个时段的总销售额
-     * @param startDate 开始时间
-     * @param endDate 结束时间
-     */
-    public EChartObject topIncomes(Date startDate, Date endDate) ;
-
-    /**
-     *
-     * 统计某个时段的总销售量
-     * @param startDate 开始时间
-     * @param endDate 结束时间
-     */
-    public EChartObject topRent(Date startDate, Date endDate);
-
-    /**
-     *
-     * 统计当天的总销售量
-     * @param startDate 开始时间
-     * @param endDate 结束时间
-     */
-    public EChartObject todayRent(Date startDate, Date endDate);
-
-    /**
-     *
-     * 统计当天的总销售额
-     * @param startDate 开始时间
-     * @param endDate 结束时间
-     */
-    public EChartObject todayIncomes(Date startDate, Date endDate);
-
-    /**
-     *
-     * 统计某时间段内的汽车销量及销售额
+     * 统计某时间段内的汽车销量及销售额，每天一条记录
      * @param startDate 开始时间
      * @param endDate 结束时间
      */
     public EChartObject sellSituation(Date startDate, Date endDate);
+
+    /**
+     * 统计某时间段内的汽车销量及销售额, 合计结果
+     * @return
+     */
+    public SalesSituationVo countSituation(Date startDate, Date endDate);
 
 }

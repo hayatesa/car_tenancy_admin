@@ -8,6 +8,8 @@ public interface EChartConstant {
     public static final String TITLE = "title";
     public static final String TEXT = "text";
     public static final String TOOLTIP = "tooltip";
+    public static final String TRIGGER = "trigger";
+    public static final String ITEM = "item";
     public static final String LEGEND = "legend";
     public static final String X_AXIS = "xAxis";
     public static final String Y_AXIS = "yAxis";

@@ -5,6 +5,8 @@ import com.dev.main.tenancy.dao.CarRentIncomeMapper;
 import com.dev.main.tenancy.service.IEChartService;
 import com.dev.main.echarts.util.EChartObject;
 import com.dev.main.tenancy.vo.CarRentIncomeVo;
+import com.dev.main.tenancy.vo.DaySalesVo;
+import com.dev.main.tenancy.vo.SalesSituationVo;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -104,28 +106,53 @@ public class EChartServiceImpl implements IEChartService {
     }
 
     @Override
-    public EChartObject topIncomes(Date startDate, Date endDate) {
-        return null;
-    }
-
-    @Override
-    public EChartObject topRent(Date startDate, Date endDate) {
-        return null;
-    }
-
-    @Override
-    public EChartObject todayRent(Date startDate, Date endDate) {
-        return null;
-    }
-
-    @Override
-    public EChartObject todayIncomes(Date startDate, Date endDate) {
-        return null;
-    }
-
-    @Override
     public EChartObject sellSituation(Date startDate, Date endDate) {
-        return null;
+        Map<String, Object> param = new HashMap<>();
+        param.put("startDate", startDate);
+        param.put("endDate", DateUtils.addDays(endDate, 1)); // 添加一天，即第二天零点
+        List<DaySalesVo> datas = carRentIncomeMapper.getDaySales(param);
+
+        String text = "销售统计";
+        String xAxisName = "";
+        List<String> xData = new ArrayList<>();
+
+        List<Long> volumeData = new ArrayList<>(); // 销量数据
+        List<BigDecimal> amountData = new ArrayList<>(); // 销售额数据
+        for (int i = 0; i < datas.size(); i++) {
+            xData.add(com.dev.main.common.util.DateUtils.dateToStr(datas.get(i).getDate()));
+            volumeData.add(datas.get(i).getSalesVolume());
+            amountData.add(datas.get(i).getSalesAmount());
+        }
+        String y1AxisName = "销量";
+        String y1Unit = "辆次";
+        String y2AxisName = "销售额";
+        String y2Unit = "元";
+
+        List<Map<String, Object>> series = new ArrayList<>();
+        Map<String, Object> volumeSeries = new HashMap<>();
+        volumeSeries.put(EChartConstant.NAME, y1AxisName);
+        volumeSeries.put(EChartConstant.Y_AXIS_INDEX, 0);
+        volumeSeries.put(EChartConstant.DATA, volumeData);
+        volumeSeries.put(EChartConstant.TYPE, EChartConstant.LINE);
+        Map<String, Object> amountSeries = new HashMap<>();
+        amountSeries.put(EChartConstant.NAME, y2AxisName);
+        amountSeries.put(EChartConstant.Y_AXIS_INDEX, 1);
+        amountSeries.put(EChartConstant.DATA, amountData);
+        amountSeries.put(EChartConstant.TYPE, EChartConstant.LINE);
+        series.add(volumeSeries);
+        series.add(amountSeries);
+        EChartObject chart = EChartObject.createChart(text, xAxisName, xData, y1AxisName, y2AxisName, y1Unit, y2Unit, series);
+
+        return chart;
+    }
+
+    @Override
+    public SalesSituationVo countSituation(Date startDate, Date endDate) {
+        Map<String, Object> param = new HashMap<>();
+        param.put("startDate", startDate);
+        param.put("endDate", DateUtils.addDays(endDate, 1)); // 添加一天，即第二天零点
+        SalesSituationVo result = carRentIncomeMapper.getSalesSituation(param);
+        return result;
     }
 
     public void setCarRentIncomeMapper(CarRentIncomeMapper carRentIncomeMapper) {

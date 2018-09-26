@@ -2,233 +2,108 @@
 <html>
 <head>
     <title>Echart</title>
-    <style type="text/css">
-        .chart-body {
-            display: flex;
-            flex-wrap: wrap;
-        }
-        .data-block {
-            position: relative;
-            color: #ffffff;
-            width: 45%;
-            height: 95px;
-            margin: 10px;
-            border-radius: 5px;
-            padding: 20px;
-        }
-        .data-icon {
-            display: inline-block;
-            position: absolute;
-            line-height: 100px;
-            left: 20px;
-            width: 95px;
-            height: 95px;
-            background: #ffffff;
-            border-radius: 50%;
-            text-align: center;
-            font-weight: bold;
-        }
-        .data-icon-text {
-            line-height: 95px;
-            font-size: 60px;
-        }
-        .data-text {
-            display: inline-block;
-            position: absolute;
-            right: 20px;
-            text-align: right;
-        }
-        .data-text .title {
-            font-size: 20px;
-        }
-        .counter {
-            display: block;
-            font-size: 40px;
-            font-weight: bold;
-        }
-        .chart-md {
-            padding: 10px;
-            width: 48%;
-            height:400px;
-        }
-        .chart-lg {
-            padding: 10px;
-            width: 100%;
-            height:400px;
-        }
-        @media (min-width: 1252px) {
-            .data-block {
-                width: 20%;
-            }
-        }
-        @media (max-width: 1252px) {
-            .data-block {
-                width: 43%;
-            }
-        }
-        @media (max-width: 907px) {
-            .data-block {
-                width: 40%;
-            }
-
-        }
-        @media (max-width: 652px) {
-            .data-block {
-                width: 100%;
-            }
-        }
-        @media (max-width: 1052px) {
-            .chart-md {
-                padding: 10px;
-                width: 100%;
-                height:400px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="/statics/css/style.css"></link>
+    <link rel="stylesheet" href="/statics/layui-v2.4.3/lay/modules/theme/default/layer.css"></link>
+    <link rel="stylesheet" href="/statics/css/chart.css"></link>
 </head>
 <body style="padding: 10px;background-color: #f3f3f3;">
-<div id="" class="chart-body" style="width: 100%;">
-    <div class="data-block" style="background: #a0c2ac;">
-        <div class="data-icon">
-            <span class="data-icon-text" style="color: #a0c2ac">乘</span>
+<div id="chart-app">
+    <div class="chart-body" style="width: 100%;">
+        <div class="data-block" style="background: #a0c2ac;">
+            <div class="data-icon">
+                <span class="data-icon-text" style="color: #a0c2ac">乘</span>
+            </div>
+            <div class="data-text">
+             <span href="#" class="title">今日销量</span>
+                 <span class="counter" id="todayVolume">-</span>
+             <span class="title">辆次</span>
+            </div>
         </div>
-        <div class="data-text">
-         <span href="#" class="title">今日销量</span>
-             <span class="counter">35</span>
-         <span class="title">辆次</span>
+        <div class="data-block" style="background: #8da2aa;">
+            <div class="data-icon">
+                <span class="data-icon-text" style="color: #8da2aa">风</span>
+            </div>
+            <div class="data-text">
+             <span href="#" class="title">今日销售额</span>
+                 <span class="counter" id="todayAmount">-</span>
+             <span class="title">元</span>
+            </div>
+        </div>
+        <div class="data-block" style="background: #a7b19a;">
+            <div class="data-icon">
+                <span class="data-icon-text" style="color: #a7b19a">租</span>
+            </div>
+            <div class="data-text">
+             <span href="#" class="title">
+                 近30日总销量
+             </span>
+                 <span class="counter" id="totalVolume">-</span>
+             <span class="title">辆次</span>
+            </div>
+        </div>
+        <div class="data-block" style="background: #bfaaa6;">
+            <div class="data-icon">
+                <span class="data-icon-text" style="color: #bfaaa6">车</span>
+            </div>
+            <div class="data-text">
+             <span href="#" class="title">近30日总销售额</span>
+                 <span class="counter" id="totalAmount">-</span>
+             <span class="title">元</span>
+            </div>
         </div>
     </div>
-    <div class="data-block" style="background: #8da2aa;">
-        <div class="data-icon">
-            <span class="data-icon-text" style="color: #8da2aa">风</span>
+    <div class="chart-body">
+        <div class="chart-lg">
+            <div class="chart-tool-bar">
+                <span>From</span>
+                <input r-bind="volumeChartParam.startDate" type="date" class="tnc_input">
+                <span> To </span>
+                <input r-bind="volumeChartParam.endDate" type="date" class="tnc_input">
+                <span> Top </span>
+                <select class="tnc_input" style="width: 65px;" r-bind="volumeChartParam.x">
+                    <option value="5">5</option>
+                    <option value="10" selected>10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                </select>
+                <button onclick="loadTopVolumeChart()" class="tnc_btn_green" style="width: 4em;height: 40px;">统计</button>
+            </div>
+            <div id="topVolumeChart" style="width: 100%;height: 400px"></div>
         </div>
-        <div class="data-text">
-         <span href="#" class="title">今日销售额</span>
-             <span class="counter">27,243</span>
-         <span class="title">元</span>
+        <div class="chart-lg">
+            <div class="chart-tool-bar">
+                <span>From</span>
+                <input r-bind="amountChartParam.startDate" type="date" class="tnc_input">
+                <span> To </span>
+                <input r-bind="amountChartParam.endDate" type="date" class="tnc_input">
+                <span> Top </span>
+                <select r-bind="amountChartParam.x" class="tnc_input" style="width: 65px;">
+                    <option value="5">5</option>
+                    <option value="10" selected>10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                </select>
+                <button onclick="loadTopAmountChart()" class="tnc_btn_green" style="width: 4em;height: 40px;">统计</button>
+            </div>
+            <div id="topAmountChart" style="width: 100%;height: 400px;"></div>
+        </div>
+        <div class="chart-lg">
+            <div class="chart-tool-bar">
+                <span>From</span>
+                <input r-bind="situationChartParam.startDate" type="date" class="tnc_input">
+                <span> To </span>
+                <input r-bind="situationChartParam.endDate" type="date" class="tnc_input">
+                <button onclick="loadSalesSituationChart()" class="tnc_btn_green" style="width: 4em;height: 40px;">统计</button>
+            </div>
+            <div id="salesSituationChart" style="width: 100%;height: 400px;"></div>
         </div>
     </div>
-    <div class="data-block" style="background: #a7b19a;">
-        <div class="data-icon">
-            <span class="data-icon-text" style="color: #a7b19a">租</span>
-        </div>
-        <div class="data-text">
-         <span href="#" class="title">近30日总销量</span>
-             <span class="counter">3421</span>
-         <span class="title">辆次</span>
-        </div>
-    </div>
-    <div class="data-block" style="background: #bfaaa6;">
-        <div class="data-icon">
-            <span class="data-icon-text" style="color: #bfaaa6">车</span>
-        </div>
-        <div class="data-text">
-         <span href="#" class="title">近30日总销售额</span>
-             <span class="counter">8,158,584</span>
-         <span class="title">元</span>
-        </div>
-    </div>
-</div>
-<div class="chart-body">
-    <div id="chart1"class="chart-md"></div>
-    <div id="chart2" class="chart-md"></div>
-    <div id="chart3" class="chart-lg"></div>
 </div>
 <script src="/statics/js/jquery-3.3.1.min.js"></script>
-<script src="/statics/layui-v2.4.3/layui.all.js"></script>
-<script src="/statics/vue-2.5.17/vue.min.js"></script>
+<script src="/statics/layui-v2.4.3/lay/modules/layer.js"></script>
+<script src="/statics/js/rmj.js"></script>
 <script src="/statics/js/plugins/echarts.min.js"></script>
 <script src="/statics/js/common/common.js"></script>
-<script >
-
-    var myChart1 = echarts.init($('#chart1')[0]);
-    $.ajax({
-        url: '/api/charts/topRentCars',
-        data: {
-            startDate: '2018-09-12',
-            endDate: '2018-10-12',
-            x: 10
-        },
-        success: function (res) {
-            if (res.code == 0) {
-                var option = res.option;
-                option.tooltip = {};
-                myChart1.setOption(option);
-            } else {
-                handleAjax(res);
-            }
-        }
-    });
-    var myChart2 = echarts.init($('#chart2')[0]);
-    $.ajax({
-        url: '/api/charts/topIncomesCars',
-        data: {
-            startDate: '2018-09-12',
-            endDate: '2018-10-12',
-            x: 10
-        },
-        success: function (res) {
-            if (res.code == 0) {
-                var option = res.option;
-                option.tooltip = {};
-                myChart2.setOption(option);
-            } else {
-                handleAjax(res);
-            }
-        }
-    });
-
-    var myChart3 = echarts.init($('#chart3')[0]);
-    var option3 = {
-        title: {
-            text: '近30日销售状况'
-        },
-        tooltip: {},
-        legend: {
-            data:['销售额','销量']
-        },
-        xAxis: {
-            type: 'category',
-            data: ['2018-9-1', '2018-9-2', '2018-9-3', '2018-9-4', '2018-9-5', '2018-9-6', '2018-9-7','2018-9-8','2018-9-9','2018-9-10','2018-9-11','2018-9-12','2018-9-13','2018-9-14','2018-9-15','2018-9-16','2018-9-17','2018-9-18','2018-9-19','2018-9-20','2018-9-21','2018-9-22','2018-9-23','2018-9-24','2018-9-25','2018-9-26','2018-9-27','2018-9-28','2018-9-29','2018-9-30'],
-            axisLabel: {
-                interval:0,
-                rotate:45
-            }
-        },
-        yAxis:  [
-            {
-                name: '销售额/元',
-                type: 'value'
-            },
-            {
-                name: '销量/辆次',
-                type: 'value'
-            }
-        ],
-        series: [{
-            name: '销售额',
-            yAxisIndex: 0,
-            data: [50526, 55526, 75435, 67534, 39999, 45447, 47855, 78924, 79953, 45447, 58964, 64633, 67534, 56347, 45287, 79555, 56743, 78525, 46743, 45741, 63433, 45474, 67234, 85784, 95333, 45404, 78924, 47855, 78924, 64466],
-            type: 'line',
-            label: { normal: { show: true, position: 'top', textStyle: { color: '#c23531' } } }
-        },{
-            name: '销量',
-            yAxisIndex: 1,
-            data: [12, 14, 10, 11, 13, 15, 14, 11, 8, 9, 10, 17, 15, 12, 21, 16, 15, 17, 13, 11, 15, 11, 12, 19, 20, 21, 27, 24, 20, 18],
-            type: 'line',
-            label: { normal: { show: true, position: 'bottom', textStyle: { color: '#2f4554' } } }
-        }]
-    };
-    myChart3.setOption(option3);
-
-
-    // 窗口改变时调整图表大小
-    window.onresize = adjuest;
-    function adjuest(){
-        myChart3.resize();
-        myChart2.resize();
-        myChart1.resize();
-    }
-</script>
+<script src="/statics/js/tenancy/charts.js"></script>
 </body>
 </html>
