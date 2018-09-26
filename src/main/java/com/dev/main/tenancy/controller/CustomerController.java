@@ -59,6 +59,7 @@ public class CustomerController {
         tncCustomer.setIsDeleted((byte)0);
         tncCustomer.setGmtCreate(new Date());
         tncCustomer.setGmtModified(new Date());
+        customerService.save(tncCustomer);
         return ResultMap.success();
     }
 

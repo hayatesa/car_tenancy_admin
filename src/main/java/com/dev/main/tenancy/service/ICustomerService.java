@@ -18,7 +18,7 @@ public interface ICustomerService {
     /**禁用与解禁与删除*/
     void disable_delete(Long uid, int select);
 
-    /**添加与保存*/
+    /**添加*/
     void save(TncCustomer tncCustomer);
 
     /**单个查询*/
