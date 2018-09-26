@@ -53,11 +53,10 @@
         </div>
     </div>
     <div class="chart-body">
-        <div class="chart-lg">
+        <div class="chart-md">
             <div class="chart-tool-bar">
-                <span>From</span>
                 <input r-bind="volumeChartParam.startDate" type="date" class="tnc_input">
-                <span> To </span>
+                <span> - </span>
                 <input r-bind="volumeChartParam.endDate" type="date" class="tnc_input">
                 <span> Top </span>
                 <select class="tnc_input" style="width: 65px;" r-bind="volumeChartParam.x">
@@ -66,15 +65,14 @@
                     <option value="15">15</option>
                     <option value="20">20</option>
                 </select>
-                <button onclick="loadTopVolumeChart()" class="tnc_btn_green" style="width: 4em;height: 40px;">统计</button>
+                <button onclick="loadTopVolumeChart()" class="tnc_btn_green" style="width: 4em;height: 40px;margin: 1px;">统计</button>
             </div>
             <div id="topVolumeChart" style="width: 100%;height: 400px"></div>
         </div>
-        <div class="chart-lg">
+        <div class="chart-md">
             <div class="chart-tool-bar">
-                <span>From</span>
                 <input r-bind="amountChartParam.startDate" type="date" class="tnc_input">
-                <span> To </span>
+                <span> - </span>
                 <input r-bind="amountChartParam.endDate" type="date" class="tnc_input">
                 <span> Top </span>
                 <select r-bind="amountChartParam.x" class="tnc_input" style="width: 65px;">
@@ -83,17 +81,16 @@
                     <option value="15">15</option>
                     <option value="20">20</option>
                 </select>
-                <button onclick="loadTopAmountChart()" class="tnc_btn_green" style="width: 4em;height: 40px;">统计</button>
+                <button onclick="loadTopAmountChart()" class="tnc_btn_green" style="width: 4em;height: 40px;margin: 1px;">统计</button>
             </div>
             <div id="topAmountChart" style="width: 100%;height: 400px;"></div>
         </div>
         <div class="chart-lg">
             <div class="chart-tool-bar">
-                <span>From</span>
                 <input r-bind="situationChartParam.startDate" type="date" class="tnc_input">
-                <span> To </span>
+                <span> - </span>
                 <input r-bind="situationChartParam.endDate" type="date" class="tnc_input">
-                <button onclick="loadSalesSituationChart()" class="tnc_btn_green" style="width: 4em;height: 40px;">统计</button>
+                <button onclick="loadSalesSituationChart()" class="tnc_btn_green" style="width: 4em;height: 40px;margin: 1px;">统计</button>
             </div>
             <div id="salesSituationChart" style="width: 100%;height: 400px;"></div>
         </div>

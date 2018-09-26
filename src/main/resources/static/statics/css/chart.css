@@ -41,12 +41,11 @@
     font-weight: bold;
 }
 .chart-md {
-    margin: 10px;
+    margin: 40px 0;
     width: 48%;
-    height:400px;
 }
 .chart-lg {
-    margin: 10px;
+    margin: 20px 0;
     width: 100%;
 }
 
