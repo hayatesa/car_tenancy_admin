@@ -4,6 +4,8 @@ import com.dev.main.common.util.Page;
 import com.dev.main.common.util.QueryObject;
 import com.dev.main.tenancy.domain.TncStore;
 
+import java.util.List;
+
 
 public interface ITncStoreService {
     /**
@@ -47,4 +49,10 @@ public interface ITncStoreService {
      * @return
      */
     TncStore findByName(TncStore record);
+
+    /**
+     * 根据县/区id查门店
+     * @param 地区Id
+     * @param areaId*/
+    List<TncStore> searchStoreList(Integer areaId);
 }

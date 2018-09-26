@@ -1,11 +1,8 @@
 package com.dev.main.tenancy.service.impl;
 
-import com.baomidou.mybatisplus.toolkit.PackageHelper;
-import com.dev.main.common.config.PageHelperConfig;
 import com.dev.main.common.util.Page;
 import com.dev.main.common.util.QueryObject;
 import com.dev.main.tenancy.dao.TncStoreMapper;
-import com.dev.main.tenancy.domain.TncBrand;
 import com.dev.main.tenancy.domain.TncStore;
 import com.dev.main.tenancy.service.ITncStoreService;
 import com.github.pagehelper.PageHelper;
@@ -53,5 +50,10 @@ public class TncStoreServiceImpl implements ITncStoreService {
     @Override
     public TncStore findByName(TncStore record) {
         return null;
+    }
+
+    @Override
+    public List<TncStore> searchStoreList(Integer areaId) {
+        return tncStoreMapper.selectStoreByAreaId(areaId);
     }
 }

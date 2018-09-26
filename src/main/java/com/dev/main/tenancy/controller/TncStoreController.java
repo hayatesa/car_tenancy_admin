@@ -8,12 +8,10 @@ import com.dev.main.shiro.controller.exception.ShiroExceptionResolver;
 import com.dev.main.tenancy.domain.TncStore;
 import com.dev.main.tenancy.service.ITncStoreService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 
 @RestController
 @ShiroExceptionResolver
@@ -57,6 +55,18 @@ public class TncStoreController {
         tncStore.setGmtModified(d);
         ResultMap resultMap = new ResultMap();
         return resultMap;
+    }
+
+    /**
+     * 根据地区Id查询门店名称列表
+     * @param areaId  地区Id
+     * */
+    @GetMapping("/store")
+    public ResultMap getStoreAddress(Integer areaId){
+        ResultMap map = new ResultMap();
+        List<TncStore> list = iTncStoreService.searchStoreList(areaId);
+        map.put("data",list);
+        return map;
     }
 
 }

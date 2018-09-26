@@ -15,9 +15,6 @@ const  doCreated =function ()
     doRequestCarType();
     /*请求门店地址*/
     doRequestProvince();
-    doRequestArea();
-    doRequestCity();
-    doRequestStore();
 
 }
 
@@ -258,76 +255,65 @@ function doRequestCarType() {
         },
     })
 }
+
+
+/*提交车辆基本信息*/
+ function doSubmitCarBaseMsg() {
+    console.log("submit");
+}
+
+
+var form = layui.form;
+ /*监听省下拉列表变化*/
+form.on('select(province)',function(res){
+    var data = {
+        id:res.value,
+        level:1
+    }
+    doReset(data.level);
+    doRequestAddr(data,"#city_id");
+});
+
+/*监听城市下拉列表变化*/
+form.on('select(city)',function(res){
+    var data = {
+        id:res.value,
+        level:2
+    }
+    doReset(data.level);
+    doRequestAddr(data,"#area_id");
+});
+/*监听地区下拉列表变化*/
+form.on('select(area)',function(res){
+    var data = {
+        areaId:res.value,
+    }
+    doReset(3);
+    doRequestStore(data);
+});
+/*监听地区下拉列表变化*/
+form.on('select(store)',function(res){
+    var data = {
+        areaId:res.value,
+    }
+
+})
+
 /*请求门店地址*/
 function doRequestProvince() {
+    var data = {
+        id:0,
+        level:0
+    }
     $.ajax({
         type:"GET",
-        url:"/api/region/province",
+        data:data,
+        url:"/api/region/addr",
         success:function (res) {
             if(res.code ==0){
-                console.log(res);
                 var b_data = res.data;
-                 // vueObj.data.province = res.data;
                 for(var i=0;i<b_data.length;i++){
                     $("#province_id").append('<option value="'+b_data[i].id+'">'+b_data[i].name+'</option>');
-                    // console.log(i+"ui");
-                }
-                layui.form.render('select','store_addr');
-            }
-        },
-    })
-}
-/*联动地址请求 城市*/
-function doRequestCity() {
-    $.ajax({
-        type:"GET",
-        url:"/statics/city_data.json",
-        success:function (res) {
-            if(res.code ==0){
-                console.log(res);
-                var b_data = res.data;
-                // vueObj.data.province = res.data;
-                for(var i=0;i<b_data.length;i++){
-                    $("#city_id").append('<option value="'+b_data[i].id+'">'+b_data[i].name+'</option>');
-                    console.log(i+"city_id");
-                }
-                layui.form.render('select','store_addr');
-            }
-        },
-    })
-}
-/*联动地址请求 县区*/
-function doRequestArea() {
-    $.ajax({
-        type:"GET",
-        url:"/statics/city_data.json",
-        success:function (res) {
-            if(res.code ==0){
-                console.log(res);
-                var b_data = res.data;
-                // vueObj.data.province = res.data;
-                for(var i=0;i<b_data.length;i++){
-                    $("#area_id").append('<option value="'+b_data[i].id+'">'+b_data[i].name+'</option>');
-                    console.log(i+"area_id");
-                }
-                layui.form.render('select','store_addr');
-            }
-        },
-    })
-}
-/*联动地址请求 门店*/
-function doRequestStore() {
-    $.ajax({
-        type:"GET",
-        url:"/statics/city_data.json",
-        success:function (res) {
-            if(res.code ==0){
-                console.log(res);
-                var b_data = res.data;
-                // vueObj.data.province = res.data;
-                for(var i=0;i<b_data.length;i++){
-                    $("#store_id").append('<option value="'+b_data[i].id+'">'+b_data[i].name+'</option>');
-                    console.log(i+"store_id");
                 }
                 layui.form.render('select','store_addr');
             }
@@ -335,7 +321,67 @@ function doRequestStore() {
     })
 }
 
-/*提交车辆基本信息*/
- function doSubmitCarBaseMsg() {
-    console.log("submit");
+/*联动地址请求 门店*/
+function doRequestStore(data) {
+    $.ajax({
+        type:"GET",
+        data:data,
+        url:"/api/tncStore/store",
+        success:function (res) {
+            if(res.code ==0){
+                console.log(res);
+                var b_data = res.data;
+                // vueObj.data.province = res.data;
+                $("#store_id").empty();
+                $("#store_id").append('<option value="">请选择门店</option>');
+                for(var i=0;i<b_data.length;i++){
+                    $("#store_id").append('<option value="'+b_data[i].id+'">'+b_data[i].name+'</option>');
+                    // console.log(i+"store_id");
+                }
+                layui.form.render('select','store_addr');
+            }
+        },
+    })
+}
+
+/**请求市和县数据*/
+function doRequestAddr(data,comIdName){
+    if(data.id == "")
+        return;
+    $.ajax({
+        type:"GET",
+        data:data,
+        url:"/api/region/addr",
+        success:function (res) {
+            if(res.code ==0){
+                var b_data = res.data;
+                for(var i=0;i<b_data.length;i++){
+                    $(comIdName).append('<option value="'+b_data[i].id+'">'+b_data[i].name+'</option>');
+                }
+                layui.form.render('select','store_addr');
+            }
+        },
+    })
+}
+
+/*重设下拉列表提示内容*/
+function doReset(level) {
+
+    if(level ==1){
+        $("#city_id").empty();
+        $("#city_id").append('<option value="">请选择市</option>');
+        $("#area_id").empty();
+        $("#area_id").append('<option value="">请选择县/区</option>');
+        $("#store_id").empty();
+        $("#store_id").append('<option value="">请选择门店</option>');
+    }else if (level == 2){
+        $("#area_id").empty();
+        $("#area_id").append('<option value="">请选择县/区</option>');
+        $("#store_id").empty();
+        $("#store_id").append('<option value="">请选择门店</option>');
+    }else if (level == 3){
+        $("#store_id").empty();
+        $("#store_id").append('<option value="">请选择门店</option>');
+    }
+
 }

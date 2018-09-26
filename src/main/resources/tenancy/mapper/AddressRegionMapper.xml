@@ -137,4 +137,24 @@
     from address_region
     where level = #{level,jdbcType=BIGINT}
   </select>
+  <sql id="Stroe_Base_Column_List">
+    address_region.id, code, name, address_region.parent_id, first_letter, level
+  </sql>
+  <select id="selectAddressByLevel" resultMap="BaseResultMap">
+    select DISTINCT
+    <include refid="Stroe_Base_Column_List" />
+    from address_region,tnc_address
+   <where>
+      <if test="level ==0">
+        address_region.id = province_id
+      </if>
+     <if test="level ==1">
+        address_region.id = city_id and province_id =#{id}
+     </if>
+     <if test="level ==2">
+       address_region.id = area_id and city_id =#{id}
+     </if>
+     and store_or_user =0
+   </where>
+  </select>
 </mapper>

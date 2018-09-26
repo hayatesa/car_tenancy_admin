@@ -167,4 +167,9 @@
     </where>
   </select>
 
+    <select id="selectStoreByAreaId" resultType="com.dev.main.tenancy.domain.TncStore">
+     SELECT tnc_store.id, name
+     FROM tnc_address,tnc_store
+     where tnc_address.id = tnc_store.addr_id and area_id =#{areaId} and store_or_user =0
+    </select>
 </mapper>

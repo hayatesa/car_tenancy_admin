@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @ShiroExceptionResolver
@@ -29,10 +28,18 @@ public class RegionController {
         QueryObject queryObject = new QueryObject(page, limit, search, orderField, orderType);
         return regionService.queryByPage(queryObject);
     }
-
-    @GetMapping("/province")
-    public ResultMap getProvince(){
-        List<AddressRegion> list =regionService.getProvince();
+    /**
+     * 根据门店查询城市列表
+     * 返回结果：地址列表
+     * @param id 该id为父级id
+     * @param  level  地址级别 0-省 1-市 2-县
+     *
+     *  例： id=3 level=2  查询在河北省（id=3）下拥有门店的城市列表；
+     *      id = 40,level=3 查询唐山市(id=40)下拥有门店的县地址列表
+     * */
+    @GetMapping("/addr")
+    public ResultMap getAddressByStore(Long id, byte level ){
+        List<AddressRegion> list =regionService.getAddressByStore(id,level);
         ResultMap map = new ResultMap();
         map.put("data",list);
         return map;

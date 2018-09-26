@@ -34,9 +34,9 @@ public class RegionServiceImpl implements IRegionService {
     }
 
     @Override
-    public List<AddressRegion> getProvince() {
+    public List<AddressRegion> getAddressByStore(Long id, byte level) {
 
-        return addressRegionMapper.selectAddressByLevel(new Byte("0"));
+        return addressRegionMapper.selectAddressByLevel(id,level);
     }
 
     public void setAddressRegionMapper(AddressRegionMapper addressRegionMapper) {

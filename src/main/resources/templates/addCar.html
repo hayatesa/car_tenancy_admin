@@ -51,23 +51,23 @@
                         <div class="layui-card-header">门店选择</div>
                         <div class="layui-card-body layui-row layui-col-space10">
                             <div class="layui-col-md6">
-                                <select name="province" id="province_id" >
+                                <select name="province" id="province_id" lay-filter="province">
                                     <option value="">请选择省</option>
                                 </select>
 
                             </div>
                             <div class="layui-col-md6">
-                                <select name="city" id="city_id" lay-verify="">
+                                <select name="city" id="city_id" lay-filter="city">
                                     <option value="">请选择市</option>
                                 </select>
                             </div>
                             <div class="layui-col-md6">
-                                <select name="area"  id="area_id" lay-verify="">
+                                <select name="area"  id="area_id" lay-filter="area">
                                     <option value="">请选择县/区</option>
                                 </select>
                             </div>
                             <div class="layui-col-md6">
-                                <select name="store" id="store_id" lay-verify="">
+                                <select name="store" id="store_id" lay-filter="store">
                                     <option value="">请选择门店</option>
                                 </select>
                             </div>
@@ -207,22 +207,7 @@
                 </div>
             </div>
         </div>
-        <!--车牌-->
-        <!--<div class="layui-fluid">
-            <div class="layui-row layui-col-space15">
-                <div class="layui-col-md12">
 
-                    <div class="layui-card layui-form">
-                        <div class="layui-card-header">车牌录入</div>
-                        <div class="layui-card-body layui-row layui-col-space10">
-                            <div class="layui-col-md12">
-                                <table id="car_num" lay-filter="fcar_num"></table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>-->
 
     <script type="text/html" id="barDemo">
         <a class="layui-btn layui-btn-xs" lay-event="edit"> <i class="layui-icon"> &#xe642;</i>编辑</a>

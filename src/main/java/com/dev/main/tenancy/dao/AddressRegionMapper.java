@@ -21,5 +21,5 @@ public interface AddressRegionMapper extends BaseMapper<AddressRegion> {
 
     List<AddressRegion> searchAddress(@Param("id") Long id, @Param("level") byte level);
 
-    List<AddressRegion> selectAddressByLevel(@Param("level") byte level);
+    List<AddressRegion> selectAddressByLevel(@Param("id")Long id, @Param("level") byte level);
 }
