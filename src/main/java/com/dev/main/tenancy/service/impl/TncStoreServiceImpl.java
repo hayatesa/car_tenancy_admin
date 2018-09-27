@@ -2,7 +2,9 @@ package com.dev.main.tenancy.service.impl;
 
 import com.dev.main.common.util.Page;
 import com.dev.main.common.util.QueryObject;
+import com.dev.main.tenancy.dao.TncAddressMapper;
 import com.dev.main.tenancy.dao.TncStoreMapper;
+import com.dev.main.tenancy.domain.TncAddress;
 import com.dev.main.tenancy.domain.TncStore;
 import com.dev.main.tenancy.service.ITncStoreService;
 import com.github.pagehelper.PageHelper;
@@ -10,6 +12,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -18,6 +21,8 @@ public class TncStoreServiceImpl implements ITncStoreService {
     @Autowired
     private TncStoreMapper tncStoreMapper;
 
+    @Autowired
+    private TncAddressMapper tncAddressMapper;
 
     @Override
     public int deleteStore(Long id) {
@@ -26,6 +31,13 @@ public class TncStoreServiceImpl implements ITncStoreService {
 
     @Override
     public int addStore(TncStore record) {
+        TncAddress tncAddress = record.getTncAddress();
+        tncAddress.setStoreOrUser((byte) 0);
+        Date d = new Date();
+        tncAddress.setGmtCreate(d);
+        tncAddress.setGmtModified(d);
+        tncAddressMapper.insertSelective(tncAddress);
+        record.setAddrId(tncAddress.getId());
         return tncStoreMapper.insert(record);
     }
 
@@ -36,6 +48,10 @@ public class TncStoreServiceImpl implements ITncStoreService {
 
     @Override
     public int modifiedByPrimaryKeySelective(TncStore record) {
+        TncAddress tncAddress = record.getTncAddress();
+        tncAddress.setId(record.getAddrId());
+        tncAddress.setGmtModified(new Date());
+        tncAddressMapper.updateByPrimaryKeySelective(tncAddress);
         return tncStoreMapper.updateByPrimaryKeySelective(record);
     }
 
@@ -56,4 +72,8 @@ public class TncStoreServiceImpl implements ITncStoreService {
     public List<TncStore> searchStoreList(Integer areaId) {
         return tncStoreMapper.selectStoreByAreaId(areaId);
     }
+
+
+
+
 }

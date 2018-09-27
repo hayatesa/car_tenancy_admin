@@ -1,31 +1,33 @@
 var addressProvinceId;
 var addressCityId;
 var addressAreaId;
-var genderId;
 //data
-var customerData = {
-    customer: {
-        id: "",
-        name: "",
-        phone: "",
-        gender: "",
-        idCard: "",
-        email: "",
-        tncAddress: {
-            province: {id: "", name: ""},
-            city: {id: "", name: ""},
-            area: {id: "", name: ""},
-            detail: "",
-        },
-        emergencyName: "",
-        emergencyPhone: "",
-        password: "",
-    }
+var st = {
+    id: "",
+    name: "",
+    managerName: "",
+    managerPhone: "",
+    tncAddress: {
+        province: {id: "", name: ""},
+        city: {id: "", name: ""},
+        area: {id: "", name: ""},
+        detail: ""
+    },
+    serviceTel: "",
+    gmtCreate: "",
+    gmtModified: "",
+    status: ""
 };
-//Vue app，编辑页
-var customerEdit_app = new Vue({
-    el: "#customerEdit",
-    data: customerData,
+
+//Vue data
+var s_data = {
+    store: st
+};
+
+//Vue app，添加页
+var storeAdd_app = new Vue({
+    el: "#storeAdd",
+    data: s_data,
     mounted: function () {
         layui.use('form', function () {
             var form = layui.form;
@@ -34,27 +36,32 @@ var customerEdit_app = new Vue({
     }
 });
 
+//Vue app，编辑页
+var storeEdit_app = new Vue({
+    el: "#storeEdit",
+    data: s_data,
+    mounted: function () {
+        layui.use('form', function () {
+            var form = layui.form;
+            form.render();
+        });
+    }
+});
+
+//读取需要编辑时原有数据
 $(document).ready(function () {
-    var uid = T.p('id');
-    $.ajax({
-        type: "get",
-        url: "/api/customer/edit",
-        data: {
-            uid: uid
-        },
-        success: function (res) {
-            if (res.code == 0) {
-                customerEdit_app.customer = res.data;
-                console.log(customerEdit_app.customer);
-                console.log("ddddd");
-                genderId = "gender" + customerEdit_app.customer.gender;
-                if (customerEdit_app.customer.gender == 1) {
-                    $($("#gender").siblings().eq(0).children("div").children("input")[0]).attr('value', "男");
-                } else {
-                    $($("#gender").siblings().eq(0).children("div").children("input")[0]).attr('value', "女");
-                }
-                loadAddress(0, 0);
-                if (res.data.tncAddress != null) {
+    var storeId = decodeURIComponent(window.location.search.slice(9)).trim();
+    if (storeId != 0) {
+        $.ajax({
+            type: "get",
+            url: "/api/tncStore/selectById",
+            data: {
+                id: storeId
+            },
+            success: function (res) {
+                if (res.code === 0) {
+                    storeEdit_app.store = res.data;
+                    loadAddress(0, 0);
                     var provinceName = res.data.tncAddress.province.name;
                     var cityName = res.data.tncAddress.city.name;
                     var areaName = res.data.tncAddress.area.name;
@@ -66,113 +73,57 @@ $(document).ready(function () {
                     addressProvinceId = "province" + res.data.tncAddress.province.id;
                     addressCityId = "city" + res.data.tncAddress.city.id;
                     addressAreaId = "area" + res.data.tncAddress.area.id;
+                } else {
+                    handleAjax(res);
                 }
-            } else {
-                handleAjax(res);
             }
-        }
-    })
+        })
+    }
 });
-//监听提交
+
 //layui form
 layui.use('form', function () {
     var form = layui.form;
+
     //监听提交
     form.on('submit(demo1)', function () {
-        saveCustomer();
+        saveAddress();
+        doAdd();
         return false;
     });
+
+    form.on('submit(demo2)', function () {
+        saveAddress();
+        doEdit();
+        return false;
+    });
+
     form.verify({
-        repeat: function (value, item) {
-            if ($("#password").val() != '' && $("#password").val() != $("#repeatPassword").val()) {
-                return "两次密码不一致";
-                //layer.msg("两次密码不一致", { time: 1500})
-            }
-        },
         allAddress: function (value, item) {
             var pAddress = $($("#province").siblings().eq(0).children("div").children("input")[0]).val();
             var cAddress = $($("#city").siblings().eq(0).children("div").children("input")[0]).val();
             var aAddress = $($("#area").siblings().eq(0).children("div").children("input")[0]).val();
             var dAddress = $("#detail").val();
-            if (!((pAddress != '' && cAddress != '' && aAddress != '' && dAddress != '')
-                || (pAddress == '' && cAddress == '' && aAddress == '' && dAddress == ''))) {
+            if (!((pAddress !== '' && cAddress !== '' && aAddress !== '' && dAddress !== '')
+                || (pAddress === '' && cAddress === '' && aAddress === '' && dAddress === ''))) {
                 return "地址填写不完整";
             }
         }
     });
 });
 
-var saveCustomer = function () {
-    customerEdit_app.customer.gender = genderId.substring(6);
-    console.log(addressProvinceId);
-    if (addressProvinceId != null) {
-        var tncAddress = {};
-        var province = {};
-        var city = {};
-        var area = {};
-        var detail = $("#detail").val();
-        ;
-        province.id = addressProvinceId.substring(8);
-        city.id = addressCityId.substring(4);
-        area.id = addressAreaId.substring(4);
-        tncAddress.province = province;
-        tncAddress.city = city;
-        tncAddress.area = area;
-        tncAddress.detail = detail;
-        customerEdit_app.customer.tncAddress = tncAddress;
-    }
-    console.log(customerEdit_app.customer);
-    var data = JSON.stringify(customerEdit_app.customer);
-    console.log(data);
-    password = $("#password").val;
-    $.ajax({
-        type: "POST",
-        url: "/api/customer/change",
-        contentType: "application/json",
-        data: data,
-        success: function (res) {
-            if (res.code === 0) {
-                layer.msg("操作成功", {
-                    time: 1500
-                }, function () {
-                    window.location.href = '/tenancy/p/customerList'
-                });
-            } else {
-                handleAjax(res);
-            }
-        }
-    })
-}
-
-var clickGender = function () {
-    var optionGender = "<option value='1'>男</option>" + "<option value='0'>女</option>"
-    $("#gender").html(optionGender);
-    var ddGender = "<dd id='gender1' value='男'>男</dd>" + "<dd id='gender0' value='女'>女</dd>"
-    $($("#gender").siblings().eq(0).children("dl")[0]).html(ddGender);
-    $("#" + genderId).addClass('layui-this');
-    $($("#gender").siblings().eq(0).children("dl").children("dd")).click(function () {
-        /*添加选中样式*/
-        $(this).siblings('dd').removeClass('layui-this');
-        $(this).addClass('layui-this');
-        /*获取选中的值将其显示在输入框里*/
-        var genderName = $(this)[0].getAttribute('value');
-        genderId = $(this)[0].getAttribute('id');
-        $($("#gender").siblings().eq(0).children("div").children("input")[0]).attr('value', genderName);
-    })
-}
-
 /*省市区已选项样式加载*/
 var loadStyle = function () {
     $("#" + addressProvinceId).addClass('layui-this');
     $("#" + addressCityId).addClass('layui-this');
     $("#" + addressAreaId).addClass('layui-this');
-}
+};
 
 /*加载省内容及其点击事件，其他的就不多说了*/
 var loadProvince = function (res) {
     /*因vue与lay冲突缘故，只能手动渲染*/
-    var optionProvince = "<option value='0'>请选择省</option>"
-    var ddProvince = "<dd id='province0' class='layui-select-tips'>请选择省</dd>"
+    var optionProvince = "<option value='0'>请选择省</option>";
+    var ddProvince = "<dd id='province0' class='layui-select-tips'>请选择省</dd>";
     for (var i = 0; i < res.data.length; i++) {
         optionProvince += "<option value='" + res.data[i].id + "'>" + res.data[i].name + "</option>";
         ddProvince += "<dd id=province" + res.data[i].id + " value='" + res.data[i].name + "'>" + res.data[i].name + "</dd>";
@@ -200,7 +151,7 @@ var loadProvince = function (res) {
         $($("#province").siblings().eq(0).children("div").children("input")[0]).attr('value', provinceName);
         //console.log(this);
     });
-}
+};
 
 /*字面意思，自己体会*/
 var clickCity = function () {
@@ -212,11 +163,11 @@ var clickCity = function () {
     } else {
         layer.msg("请选择省");
     }
-}
+};
 
 var loadCity = function (res) {
-    var optionCity = "<option value='0'>请选择市</option>"
-    var ddCity = "<dd id='city0' class='layui-select-tips'>请选择市</dd>"
+    var optionCity = "<option value='0'>请选择市</option>";
+    var ddCity = "<dd id='city0' class='layui-select-tips'>请选择市</dd>";
     for (var i = 0; i < res.data.length; i++) {
         optionCity += "<option value='" + res.data[i].id + "'>" + res.data[i].name + "</option>";
         ddCity += "<dd id=city" + res.data[i].id + " value='" + res.data[i].name + "'>" + res.data[i].name + "</dd>";
@@ -242,20 +193,20 @@ var loadCity = function (res) {
         $($("#city").siblings().eq(0).children("div").children("input")[0]).attr('value', cityName);
         //console.log(this);
     });
-}
+};
 
 var clickArea = function () {
-    if(addressCityId != null) {
+    if (addressCityId != null) {
         var parent_AreaId = addressCityId.substring(4);
         loadAddress(parent_AreaId, 2);
-    }else {
+    } else {
         layer.msg("请选择市");
     }
-}
+};
 
 var loadArea = function (res) {
-    var optionArea = "<option value='0'>请选择区（县）</option>"
-    var ddArea = "<dd id='area0' class='layui-select-tips'>请选择区（县）</dd>"
+    var optionArea = "<option value='0'>请选择区（县）</option>";
+    var ddArea = "<dd id='area0' class='layui-select-tips'>请选择区（县）</dd>";
     for (var i = 0; i < res.data.length; i++) {
         optionArea += "<option value='" + res.data[i].id + "'>" + res.data[i].name + "</option>";
         ddArea += "<dd id=area" + res.data[i].id + " value='" + res.data[i].name + "'>" + res.data[i].name + "</dd>";
@@ -281,7 +232,7 @@ var loadArea = function (res) {
         $($("#area").siblings().eq(0).children("div").children("input")[0]).attr('value', areaName);
         //console.log(this);
     });
-}
+};
 
 var loadAddress = function (aid, level) {
     $.ajax({
@@ -301,8 +252,103 @@ var loadAddress = function (aid, level) {
             }
         }
     })
+};
+
+loadAddress(0, 0);
+
+function saveAddress() {
+    if (addressProvinceId != null) {
+        var tncAddress = {};
+        var province = {};
+        var city = {};
+        var area = {};
+        var detail = $("#detail").val();
+        province.id = addressProvinceId.substring(8);
+        city.id = addressCityId.substring(4);
+        area.id = addressAreaId.substring(4);
+        tncAddress.province = province;
+        tncAddress.city = city;
+        tncAddress.area = area;
+        tncAddress.detail = detail;
+        storeAdd_app.store.tncAddress = tncAddress;
+    }
 }
 
-var back = function () {
-    window.history.back();
+//添加门店
+function doAdd() {
+    var data = JSON.stringify(storeAdd_app.store);
+    $.ajax({
+        type: "post",
+        url: "/api/tncStore/add",
+        contentType: "application/json",
+        data: data,
+        success: function (res) {
+            if (res.code === 0) {
+                layer.msg(res.msg, {
+                        time: 1500
+                    },
+                    function () {
+                        doCancel();
+                        parent.layui.table.reload("store");
+                    })
+            }
+        },
+        fail: function (res) {
+            console.log(res)
+        }
+    })
+}
+
+//编辑门店
+function doEdit() {
+    var data = JSON.stringify(storeEdit_app.store);
+    $.ajax({
+        type: "post",
+        url: "/api/tncStore/edit",
+        contentType: "application/json",
+        data: data,
+        success: function (res) {
+            if (res.code === 0) {
+                layer.msg(res.msg, {
+                        time: 1500
+                    },
+                    function () {
+                        doCancel();
+                        parent.layui.table.reload("store");
+                    })
+            }
+        },
+        fail: function (res) {
+            console.log(res)
+        }
+    })
+}
+
+// //判断品牌名是否重复
+// function checkRepeat() {
+//     var data = JSON.stringify(brandAdd_app.brand);
+//     var result = "not exist";
+//     $.ajax({
+//         type: "post",
+//         url: "/api/tncBrand/find",
+//         contentType: "application/json",
+//         async: false,
+//         data: data,
+//         success: function (res) {
+//             if (res.code === 0)
+//                 result = "exist";
+//             else
+//                 result = "not exist";
+//         },
+//         fail: function (res) {
+//             console.log(res);
+//         }
+//     });
+//     return result;
+// }
+
+//取消编辑 执行关闭
+function doCancel() {
+    var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+    parent.layer.close(index); //再执行关闭
 }

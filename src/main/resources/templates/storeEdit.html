@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>添加门店</title>
+    <title>编辑门店</title>
     <link rel="stylesheet" href="/statics/fonts/font-awesome-4.7.0/css/font-awesome.css">
     <link rel="stylesheet" href="/statics/css/m-defineStyle.css">
     <link rel="stylesheet" href="/statics/layui-v2.4.3/css/layui.css">
@@ -11,7 +11,7 @@
 <div>
     <div class="m-define1 layui-row">
         <div class="layui-col-md11 layui-col-md-offset1">
-            <form id="storeAdd" class="layui-form layui-form-pane" action="">
+            <form id="storeEdit" class="layui-form layui-form-pane" action="">
                 <!--门店名称-->
                 <div class="layui-form-item">
                     <label class="layui-form-label">门店名称</label>
@@ -64,11 +64,11 @@
 
                 <div class="layui-form-item">
                     <div class="m-define2">
-                        <button id="add" class="layui-btn" lay-submit lay-filter="demo1">
-                            <i class="layui-icon layui-icon-add-1"></i> 添加
+                        <button id="add" class="layui-btn" lay-submit lay-filter="demo2">
+                            <i class="layui-icon layui-icon-edit"></i> 编辑
                         </button>
-                        <button type="reset" class="layui-btn layui-btn-danger">
-                            <i class="layui-icon layui-icon-refresh"></i> 重置
+                        <button class="layui-btn layui-btn-danger" onclick="doCancel()">
+                            <i class="layui-icon layui-icon-close"></i> 取消
                         </button>
                     </div>
                 </div>
@@ -78,7 +78,7 @@
 </div>
 
 <script src="/statics/js/jquery-3.3.1.min.js"></script>
-<script src="/statics/layui-v2.4.3/layui.all.js"></script>
+<script src="/statics/layui-v2.4.3/layui.js"></script>
 <script src="/statics/vue-2.5.17/vue.min.js"></script>
 <script src="/statics/js/tenancy/store-crud.js"></script>
 <script src="/statics/js/common/common.js"></script>

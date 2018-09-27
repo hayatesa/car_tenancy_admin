@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.dev.main.tenancy.domain.TncStore" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="name" property="name" jdbcType="VARCHAR" />
-    <!--<result column="addr_id" property="addrId" jdbcType="BIGINT" />-->
+    <result column="addr_id" property="addrId" jdbcType="BIGINT" />
     <result column="service_tel" property="serviceTel" jdbcType="VARCHAR" />
     <result column="manager_phone" property="managerPhone" jdbcType="VARCHAR" />
     <result column="manager_name" property="managerName" jdbcType="VARCHAR" />

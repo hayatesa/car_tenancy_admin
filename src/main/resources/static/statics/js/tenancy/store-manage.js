@@ -52,7 +52,7 @@ layui.use('table', function () {
                 layer.close(index);
             });
         } else if (obj.event === 'edit') {
-            editWindow(JSON.stringify(data));
+            editWindow(data.id);
         }
     });
 
@@ -60,11 +60,11 @@ layui.use('table', function () {
 
 //打开门店的添加窗口
 function addWindow() {
-    var url = './storeAdd.html';
+    var url = './storeAdd.html?storeId=0';
     layer.open({
         type: 2 //此处以iframe举例
         , title: '添加门店'
-        , area: ['800px', '450px']
+        , area: ['600px', '500px']
         , shade: 0
         , id: "2"
         , anim: 4
@@ -80,12 +80,11 @@ function addWindow() {
 
 //打开门店的编辑窗口
 function editWindow(data) {
-    var str = encodeURIComponent(data);    //编码
-    var url = './storeEdit.html?store=' + str;
+    var url = './storeEdit.html?storeId=' + data;
     layer.open({
         type: 2 //此处以iframe举例
         , title: '编辑门店'
-        , area: ['800px', '450px']
+        , area: ['600px', '500px']
         , shade: 0
         , id: "2"
         , anim: 4
