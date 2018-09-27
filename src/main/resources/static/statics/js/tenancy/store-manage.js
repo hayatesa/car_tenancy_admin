@@ -17,8 +17,8 @@ layui.use('table', function () {
                 sort: true
             }
                 , {field: 'name', title: '门店名称', width: 150}
-                , {field: 'managerName', title: '门店负责人', width: 150}
-                , {field: 'managerPhone', title: '门店负责人手机', width: 150}
+                , {field: 'managerName', title: '门店负责人', width: 100}
+                , {field: 'managerPhone', title: '门店负责人手机', width: 130}
                 , {
                 field: 'tncAddress', title: '门店地址', templet: function (res) {
                     var province = res.tncAddress == null ? "" : res.tncAddress.province.name;
@@ -28,11 +28,21 @@ layui.use('table', function () {
                     return province + city + area + detail;
                 }
             }
-                , {field: 'serviceTel', title: '客服电话', width: 100}
-                , {field: 'gmtCreate', title: '创建时间', width: 150}
-                , {field: 'gmtModified', title: '修改时间', width: 150}
-                , {field: 'status', title: '状态', width: 80}
-                , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150, align: 'center'}]
+                , {field: 'serviceTel', title: '客服电话', width: 130}
+                , {field: 'gmtCreate', title: '创建时间', width: 170}
+                , {field: 'gmtModified', title: '修改时间', width: 170}
+                , {
+                fixed: 'right', title: '操作', width: 180, align: 'center', templet: function (res) {
+                    var a = '<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>' +
+                        '<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>';
+                    if (res.status === 1) {
+                        a = a + '<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="stop"">歇业</a>'
+                    } else {
+                        a = a + '<a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="open"">已歇业</a>'
+                    }
+                    return a;
+                }
+            }]
         ]
     });
 
@@ -53,6 +63,16 @@ layui.use('table', function () {
             });
         } else if (obj.event === 'edit') {
             editWindow(data.id);
+        } else if (obj.event === 'stop') {
+            layer.confirm('确定要歇业吗', function (index) {
+                stopStore(data.id);
+                layer.close(index);
+            });
+        } else if (obj.event === 'open') {
+            layer.confirm('确定要营业吗', function (index) {
+                openStore(data.id);
+                layer.close(index);
+            });
         }
     });
 
@@ -79,8 +99,8 @@ function addWindow() {
 }
 
 //打开门店的编辑窗口
-function editWindow(data) {
-    var url = './storeEdit.html?storeId=' + data;
+function editWindow(id) {
+    var url = './storeEdit.html?storeId=' + id;
     layer.open({
         type: 2 //此处以iframe举例
         , title: '编辑门店'
@@ -107,7 +127,55 @@ function delStore(id) {
             id: id
         },
         success: function (res) {
-            if (res === 0)
+            if (res.code === 0)
+                layer.msg(res.msg, {
+                        time: 1500
+                    },
+                    function () {
+                        layui.table.reload("store");
+                    })
+        },
+        fail: function (res) {
+            console.log(res);
+        }
+    })
+}
+
+//修改门店状态为 0-歇业
+function stopStore(id) {
+    $.ajax({
+        type: "post",
+        url: "/api/tncStore/storeStatus",
+        data: {
+            id: id,
+            status: 0
+        },
+        success:function (res) {
+            if (res.code === 0)
+                layer.msg(res.msg, {
+                        time: 1500
+                    },
+                    function () {
+                        layui.table.reload("store");
+                    })
+        },
+        fail: function (res) {
+            console.log(res);
+        }
+    })
+}
+
+//修改门店状态为 1-开业
+function openStore(id) {
+    $.ajax({
+        type: "post",
+        url: "/api/tncStore/storeStatus",
+        data: {
+            id: id,
+            status: 1
+        },
+        success:function (res) {
+            if (res.code === 0)
                 layer.msg(res.msg, {
                         time: 1500
                     },

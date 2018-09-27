@@ -48,10 +48,12 @@ public class TncStoreServiceImpl implements ITncStoreService {
 
     @Override
     public int modifiedByPrimaryKeySelective(TncStore record) {
-        TncAddress tncAddress = record.getTncAddress();
-        tncAddress.setId(record.getAddrId());
-        tncAddress.setGmtModified(new Date());
-        tncAddressMapper.updateByPrimaryKeySelective(tncAddress);
+        if(record.getAddrId() != null) {
+            TncAddress tncAddress = record.getTncAddress();
+            tncAddress.setId(record.getAddrId());
+            tncAddress.setGmtModified(new Date());
+            tncAddressMapper.updateByPrimaryKeySelective(tncAddress);
+        }
         return tncStoreMapper.updateByPrimaryKeySelective(record);
     }
 

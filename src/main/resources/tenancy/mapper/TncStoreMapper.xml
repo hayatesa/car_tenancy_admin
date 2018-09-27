@@ -157,6 +157,7 @@
     <include refid="Base_Column_List" />
     from tnc_store
     <where>
+      AND ( is_deleted = 0 )
     <if test="search!=null">AND (
       name LIKE CONCAT('%',#{search},'%')
       OR manager_name LIKE CONCAT('%',#{search},'%')

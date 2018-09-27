@@ -66,6 +66,11 @@ public class TncStoreController {
         return ResultMap.success("添加成功");
     }
 
+    /**
+     * 编辑门店信息
+     * @param tncStore
+     * @return
+     */
     @PostMapping("/edit")
     public ResultMap StoreEdit(@RequestBody TncStore tncStore){
         tncStore.setGmtModified(new Date());
@@ -74,6 +79,39 @@ public class TncStoreController {
             return ResultMap.fail(-1,"编辑失败");
         }
         return ResultMap.success("编辑成功");
+    }
+
+    /**
+     * 删除门店信息，修改is_delete，数据库保留数据，后台无法查看
+     * @param id
+     * @return
+     */
+    @PostMapping("/delete")
+    public ResultMap deleteStore(Long id){
+        TncStore tncStore = new TncStore();
+        tncStore.setId(id);
+        tncStore.setIsDeleted((byte) 1);
+        tncStore.setGmtModified(new Date());
+        int result = iTncStoreService.modifiedByPrimaryKeySelective(tncStore);
+        if(result < 0){
+            return ResultMap.fail(-1,"删除失败");
+        }
+        return ResultMap.success("删除成功");
+    }
+
+    /**
+     * 修改状态 0-歇业 1-开业
+     * @param tncStore
+     * @return
+     */
+    @PostMapping("/storeStatus")
+    public ResultMap storeStatus(TncStore tncStore){
+        tncStore.setGmtModified(new Date());
+        int result = iTncStoreService.modifiedByPrimaryKeySelective(tncStore);
+        if(result < 0){
+            return ResultMap.fail(-1,"状态修改失败");
+        }
+        return ResultMap.success("状态修改成功");
     }
 
     /**

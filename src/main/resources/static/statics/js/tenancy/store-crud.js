@@ -324,29 +324,6 @@ function doEdit() {
     })
 }
 
-// //判断品牌名是否重复
-// function checkRepeat() {
-//     var data = JSON.stringify(brandAdd_app.brand);
-//     var result = "not exist";
-//     $.ajax({
-//         type: "post",
-//         url: "/api/tncBrand/find",
-//         contentType: "application/json",
-//         async: false,
-//         data: data,
-//         success: function (res) {
-//             if (res.code === 0)
-//                 result = "exist";
-//             else
-//                 result = "not exist";
-//         },
-//         fail: function (res) {
-//             console.log(res);
-//         }
-//     });
-//     return result;
-// }
-
 //取消编辑 执行关闭
 function doCancel() {
     var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
