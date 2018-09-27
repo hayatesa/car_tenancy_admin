@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>乘风租车后台管理系统</title>
+    <link rel="stylesheet" href="/statics/fonts/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="/statics/layui-v2.4.3/css/layui.css">
+</head>
+<body>
+<!--套餐-->
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">套餐选择</div>
+                <div class="layui-card-body layui-form layui-row layui-col-space10">
+                    <div class="layui-col-md12">
+                        <table id="package" lay-filter="fpackage"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+
+<!--[if lt IE 9]>
+<script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+<script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<script src="/statics/js/jquery-3.3.1.min.js"></script>
+<script src="/statics/js/common/common.js"></script>
+<script src="/statics/vue-2.5.17/vue.min.js"></script>
+<script src="/statics/layui-v2.4.3/layui.all.js"></script>
+<script src="/statics/js/tenancy/index.js"></script>
+<script src="/statics/js/tenancy/carPackage.js"></script>
+</body>
+</html>

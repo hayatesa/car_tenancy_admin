@@ -14,7 +14,7 @@ public class QueryObject extends HashMap<String, Object> {
     private static final String PAGE = "page";
     private static final String LIMIT = "limit";
     private static final String SEARCH = "search";
-    private static final String ORDER_FIELD = "orderFeild";
+    private static final String ORDER_FIELD = "orderField";
     private static final String ORDER_TYPE = "orderType";
 
     public QueryObject() {

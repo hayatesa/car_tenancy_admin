@@ -1,7 +1,7 @@
 var tableId = "carList",tableFilter = "lf_carList";
 layui.use('table', function() {
     var table = layui.table;
-    table.render({
+    var tableIns=table.render({
         elem: '#carList'
         , height: 525
         , url: '/api/car/list'
@@ -14,6 +14,7 @@ layui.use('table', function() {
                 , {field: 'tncBrand', title: '品牌',templet:function (res) {
                     return res.tncBrand.name;
                 }}
+                , {field: 'series', title: '车系'}
                 , {field: 'tncCarType', title: '车型',templet:function (res) {
                     return res.tncCarType.name;
                 }}
@@ -23,8 +24,15 @@ layui.use('table', function() {
                 , {field: 'quantity', title: '数量', sort: true}
                 , {field: 'residual', title: '剩余车辆', sort: true}
                 , {field: 'accessTimes', title: '访问次数', sort: true}
-                , {field: 'status', title: '状态'}
-                , {fixed: 'right', title: '操作', toolbar: '#sideBar', unresize: true, width: 300}]
+                , {field: 'status', title: '状态',templet:function (res) {
+                    if(res.status == 1)
+                        return "上架";
+                    else if (res.status == 2)
+                        return "下架";
+                    else
+                        return "其他";
+                }}
+                , {fixed: 'right', title: '操作', toolbar: '#sideBar', unresize: true, width: 400}]
         ]
         , page: true
     });
@@ -62,6 +70,10 @@ layui.use('table', function() {
             showDetailView();
         }else if(layEvent ==='license'){
             showAddLicense();
+        } else if(layEvent ==='package'){
+            showPackage();
+        } else if(layEvent ==='carPic'){
+            showCarPic();
         } else if (layEvent === 'del') { //删除
             doDeleteByBtn(obj);
         } else if (layEvent === 'edit') { //编辑
@@ -77,24 +89,42 @@ layui.use('table', function() {
     //监听排序事件
     //注：tool是工具条事件名，carList是table原始容器的属性 lay-filter="对应的值"
     table.on('sort(lf_carList)', function (obj) {
-
         //当前排序的字段名
         var orderField = obj.field;
         //当前排序类型：desc（降序）、asc（升序）、null（空对象，默认排序）
         var orderType = obj.type;
-        /*$.ajax({
-                url:"/statics/carListReflush_data.json",
-                success:function (res) {
-                    console.log(res);
-                    if (res.code == 0){
-                        table.reload();
-                        table.render(); //更新全部
-                    }
-                }
 
-            })
-    });*/
+        tableIns.reload({
+            initSort: obj //记录初始排序，如果不设的话，将无法标记表头的排序状态。 layui 2.1.1 新增参数
+            ,where: { //请求参数（注意：这里面的参数可任意定义，并非下面固定的格式）
+                orderField: obj.field //排序字段
+                ,orderType: obj.type //排序方式
+            }
+            ,page: {
+                curr: 1 //重新从第 1 页开始
+            }
+        });
+
     });
+
+    //查询
+    function doSearch() {
+
+        var searchText = $("#searchText").val();
+        if(searchText ===""){
+            layer.msg("请输入数据");
+            $("#searchText").focus();
+            return;
+        }
+        tableIns.reload({
+            where: { //设定异步数据接口的额外参数，任意设
+                search: searchText
+            }
+            ,page: {
+                curr: 1 //重新从第 1 页开始
+            }
+        });
+    }
 });
 /*点击按钮删除*/
 function doDeleteByBtn(tableObj) {
@@ -129,30 +159,7 @@ function doDeleteData(data) {
         });
     }
 }
-//查询
-function doSearch() {
 
-    var searchText = $("#searchText").val();
-    if(searchText ===""){
-        layer.msg("请输入数据");
-        $("#searchText").focus();
-        return;
-    }
-    console.log(searchText);
-    // $.ajax({
-    //     url:"",
-    //     data:'',
-    //     success:function (res) {
-    //         if (res.code == 0){
-    //             table.reload(tableId,{
-    //                 data : res.data
-    //             });
-    //         }
-    //     }
-    //
-    // })
-
-}
 /*显示添加窗口*/
 function showAddWindows() {
 //多窗口模式，层叠置顶
@@ -203,6 +210,42 @@ function showAddLicense() {
         ,maxmin: true
         ,offset: 'auto'
         ,content: './licensePlate.html'
+        ,zIndex: layer.zIndex //重点1
+        ,success: function(layero){
+            layer.setTop(layero); //重点2
+        }
+    });
+}
+
+function showPackage() {
+    layer.open({
+        type: 2 //此处以iframe举例
+        ,title: '车辆套餐'
+        ,area: ['100%', '100%']
+        ,shade: 0
+        ,id:"5"
+        ,anim: 4
+        ,maxmin: true
+        ,offset: 'auto'
+        ,content: './carPackage.html'
+        ,zIndex: layer.zIndex //重点1
+        ,success: function(layero){
+            layer.setTop(layero); //重点2
+        }
+    });
+}
+
+function showCarPic() {
+    layer.open({
+        type: 2 //此处以iframe举例
+        ,title: '车辆套餐'
+        ,area: ['100%', '100%']
+        ,shade: 0
+        ,id:"6"
+        ,anim: 4
+        ,maxmin: true
+        ,offset: 'auto'
+        ,content: './carPic.html'
         ,zIndex: layer.zIndex //重点1
         ,success: function(layero){
             layer.setTop(layero); //重点2

@@ -16,8 +16,8 @@
         <div class="layui-row layui-col-space10">
             <div class="layui-col-md8">
                 <button class="layui-btn layui-btn-sm" lay-event="addCar" ><i class="layui-icon">&#xe608;</i> 添加</button>
-                <button class="layui-btn  layui-btn-danger  layui-btn-sm" lay-event="deleteSelected"><i class="layui-icon"> &#xe640;</i>批量删除</button>
-                <button class="layui-btn layui-btn-sm" lay-event="uploadSelected"><i class="layui-icon"> &#xe67c;</i>批量上传</button>
+                <!--<button class="layui-btn  layui-btn-danger  layui-btn-sm" lay-event="deleteSelected"><i class="layui-icon"> &#xe640;</i>批量删除</button>-->
+                <!--<button class="layui-btn layui-btn-sm" lay-event="uploadSelected"><i class="layui-icon"> &#xe67c;</i>批量上传</button>-->
             </div>
             <div class="layui-col-md4">
                 <input  name="title" id="searchText"  class="layui-text" autocomplete="off" maxlength="25" style="height: 30px;">
@@ -31,7 +31,9 @@
 <script type="text/html" id="sideBar">
     <a class="layui-btn layui-btn-xs" lay-event="detail">详情</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-xs" lay-event="license">录入车辆</a>
+    <a class="layui-btn layui-btn-xs" lay-event="license">车牌</a>
+    <a class="layui-btn layui-btn-xs" lay-event="package">套餐</a>
+    <a class="layui-btn layui-btn-xs" lay-event="carPic">图片</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 

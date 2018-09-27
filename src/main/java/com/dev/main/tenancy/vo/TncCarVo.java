@@ -21,6 +21,9 @@ public class TncCarVo extends BaseDomain {
     // 数量
     private Integer quantity;
 
+    // 系列
+    private String series;
+
     // 剩余
     private Integer residual;
 
@@ -72,6 +75,14 @@ public class TncCarVo extends BaseDomain {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public String getSeries() {
+        return series;
+    }
+
+    public void setSeries(String series) {
+        this.series = series;
     }
 
     public Integer getResidual() {

@@ -399,14 +399,16 @@
   </update>
 
   <sql id="selected_Column_List" >
-    tnc_car.id,quantity, residual, type_id, store_id, brand_id, access_times ,
+    tnc_car.id,quantity,series, residual, type_id, store_id, brand_id, access_times ,tnc_car.status,
     tnc_car_type.name type_name,tnc_store.name store_name, tnc_brand.name brand_name
   </sql>
 <resultMap id="listMap" type="com.dev.main.tenancy.vo.TncCarVo">
   <id column="id" property="id"/>
   <result column="quantity" property="quantity"/>
+  <result column="series" property="series"/>
   <result column="residual" property="residual"/>
   <result column="access_times" property="accessTimes"/>
+  <result column="status" property="status"/>
   <result column="is_deleted" property="isDeleted"/>
   <association  column="type_id" property="tncCarType" javaType="com.dev.main.tenancy.domain.TncCarType">
     <id column="type_id" property="id"/>
@@ -426,7 +428,21 @@
     select
     <include refid="selected_Column_List" />
     from  tnc_car,tnc_car_type,tnc_store,tnc_brand
-    where type_id =tnc_car_type.id and store_id = tnc_store.id and brand_id = tnc_brand.id
+    <where>
+      type_id =tnc_car_type.id and store_id = tnc_store.id and brand_id = tnc_brand.id
+      <if test="search!=null">AND (
+        series LIKE CONCAT('%',#{search},'%')
+        OR quantity LIKE CONCAT('%',#{search},'%')
+        OR tnc_car_type.name LIKE CONCAT('%',#{search},'%')
+        OR tnc_store.name LIKE CONCAT('%',#{search},'%')
+        OR tnc_brand.name LIKE CONCAT('%',#{search},'%')
+        )
+      </if>
+      <if test="orderField!=null">
+        ORDER BY #{orderField} #{orderType}
+      </if>
+    </where>
+
   </select>
 
 </mapper>

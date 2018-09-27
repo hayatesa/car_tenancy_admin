@@ -9,6 +9,7 @@ import com.dev.main.tenancy.service.ICarService;
 import com.dev.main.tenancy.vo.TncCarVo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,16 @@ public class CarServiceImpl implements ICarService {
     public Page getCarList(QueryObject queryObject) {
 
         PageHelper.startPage((int)queryObject.get("page"),(int)queryObject.get("limit"),true);
+
+        System.out.println(queryObject.get("orderField"));
+
+        if(queryObject.get("orderField") ==null ){
+            System.out.println("isnull");
+            queryObject.replace("orderField","tnc_car.gmt_modified");
+            queryObject.replace("orderType","desc");
+//            queryObject.put("orderField","tnc_car.gmt_modified");
+//            queryObject.put("orderType","desc");
+        }
        List<TncCarVo> list =tncCarMapper.getCarList(queryObject);
        PageInfo pageInfo = new PageInfo(list);
         return new Page(pageInfo.getTotal(),pageInfo.getList());
@@ -32,7 +43,7 @@ public class CarServiceImpl implements ICarService {
 
     @Override
     public int addCar(TncCar tncCar) {
-        tncCar.setStatus(new Byte("0"));
+        tncCar.setStatus(new Byte("1"));
         tncCar.setGmtCreate(new Date());
         tncCar.setGmtModified(new Date());
         tncCar.setIsDeleted(new Byte("0"));
