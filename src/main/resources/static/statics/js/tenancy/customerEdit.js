@@ -12,6 +12,7 @@ var customerData = {
         idCard:"",
         email:"",
         tncAddress:{
+            id:"",
             province:{id:"",name:""},
             city:{id:"",name:""},
             area:{id:"",name:""},
@@ -45,6 +46,7 @@ $(document).ready(function () {
         success:function(res) {
             if(res.code == 0) {
                 customerEdit_app.customer = res.data;
+                console.log(res.data);
                 genderId = "gender"+customerEdit_app.customer.gender;
                 if(customerEdit_app.customer.gender==1) {
                     $($("#gender").siblings().eq(0).children("div").children("input")[0]).attr('value', "男");
@@ -108,6 +110,10 @@ var saveCustomer = function () {
         var province = {};
         var city = {};
         var area = {};
+        alert(customerEdit_app.customer.tncAddress.id);
+        if(customerEdit_app.customer.tncAddress.id != null) {
+            var id = customerEdit_app.customer.tncAddress.id;
+    }
         var detail = $("#detail").val();;
         province.id = addressProvinceId.substring(8);
         city.id= addressCityId.substring(4);
@@ -116,11 +122,10 @@ var saveCustomer = function () {
         tncAddress.city=city;
         tncAddress.area=area;
         tncAddress.detail=detail;
+        tncAddress.id = id;
         customerEdit_app.customer.tncAddress = tncAddress;
     }
-    console.log(customerEdit_app.customer);
     var data = JSON.stringify(customerEdit_app.customer);
-    console.log(data);
     password = $("#password").val;
     $.ajax({
         type: "POST",
