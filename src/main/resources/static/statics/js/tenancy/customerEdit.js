@@ -207,7 +207,7 @@ var clickCity = function () {
         /*获取市数据*/
         loadAddress(parent_cityId,1);
     }else {
-        layer.mag("请选择省");
+        layer.msg("请选择省");
     }
 
 }
@@ -247,7 +247,7 @@ var clickArea = function () {
         var parent_AreaId = addressCityId.substring(4);
         loadAddress(parent_AreaId, 2);
     } else {
-        layer.mag("请选择市");
+        layer.msg("请选择市");
     }
 }
 

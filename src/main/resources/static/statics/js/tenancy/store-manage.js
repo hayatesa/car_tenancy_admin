@@ -84,7 +84,7 @@ function addWindow() {
     layer.open({
         type: 2 //此处以iframe举例
         , title: '添加门店'
-        , area: ['600px', '500px']
+        , area: ['800px', '550px']
         , shade: 0
         , id: "2"
         , anim: 4

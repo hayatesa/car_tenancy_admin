@@ -11,7 +11,9 @@ var st = {
         province: {id: "", name: ""},
         city: {id: "", name: ""},
         area: {id: "", name: ""},
-        detail: ""
+        detail: "",
+        longitude: "",
+        latitude: ""
     },
     serviceTel: "",
     gmtCreate: "",
