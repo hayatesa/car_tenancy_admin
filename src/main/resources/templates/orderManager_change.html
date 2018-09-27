@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>订单</title>
+    <link rel="stylesheet" href="/statics/fonts/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="/statics/layui-v2.4.3/css/layui.css">
+    <link rel="stylesheet" href="/statics/css/style.css">
+    <link rel="stylesheet" href="/statics/css/orderManage.css">
+</head>
+<body style="padding: 20px; background-color: #F2F2F2;">
+<div id="orderchange_app">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md6">
+            <div class="layui-card" style="height: 180px" >
+                <div class="layui-card-header">车辆信息
+                    <button id="changecar" class="layui-btn layui-btn-primary layui-btn-sm changebtn" v-if="btn_carchange" style="float: right;margin-top:5px;">修改</button>
+                    <button id="btncarcancel" class="layui-btn layui-btn-danger layui-btn-sm changebtn" style="display:none;float: right;margin-top:5px;">取消</button>
+                    <button id="btncarsubmit" class="layui-btn layui-btn-primary layui-btn-sm changebtn" style="display:none;float: right;margin-top:5px;margin-right:3px;">确认</button>
+                </div>
+                <div class="layui-card-body">
+                    <div class="layui-row" >
+                        <div class="layui-col-md6">
+                            <img  :src="order.car_pic" style="height:120px;width: 212px">
+                        </div>
+                        <div class="layui-col-md6">
+                            <div style="height: 10px"> </div>
+                            <label class="mylabel_car" style="padding-top:60px;">品牌：{{order.car_name}}</label><br>
+                            <label class="mylabel_car">系列：{{order.car_series}}</label><br>
+                            <label class="mylabel_car">车牌号：
+                                <nub>{{order.car_number}}</nub>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-card" style="height: 140px" v-if="reasondiv">
+                <div class="layui-card-header">退款原因</div>
+                <div class="layui-card-body">
+                    <div class="layui-row" style="margin-top: 5px">
+                        <div class="layui-col-md12">
+                            <label class="mylabel_user">个人原因：行程有变。</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-card" style="height: 180px" v-if="userdiv">
+                <div class="layui-card-header">用户信息
+                    <button id="changeuser" class="layui-btn layui-btn-primary layui-btn-sm changebtn" v-if="btn_userchange" style="float: right;margin-top:5px;">修改</button>
+                    <button id="btnusercancel" class="layui-btn layui-btn-danger layui-btn-sm changebtn" style="display:none;float: right;margin-top:5px;">取消</button>
+                    <button id="btnusersubmit" class="layui-btn layui-btn-primary layui-btn-sm changebtn" style="display:none;float: right;margin-top:5px;margin-right:3px;">确认</button>
+                </div>
+                <div class="layui-card-body">
+                    <div class="layui-row" style="margin-top: 5px">
+                        <div class="layui-col-md6">
+                            <label class="mylabel_user">用户姓名：<input class="beforeinput" disabled="true" v-model="order.user_name"/></label>
+                        </div>
+                        <div class="layui-col-md6">
+                            <label class="mylabel_user">性别：<input class="beforeinput" disabled="true" v-model="order.user_sex"/></label>
+                        </div>
+                    </div>
+                    <div class="layui-row" >
+                        <div class="layui-col-md6">
+                            <label class="mylabel_user">联系电话：<input class="phoneinput" disabled="true" v-model="order.user_phone"/></label>
+                        </div>
+                        <div class="layui-col-md6">
+                            <label class="mylabel_user">邮箱：<input style="width:150px" class="beforeinput" disabled="true" v-model="order.user_email"/></label>
+                        </div>
+                    </div>
+                    <div class="layui-row" >
+                        <div class="layui-col-md12">
+                            <label class="mylabel_user">身份证号码：<input style="width:200px" class="beforeinput" disabled="true" v-model="order.user_id_card"/></label>
+                        </div>
+                    </div>
+                    <div class="layui-row" >
+                        <div class="layui-col-md6">
+                            <label class="mylabel_user">紧急人姓名：<input class="beforeinput" disabled="true" style="width: 125px" v-model="order.user_emergency_name"/></label>
+                        </div>
+                        <div class="layui-col-md6">
+                            <label class="mylabel_user">紧急人电话：<input class="beforeinput" disabled="true" v-model="order.user_emergency_phone"/></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><div class="layui-col-md6" v-if="orderbackdiv">
+        <div class="layui-card" style="height: 285px">
+            <div class="layui-card-header">订单信息</div>
+            <div class="layui-card-body">
+                <div class="layui-row" >
+                    <div class="layui-col-md6">
+                        <label class="mylabel">用户姓名：{{order.user_name}}</label><!--最长位数12-->
+                    </div>
+                    <div class="layui-col-md6">
+                        <label class="mylabel">联系电话：{{order.user_phone}}</label>
+                    </div>
+                </div>
+                <div class="layui-row" >
+                    <div class="layui-col-md6">
+                        <label class="mylabel">订单编号：{{order.order_id}}</label><!--最长位数12-->
+                    </div>
+                    <div class="layui-col-md6">
+                        <label class="mylabel">订单状态：{{order.order_status}}</label>
+                    </div>
+                </div>
+                <div class="layui-row" >
+                    <div class="layui-col-md12">
+                        <label class="mylabel">借车门店：{{order.order_get_store_province}}{{order.order_get_store_city}}{{order.order_get_store_area}}{{order.order_get_store_detail}}</label>
+                    </div>
+                </div>
+                <div class="layui-row" >
+                    <div class="layui-col-md12">
+                        <label class="mylabel">还车门店：{{order.order_return_store_province}}{{order.order_return_store_city}}{{order.order_return_store_area}}{{order.order_return_store_detail}}</label>
+                    </div>
+                </div>
+                <div class="layui-row" >
+                    <div class="layui-col-md6">
+                        <label class="mylabel">开始时间：{{order.order_start_date}}</label>
+                    </div>
+                    <div class="layui-col-md6">
+                        <label class="mylabel">应还时间：{{order.order_return_date}}</label>
+                    </div>
+                </div>
+                <div class="layui-row" >
+                    <div class="layui-col-md6">
+                        <label class="mylabel">支付时间：{{order.order_pay_time}}</label>
+                    </div>
+                    <div class="layui-col-md6">
+                        <label class="mylabel">支付金额：{{order.total_amount}}</label>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 45px">
+                <button class="layui-btn layui-btn-sm layui-btn-primary" style="float:right;margin-left: 10px;margin-right: 10px" onclick="parent.layer.closeAll()">关闭</button>
+                <button id="change_money" class="layui-btn layui-btn-sm" style="float:right;" >确认退款</button>
+            </div>
+           </div>
+    </div>
+        <div class="layui-col-md6" v-if="orderdiv">
+            <div class="layui-card" style="height: 230px">
+                <div class="layui-card-header">订单信息</div>
+                <div class="layui-card-body">
+                    <div class="layui-row" >
+                        <div class="layui-col-md6">
+                            <label class="mylabel">订单编号：{{order.order_id}}</label><!--最长位数12-->
+                        </div>
+                        <div class="layui-col-md6">
+                            <label class="mylabel">订单状态：{{order.order_status}}</label>
+                        </div>
+                    </div>
+                    <div class="layui-row" >
+                        <div class="layui-col-md12">
+                            <label class="mylabel">借车门店：{{order.order_get_store_province}}{{order.order_get_store_city}}{{order.order_get_store_area}}{{order.order_get_store_detail}}</label>
+                        </div>
+                    </div>
+                    <div class="layui-row" >
+                        <div class="layui-col-md12">
+                            <label class="mylabel">还车门店：{{order.order_return_store_province}}{{order.order_return_store_city}}{{order.order_return_store_area}}{{order.order_return_store_detail}}</label>
+                        </div>
+                    </div>
+                    <div class="layui-row" >
+                        <div class="layui-col-md6">
+                            <label class="mylabel">开始时间：{{order.order_start_date}}</label>
+                        </div>
+                        <div class="layui-col-md6">
+                            <label class="mylabel">应还时间：{{order.order_return_date}}</label>
+                        </div>
+                    </div>
+                    <div class="layui-row" >
+                        <div class="layui-col-md6">
+                            <label class="mylabel">支付时间：{{order.order_pay_time}}</label>
+                        </div>
+                        <div class="layui-col-md6">
+                            <label class="mylabel">提车时间：2018</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <fieldset class="layui-elem-field" style="background-color: white" v-if="getrant">
+                <legend>收取押金</legend>
+                <div class="layui-field-box">
+                    <form class="layui-form" action="">
+                        <div class="layui-form-item" style="text-align:center;margin-bottom: 10px ">
+                            <label class="layui-form-label">押金金额（元）：</label>
+                            <div class="layui-input-inline">
+                                <input v-model="order.deposit" type="text" style="font-size: large" name="title" lay-verify="title" autocomplete="off"  class="layui-input">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <button class="layui-btn layui-btn-sm layui-btn-primary" style="float:right;margin-left: 10px;margin-right: 10px;" onclick="parent.layer.closeAll()">关闭</button>
+                <button id="change_cancel" class="layui-btn layui-btn-sm layui-btn-danger" style="float:right;" >取消提车</button>
+                <button id="change_get" class="layui-btn layui-btn-sm" style="float:right;margin-bottom: 5px;" >确认提车</button>
+            </fieldset>
+            <fieldset class="layui-elem-field" style="background-color: white" v-if="backrant">
+                <legend>退还押金</legend>
+                <div class="layui-field-box">
+                    <form class="layui-form" action="">
+                        <div class="layui-form-item" style="text-align:center;margin-bottom: 10px ">
+                            <label class="layui-form-label">应退押金（元）：</label>
+                            <div class="layui-input-inline">
+                                <input v-model="order.deposit" type="text" style="border: 0px;font-size: large" name="title" lay-verify="title" autocomplete="off" disabled="true" class="layui-input" >
+                                <input id='beizhu' type="text" value="" style="display: none"/>
+                                <input id='zongshu' type="text" value="" style="display: none"/>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <button class="layui-btn layui-btn-sm layui-btn-primary" style="float:right;margin-left: 10px;margin-right: 10px;" onclick="parent.layer.closeAll()">关闭</button>
+                <button id="change_addmoney" class="layui-btn layui-btn-sm " style="float:right;" >添加费用</button>
+                <button id="change_back" class="layui-btn layui-btn-sm" style="float:right;margin-bottom: 5px;" >确认还车</button>
+            </fieldset>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="/statics/js/jquery-3.3.1.min.js"></script>
+<script src="/statics/layui-v2.4.3/layui.all.js"></script>
+<script src="/statics/vue-2.5.17/vue.min.js"></script>
+<script src="/statics/js/common/common.js"></script>
+<script src="/statics/js/tenancy/index.js"></script>
+<!--<script src="/statics/js/tenancy/orderManage_change.js"></script>-->
+<script src="/statics/js/tenancy/orderManage_change_show.js"></script>
+<script src="/statics/js/tenancy/orderManage_change.js"></script>
+</body>
+<div class="layui-form" lay-filter="test1" id="newdiv" style="display: none">
+    <table id="mytable" class="layui-table" lay-skin="line" style="align-items: center">
+        <colgroup>
+            <col width="160">
+            <col width="100">
+        </colgroup>
+        <thead>
+        <tr>
+            <th>说明</th>
+            <th>金额(元)</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><input lay-verify="required" autocomplete="off" name="state" class="layui-input" type='text' style='height:30px;width: 160px'/></td>
+            <td><input lay-verify="required|number"  autocomplete="off" name="yuan" class="layui-input" type='text' style='height:30px;width: 100px'/></td>
+            <td><a class="layui-icon layui-icon-delete" style="font-size: 25px; color: red;" onclick='del(this)'></a></td>
+        </tr>
+        <!--onblur="checknub(this)"-->
+        </tbody>
+    </table>
+</div>
+
+</html>

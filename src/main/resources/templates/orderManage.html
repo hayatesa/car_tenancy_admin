@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/statics/fonts/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="/statics/layui-v2.4.3/css/layui.css">
+    <link rel="stylesheet" href="/statics/css/style.css">
+    <link rel="stylesheet" href="/statics/css/orderManage.css">
+</head>
+<body>
+
+<table id="orders" lay-filter="orderstool">
+    <fieldset class="layui-elem-field" style="margin-top:20px ">
+        <legend>条件筛选</legend>
+        <div class="layui-form layui-field-box" style="margin-bottom: 5px">
+            <label style="margin-left: 35px">借车门店：</label>
+            <div class="layui-input-inline" style="width: 100px">
+            <select id="selectID" >
+                <option value="">请选择省</option>
+            </select>
+            </div>
+            <div class="layui-input-inline" style="width: 100px">
+            <select id="selectID_1">
+                <option value="">请选择市</option>
+            </select>
+            </div>
+            <div class="layui-input-inline" style="width: 150px">
+            <select id="selectID_2">
+                <option value="">请选择县/区</option>
+            </select>
+            </div>
+            <label style="margin-left: 35px">还车门店：</label>
+            <div class="layui-input-inline" style="width: 100px">
+                <select id="selectID_3">
+                    <option value="">请选择省</option>
+                </select>
+            </div>
+            <div class="layui-input-inline" style="width: 100px">
+                <select id="selectID_4">
+                    <option value="">请选择市</option>
+                </select>
+            </div>
+            <div class="layui-input-inline" style="width: 150px">
+                <select id="selectID_5">
+                    <option value="">请选择县/区</option>
+                </select>
+            </div>
+            <button id="search" class="layui-btn layui-btn-sm" data-type="reload">查询</button>
+            <label style="margin-left: 35px">订单状态：</label>
+            <div class="layui-input-inline" style="width: 100px">
+            <select id="selectID_text">
+                <option value="-1">全部</option>
+                <option value="0">等待付款</option>
+                <option value="1">租赁中</option>
+                <option value="2">预定成功</option>
+                <option value="3">已取消</option>
+                <option value="4">已完成</option>
+                <option value="5">处理中</option>
+            </select>
+            </div>
+        </div> <!--layui-field-box-->
+    </fieldset>
+    <div class="layui-form" style="text-align: right;">
+        <div class="layui-form-item" style="text-align: right;margin-bottom:0px ">
+            <div class="layui-input-inline"  style="float: right">
+                <input style="height: 30px" type="text" id="word" lay-verify="title" autocomplete="off" placeholder="请输入关键字" class="layui-input">
+            </div>
+            <label class="layui-form-label" style="float: right;padding: 5px 15px">搜索:</label>
+
+        </div>
+    </div>
+    <!--<script type="text/html" id="carListToolbar">-->
+        <!--<div class="layui-btn-container">-->
+            <!--<div class="layui-row layui-col-space10">-->
+                <!--<div class="layui-col-md8">-->
+                    <!--<button class="layui-btn layui-btn-sm" lay-event="addCar" ><i class="layui-icon">&#xe608;</i> 添加</button>-->
+                    <!--<button class="layui-btn  layui-btn-danger  layui-btn-sm" lay-event="deleteSelected"><i class="layui-icon"> &#xe640;</i>批量删除</button>-->
+                    <!--<button class="layui-btn layui-btn-sm" lay-event="uploadSelected"><i class="layui-icon"> &#xe67c;</i>批量上传</button>-->
+                <!--</div>-->
+                <!--<div class="layui-col-md4">-->
+                    <!--<input  name="title" id="searchText"  class="layui-text" autocomplete="off" maxlength="25" style="height: 30px;">-->
+                    <!--<button class="layui-btn layui-btn-sm" lay-event="search"><i class="layui-icon"> &#xe615;</i>搜索</button>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <!--</div>-->
+    <!--</script>-->
+    <!--门店筛选：-->
+    <!--<select id="selectID" ><option value="">全部</option><option value="广东">广东</option><option value="广西">广西</option></select>-->
+    <!--<select id="selectID_1" ><option value="">全部</option><option value="深圳">深圳</option><option value="东莞">东莞</option></select>-->
+    <!--<select id="selectID_2" ><option value="">全部</option><option value="广东区">广东区</option><option value="广西区">广西区</option></select>-->
+    <!--<select id="selectID_3" ><option value="">全部</option><option value="广东省_1">广东省_1</option><option value="广西省_1">广西省_1</option></select>-->
+    <!--<select id="selectID_4" ><option value="">全部</option><option value="广东市_1">广东市_1</option><option value="广西市_1">广西市_1</option></select>-->
+    <!--<select id="selectID_5" ><option value="">全部</option><option value="广东区_1">广东区_1</option><option value="广西区_">广西区_1</option></select>-->
+    <!--&lt;!&ndash;<select id="selectID" lay-filter="selectID"><option value="0">全部</option></select>&ndash;&gt;-->
+    <!--&lt;!&ndash;<select id="selectID_1" lay-filter="selectID_1"><option value="0">全部</option></select>&ndash;&gt;-->
+    <!--<button id="search" data-type="reload">查询</button>-->
+    <!--<select id="selectID_text">-->
+        <!--<option value="-1">全部</option>-->
+        <!--<option value="0">等待付款</option>-->
+        <!--<option value="1">租赁中</option>-->
+        <!--<option value="2">预定成功</option>-->
+        <!--<option value="3">已取消</option>-->
+        <!--<option value="4">已完成</option>-->
+        <!--<option value="5">处理中</option>-->
+    <!--</select>-->
+    <!--<input type="text" id="word"/>-->
+</table>
+<div id="mydiv" style="display:none">
+    <div class="layui-row" style="margin-top:20px;"><div class="layui-col-md3">
+        <label class="layui-form-label">用户姓名：</label>
+    </div>
+    <div class="layui-col-md3">
+        <label class="layui-form-label" style="text-align:left" id="name"></label>
+    </div>
+    <div class="layui-col-md3">
+        <label class="layui-form-label">性别：</label>
+    </div>
+    <div class="layui-col-md3">
+        <label class="layui-form-label" style="text-align:left" id="sex"></label>
+        </div></div>
+    <div class="layui-row"><div class="layui-col-md3">
+        <label class="layui-form-label">联系电话：</label>
+    </div>
+        <div class="layui-col-md3">
+            <label class="layui-form-label" style="text-align:left" id="phone"></label>
+        </div>
+        <div class="layui-col-md3">
+            <label class="layui-form-label">邮箱：</label>
+        </div>
+        <div class="layui-col-md3">
+            <label class="layui-form-label" style="text-align:left" id="email"></label>
+        </div></div>
+    <div class="layui-row"><div class="layui-col-md3">
+        <label class="layui-form-label" >紧急联系人姓名：</label>
+    </div>
+        <div class="layui-col-md3">
+            <label class="layui-form-label" style="text-align:left" id="pname"></label>
+        </div>
+        <div class="layui-col-md3">
+            <label class="layui-form-label">紧急联系人电话：</label>
+        </div>
+        <div class="layui-col-md3">
+            <label class="layui-form-label" style="text-align:left" id="pphone"></label>
+        </div></div>
+    <div class="layui-row"><div class="layui-col-md3">
+        <label class="layui-form-label">通信地址：</label>
+    </div>
+        <div class="layui-col-md3">
+            <label class="layui-form-label" style="text-align:left" id="addr"></label>
+        </div>
+        <div class="layui-col-md3">
+            <label class="layui-form-label">上次登录时间：</label>
+        </div>
+        <div class="layui-col-md3">
+            <label class="layui-form-label" style="text-align:left" id="ltime"></label>
+        </div></div>
+    <div style="text-align: right">
+    <button onclick="{layer.closeAll();$('#mydiv').css({'display':'none'})}" class="layui-btn layui-btn-primary layui-btn-sm " style="margin-right: 30px">关闭</button>
+    </div>
+</div>
+<script type="text/html" id="toolbarforword">
+
+</script>
+<script type="text/html" id="statusdetail">
+    {{#  if(d.status == 0){ }}<li class="s-orange">等待付款</li>
+    {{#  } else if(d.status == 1){ }}<li class="s-blue">租赁中</li>
+    {{#  } else if(d.status == 2){ }}<li class="s-green">预定成功</li>
+    {{#  } else if(d.status == 3){ }}<li class="s-gray">已取消</li>
+    {{#  } else if(d.status == 4){ }}<li class="s-green">已完成</li>
+    {{#  } else { }}<li class="s-yellow">处理中</li>
+    {{#  }   }}
+</script>
+<script type="text/html" id="userdetail">
+<a href="javascript:;" onclick="getuserdetail('{{d.phone}}')">{{d.name}}</a>
+</script>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
+    <!-- 这里同样支持 laytpl 语法，如： -->
+    {{#  if(d.status == 2){ }}
+    <a class="layui-btn layui-btn-xs" lay-event="checkget">提车</a>
+    {{#  }else if(d.status == 1){ }}
+    <a class="layui-btn layui-btn-xs" lay-event="checkback">还车</a>
+    {{#  }else if(d.status == 5){ }}
+    <a class="layui-btn layui-btn-xs" lay-event="checkmoney">退款</a>
+    {{#  }else{ }}
+    <a class="layui-btn layui-btn-xs layui-btn-disabled" >审核</a>
+    {{#  } }}
+</script>
+
+
+
+<script src="/statics/js/jquery-3.3.1.min.js"></script>
+<script src="/statics/layui-v2.4.3/layui.all.js"></script>
+<script src="/statics/vue-2.5.17/vue.min.js"></script>
+<script src="/statics/js/common/common.js"></script>
+<script src="/statics/js/tenancy/index.js"></script>
+<script src="/statics/js/tenancy/orderManage.js"></script>
+</body>
+</html>
