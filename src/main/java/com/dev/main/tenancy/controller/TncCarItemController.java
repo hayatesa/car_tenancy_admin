@@ -33,7 +33,7 @@ public class TncCarItemController {
                                @RequestParam(required = false) String orderType){
         QueryObject queryObject = new QueryObject(page, limit, search, orderField, orderType);
         queryObject.put("carId",carId);
-        return carItemService.findCarItemListByCarId(queryObject);
+        return carItemService.getCarItemList(queryObject);
     }
 
     @RequestMapping(value = "/upload",method = RequestMethod.POST)
@@ -70,9 +70,9 @@ public class TncCarItemController {
         return carItemService.findCarItemListBySearch(queryObject);
     }
 
-    @RequestMapping(value = "/batchupload",method = RequestMethod.POST)
-    public ResultMap batchUpload(String dataList){
-        int  n = carItemService.addCarItemList(dataList);
+    @RequestMapping(value = "/batchshelves",method = RequestMethod.GET)
+    public ResultMap batchShelves(String dataList){
+        int  n = carItemService.batchShelves(dataList);
         return ResultMap.success();
     }
     @RequestMapping(value = "/batchrepair",method = RequestMethod.POST)

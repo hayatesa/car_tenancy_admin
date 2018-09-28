@@ -5,7 +5,7 @@ import com.dev.main.common.util.QueryObject;
 import com.dev.main.tenancy.domain.TncCarItem;
 
 public interface ICarItemService {
-    Page findCarItemListByCarId(QueryObject queryObject);
+    Page getCarItemList(QueryObject queryObject);
 
     int addCarItem(TncCarItem tncCarItem);
 
@@ -17,7 +17,7 @@ public interface ICarItemService {
 
     Page findCarItemListBySearch(QueryObject queryObject);
 
-    int addCarItemList(String dataList);
+    int batchShelves(String dataList);
 
     int repairCarItemList(String dataList);
 }

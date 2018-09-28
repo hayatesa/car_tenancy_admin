@@ -24,20 +24,17 @@ public class CarServiceImpl implements ICarService {
 
     @Override
     public Page getCarList(QueryObject queryObject) {
-
-        PageHelper.startPage((int)queryObject.get("page"),(int)queryObject.get("limit"),true);
-
         System.out.println(queryObject.get("orderField"));
 
-        if(queryObject.get("orderField") ==null ){
-            System.out.println("isnull");
-            queryObject.replace("orderField","tnc_car.gmt_modified");
-            queryObject.replace("orderType","desc");
-//            queryObject.put("orderField","tnc_car.gmt_modified");
-//            queryObject.put("orderType","desc");
+        if(queryObject.get("orderField") == null ){
+            queryObject.put("orderField","tnc_car.gmt_modified");
+            queryObject.put("orderType","desc");
         }
-       List<TncCarVo> list =tncCarMapper.getCarList(queryObject);
-       PageInfo pageInfo = new PageInfo(list);
+        String ob = queryObject.get("orderField")+" "+queryObject.get("orderType");
+        PageHelper.startPage((int)queryObject.get("page"),(int)queryObject.get("limit"),ob);
+//        PageHelper.startPage((int)queryObject.get("page"),(int)queryObject.get("limit"),true);
+        List<TncCarVo> list =tncCarMapper.getCarList(queryObject);
+        PageInfo pageInfo = new PageInfo(list);
         return new Page(pageInfo.getTotal(),pageInfo.getList());
     }
 

@@ -28,11 +28,16 @@ public class CarItemServiceImpl implements ICarItemService {
     }
 
     @Override
-    public Page findCarItemListByCarId(QueryObject queryObject) {
-        PageHelper.startPage((int)queryObject.get("page"),(int)queryObject.get("limit"),true);
-        List<TncCarItem> list =tncCarItemMapper.getCarItemListByCarId(queryObject);
-        PageInfo pageInfo = new PageInfo(list);
+    public Page getCarItemList(QueryObject queryObject) {
 
+        if(queryObject.get("orderField") == null ){
+            queryObject.put("orderField","gmt_modified");
+            queryObject.put("orderType","desc");
+        }
+        String ob = queryObject.get("orderField")+" "+queryObject.get("orderType");
+        PageHelper.startPage((int)queryObject.get("page"),(int)queryObject.get("limit"),ob);
+        List<TncCarItem> list =tncCarItemMapper.getCarItemList(queryObject);
+        PageInfo pageInfo = new PageInfo(list);
         return new Page(pageInfo.getTotal(), list);
     }
 
@@ -69,7 +74,7 @@ public class CarItemServiceImpl implements ICarItemService {
     @Override
     public Page findCarItemListBySearch(QueryObject queryObject) {
         PageHelper.startPage((int)queryObject.get("page"),(int)queryObject.get("limit"),true);
-        List<TncCarItem> list =tncCarItemMapper.getCarItemListBySearch(queryObject);
+        List<TncCarItem> list =tncCarItemMapper.getCarItemList(queryObject);
         PageInfo pageInfo = new PageInfo(list);
 
         return new Page(pageInfo.getTotal(), list);
@@ -77,16 +82,16 @@ public class CarItemServiceImpl implements ICarItemService {
 
     @Transactional
     @Override
-    public int addCarItemList(String dataList) {
+    public int batchShelves(String dataList) {
         JSONArray json = JSONArray.parseArray(dataList);
         for(int i=0;i<json.size();i++){
             JSONObject job = json.getJSONObject(i);
             TncCarItem tncCarItem =JSONObject.toJavaObject(job,TncCarItem.class);
+            tncCarItem.setNumber(null);
             tncCarItem.setStatus((byte) 0);
             tncCarItem.setIsDeleted((byte) 0);
-            tncCarItem.setGmtCreate(new Date());
             tncCarItem.setGmtModified(new Date());
-            tncCarItemMapper.insertSelective(tncCarItem);
+            tncCarItemMapper.updateByPrimaryKeySelective(tncCarItem);
         }
         return 0;
     }

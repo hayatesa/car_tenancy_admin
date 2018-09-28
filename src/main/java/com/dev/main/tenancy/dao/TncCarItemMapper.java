@@ -24,5 +24,5 @@ public interface TncCarItemMapper extends BaseMapper<TncCarItem> {
 
     int updateCarItemStatus(Integer id, Byte status);
 
-    List<TncCarItem> getCarItemListBySearch(QueryObject queryObject);
+    List<TncCarItem> getCarItemList(QueryObject queryObject);
 }

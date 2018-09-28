@@ -1,4 +1,4 @@
-var carId = 1;
+var carId= window.location.search.slice(7);
 const vueData={
     brands:[],
     carTypes:[],

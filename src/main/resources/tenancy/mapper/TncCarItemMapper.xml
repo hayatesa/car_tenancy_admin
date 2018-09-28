@@ -125,9 +125,20 @@
     update  tnc_car_item set status = #{arg1} where id=#{arg0}
   </update>
 
-  <select id="getCarItemListBySearch" resultMap="BaseResultMap">
+  <select id="getCarItemList" resultMap="BaseResultMap">
     select id, number, status, car_id
     from tnc_car_item
-      where  number LIKE CONCAT('%',#{search},'%')
+    <where>
+      <if test="carId !=null">
+        car_id=#{carId}
+      </if>
+      <if test="search!=null">AND (
+          id LIKE CONCAT('%',#{search},'%')
+          OR number LIKE CONCAT('%',#{search},'%')
+          )
+        </if>
+    </where>
+    and is_deleted =0
+
   </select>
 </mapper>

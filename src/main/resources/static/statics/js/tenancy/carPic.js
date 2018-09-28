@@ -1,3 +1,5 @@
+var carId = window.location.search.slice(7);
+
 /*上传汽车图片*/
 layui.use('upload', function(){
     var upload = layui.upload;

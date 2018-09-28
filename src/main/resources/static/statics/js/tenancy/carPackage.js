@@ -1,3 +1,6 @@
+var carId = window.location.search.slice(7);
+
+
 /*
 * 套餐表
 * */

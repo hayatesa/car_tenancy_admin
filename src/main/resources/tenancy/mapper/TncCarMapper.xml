@@ -431,18 +431,15 @@
     <where>
       type_id =tnc_car_type.id and store_id = tnc_store.id and brand_id = tnc_brand.id
       <if test="search!=null">AND (
-        series LIKE CONCAT('%',#{search},'%')
+        tnc_car.id LIKE CONCAT('%',#{search},'%')
+        OR series LIKE CONCAT('%',#{search},'%')
         OR quantity LIKE CONCAT('%',#{search},'%')
         OR tnc_car_type.name LIKE CONCAT('%',#{search},'%')
         OR tnc_store.name LIKE CONCAT('%',#{search},'%')
         OR tnc_brand.name LIKE CONCAT('%',#{search},'%')
         )
       </if>
-      <if test="orderField!=null">
-        ORDER BY #{orderField} #{orderType}
-      </if>
     </where>
-
   </select>
 
 </mapper>

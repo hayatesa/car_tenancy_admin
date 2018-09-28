@@ -44,19 +44,11 @@ layui.use('table', function() {
             case 'search':
                 doSearch();
                 break;
-            case 'uploadSelected':
-                var data = checkStatus.data;
-                doUploadData(data);
-                break;
-            case 'addCar':
-                showAddWindows();
-                break;
             case 'deleteSelected':
                 var data = checkStatus.data;
                 doDeleteData(data);
                 break;
         }
-        ;
     });
     //侧边栏事件
     table.on('tool(lf_carList)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
@@ -69,11 +61,11 @@ layui.use('table', function() {
             // console.log("detail");
             showDetailView();
         }else if(layEvent ==='license'){
-            showAddLicense();
+            showAddLicense(data.id);
         } else if(layEvent ==='package'){
-            showPackage();
+            showPackage(data.id);
         } else if(layEvent ==='carPic'){
-            showCarPic();
+            showCarPic(data.id);
         } else if (layEvent === 'del') { //删除
             doDeleteByBtn(obj);
         } else if (layEvent === 'edit') { //编辑
@@ -91,14 +83,17 @@ layui.use('table', function() {
     table.on('sort(lf_carList)', function (obj) {
         //当前排序的字段名
         var orderField = obj.field;
+        if (orderField =="accessTimes"){
+            orderField="access_times"
+        }
         //当前排序类型：desc（降序）、asc（升序）、null（空对象，默认排序）
         var orderType = obj.type;
 
         tableIns.reload({
             initSort: obj //记录初始排序，如果不设的话，将无法标记表头的排序状态。 layui 2.1.1 新增参数
             ,where: { //请求参数（注意：这里面的参数可任意定义，并非下面固定的格式）
-                orderField: obj.field //排序字段
-                ,orderType: obj.type //排序方式
+                orderField: orderField //排序字段
+                ,orderType: orderType//排序方式
             }
             ,page: {
                 curr: 1 //重新从第 1 页开始
@@ -109,7 +104,6 @@ layui.use('table', function() {
 
     //查询
     function doSearch() {
-
         var searchText = $("#searchText").val();
         if(searchText ===""){
             layer.msg("请输入数据");
@@ -181,7 +175,7 @@ function showAddWindows() {
 }
 
 /*显示车辆详情*/
-function showDetailView() {
+function showDetailView(carId) {
     layer.open({
         type: 2 //此处以iframe举例
         , title: '车辆详情'
@@ -191,7 +185,7 @@ function showDetailView() {
         , anim: 3
         , maxmin: true
         , offset: 'auto'
-        , content: './addCar.html'
+        , content: './addCar.html?carId='+carId
         , zIndex: layer.zIndex //重点1
         , success: function (layero) {
             layer.setTop(layero); //重点2
@@ -199,7 +193,7 @@ function showDetailView() {
     });
 }
 
-function showAddLicense() {
+function showAddLicense(carId) {
     layer.open({
         type: 2 //此处以iframe举例
         ,title: '添加车辆'
@@ -209,7 +203,7 @@ function showAddLicense() {
         ,anim: 4
         ,maxmin: true
         ,offset: 'auto'
-        ,content: './licensePlate.html'
+        ,content: './licensePlate.html?carId='+carId
         ,zIndex: layer.zIndex //重点1
         ,success: function(layero){
             layer.setTop(layero); //重点2
@@ -217,7 +211,7 @@ function showAddLicense() {
     });
 }
 
-function showPackage() {
+function showPackage(carId) {
     layer.open({
         type: 2 //此处以iframe举例
         ,title: '车辆套餐'
@@ -227,7 +221,7 @@ function showPackage() {
         ,anim: 4
         ,maxmin: true
         ,offset: 'auto'
-        ,content: './carPackage.html'
+        ,content: './carPackage.html?carId='+carId
         ,zIndex: layer.zIndex //重点1
         ,success: function(layero){
             layer.setTop(layero); //重点2
@@ -235,7 +229,7 @@ function showPackage() {
     });
 }
 
-function showCarPic() {
+function showCarPic(carId) {
     layer.open({
         type: 2 //此处以iframe举例
         ,title: '车辆套餐'
@@ -245,7 +239,7 @@ function showCarPic() {
         ,anim: 4
         ,maxmin: true
         ,offset: 'auto'
-        ,content: './carPic.html'
+        ,content: './carPic.html?carId='+carId
         ,zIndex: layer.zIndex //重点1
         ,success: function(layero){
             layer.setTop(layero); //重点2
