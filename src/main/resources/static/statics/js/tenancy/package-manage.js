@@ -60,7 +60,7 @@ function op(data){
     layer.open({
         type: 2 //此处以iframe举例
         ,title: '套餐'
-        ,area: ['700px', '350px']
+        ,area: ['700px', '225px']
         ,shade: 0
         ,id:"2"
         ,anim: 4

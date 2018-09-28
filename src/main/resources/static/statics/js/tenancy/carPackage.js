@@ -6,15 +6,12 @@ var carId = window.location.search.slice(7);
 * */
 layui.use('table', function(){
     var table = layui.table;
-    var tableData=new Array();
-
     //第一个实例
     table.render({
         elem: '#package'
         ,height: 312
         ,toolbar: '#tnc_package_toolbar'
         ,url: "/api/PackageScheme/list" //数据接口
-        // ,data:tableData.data
         ,parseData: function(res){ //res 即为原始返回的数据
             return {
                 "code": res.code, //解析接口状态

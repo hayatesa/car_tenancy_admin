@@ -1,4 +1,4 @@
-var carId = 16;
+var carId = window.location.search.slice(7);
 
 function addCarItem(){
     var text = $("#carItemInput").val();
