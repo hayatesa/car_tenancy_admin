@@ -54,7 +54,7 @@ public class TncStoreController {
      */
     @PostMapping("/add")
     public ResultMap StoreAdd(@RequestBody TncStore tncStore) {
-        tncStore.setStatus((byte) 1);
+        tncStore.setStatus((byte) 0);
         tncStore.setIsDeleted((byte) 0);
         Date d = new Date();
         tncStore.setGmtCreate(d);

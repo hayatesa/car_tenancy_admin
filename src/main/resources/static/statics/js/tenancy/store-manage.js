@@ -20,7 +20,7 @@ layui.use('table', function () {
                 , {field: 'managerName', title: '门店负责人', width: 100}
                 , {field: 'managerPhone', title: '门店负责人手机', width: 130}
                 , {
-                field: 'tncAddress', title: '门店地址', templet: function (res) {
+                field: 'tncAddress', title: '门店地址', width: 242, templet: function (res) {
                     var province = res.tncAddress == null ? "" : res.tncAddress.province.name;
                     var city = res.tncAddress == null ? "" : res.tncAddress.city.name;
                     var area = res.tncAddress == null ? "" : res.tncAddress.area.name;
@@ -38,7 +38,7 @@ layui.use('table', function () {
                     if (res.status === 1) {
                         a = a + '<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="stop"">歇业</a>'
                     } else {
-                        a = a + '<a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="open"">已歇业</a>'
+                        a = a + '<a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="open"">营业</a>'
                     }
                     return a;
                 }
@@ -104,7 +104,7 @@ function editWindow(id) {
     layer.open({
         type: 2 //此处以iframe举例
         , title: '编辑门店'
-        , area: ['600px', '500px']
+        , area: ['800px', '550px']
         , shade: 0
         , id: "2"
         , anim: 4

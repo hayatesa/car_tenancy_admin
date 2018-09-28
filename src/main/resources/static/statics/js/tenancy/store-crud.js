@@ -258,6 +258,7 @@ var loadAddress = function (aid, level) {
 
 loadAddress(0, 0);
 
+//保存地址信息
 function saveAddress() {
     if (addressProvinceId != null) {
         var tncAddress = {};
@@ -268,10 +269,13 @@ function saveAddress() {
         province.id = addressProvinceId.substring(8);
         city.id = addressCityId.substring(4);
         area.id = addressAreaId.substring(4);
+        area.name = $($("#area").siblings().eq(0).children("div").children("input")[0]).val();
         tncAddress.province = province;
         tncAddress.city = city;
         tncAddress.area = area;
         tncAddress.detail = detail;
+        tncAddress.longitude = storeEdit_app.store.tncAddress.longitude;
+        tncAddress.latitude = storeEdit_app.store.tncAddress.latitude;
         storeAdd_app.store.tncAddress = tncAddress;
     }
 }
@@ -324,6 +328,55 @@ function doEdit() {
             console.log(res)
         }
     })
+}
+
+//隐藏所有div内容，只显示地图
+function openBaiduMap() {
+    //判断是否已选地区
+    if (addressCityId != null) {
+        saveAddress();
+        $("#allmap").removeClass("layui-hide");
+        $("#div1").addClass("layui-hide");
+        var longitude = storeEdit_app.store.tncAddress.longitude;
+        var latitude = storeEdit_app.store.tncAddress.latitude;
+        // 百度地图API功能
+        var map = new BMap.Map("allmap");
+        //判断是否有经纬度
+        if (!("" === longitude)) {
+            var point = new BMap.Point(longitude, latitude);
+            var marker = new BMap.Marker(point);  // 创建标注
+            map.addOverlay(marker);              // 将标注添加到地图中
+            map.centerAndZoom(point, 14);
+        } else {
+            var location = storeEdit_app.store.tncAddress.area.name;
+            map.centerAndZoom(location, 14);
+        }
+        map.enableScrollWheelZoom();   //启用滚轮放大缩小，默认禁用
+        map.enableContinuousZoom();    //启用地图惯性拖拽，默认禁用
+        //单击获取点击的经纬度
+        map.addEventListener("click", function (e) {
+            map.clearOverlays();
+            storeEdit_app.store.tncAddress.longitude = e.point.lng;
+            storeEdit_app.store.tncAddress.latitude = e.point.lat;
+            var point = new BMap.Point(e.point.lng, e.point.lat);
+            var marker = new BMap.Marker(point);  // 创建标注
+            map.addOverlay(marker);              // 将标注添加到地图中
+            layer.msg("经度为:" + e.point.lng + ",纬度为:" + e.point.lat, {
+                    time: 1500
+                },
+                function () {
+                    closeBaiduMap();
+                })
+        });
+    } else {
+        layer.msg("请选择地区");
+    }
+}
+
+//显示所有div内容，不显示地图
+function closeBaiduMap() {
+    $("#div1").removeClass("layui-hide");
+    $("#allmap").addClass("layui-hide");
 }
 
 //取消编辑 执行关闭
