@@ -22,9 +22,6 @@ public class TncCarController {
                         @RequestParam(required = false) String orderType){
 
         QueryObject queryObject = new QueryObject(page, limit, search, orderField, orderType);
-        System.out.println("search--"+search);
-        System.out.println("orderField--++"+orderField);
-        System.out.println("orderType--++"+orderType);
         return carService.getCarList(queryObject);
     }
 
