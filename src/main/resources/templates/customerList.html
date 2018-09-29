@@ -13,11 +13,20 @@
 </fieldset>
 <table class="layui-hide" id="tableDemo" lay-filter="customer"></table>
 
+
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" onclick="userList_add()">
-            <i class="layui-icon">&#xe608;</i> 添加
-        </button>
+        <div class="layui-row layui-col-space10">
+            <div class="layui-col-md8">
+                <button class="layui-btn layui-btn-sm" onclick="userList_add()">
+                    <i class="layui-icon">&#xe608;</i> 添加
+                </button>
+            </div>
+            <div class="layui-col-md4">
+                <input  name="title" id="searchText"  class="layui-text" autocomplete="off" maxlength="25" style="height: 30px;">
+                <button class="layui-btn layui-btn-sm" onclick="doSearch()"><i class="layui-icon"> &#xe615;</i>搜索</button>
+            </div>
+        </div>
     </div>
 </script>
 <script src="/statics/js/jquery-3.3.1.min.js"></script>

@@ -1,6 +1,6 @@
 layui.use('table', function () {
         var table = layui.table;
-        table.render({
+        var tableIns=table.render({
             elem: '#tableDemo'
             , url: '/api/customer/list'
             , height: 537
@@ -51,9 +51,30 @@ layui.use('table', function () {
                     var data = obj.data;
                     editCustomer(data.id);
                     break;
+                case 'search':
+                    doSearch();
+                    break;
             };
         });
+
     });
+    function doSearch() {
+        alert("dddddddddddddddddddd");
+        var searchText = $("#searchText").val();
+        if(searchText ===""){
+            layer.msg("请输入数据");
+            $("#searchText").focus();
+            return;
+        }
+        tableIns.reload({
+            where: { //设定异步数据接口的额外参数，任意设
+                search: searchText
+            }
+            ,page: {
+                curr: 1 //重新从第 1 页开始
+            }
+        });
+    }
     /*禁用客户*/
     var disableCustomer = function(id){
         $.ajax({

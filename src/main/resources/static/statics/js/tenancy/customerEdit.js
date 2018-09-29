@@ -110,7 +110,6 @@ var saveCustomer = function () {
         var province = {};
         var city = {};
         var area = {};
-        alert(customerEdit_app.customer.tncAddress.id);
         if(customerEdit_app.customer.tncAddress.id != null) {
             var id = customerEdit_app.customer.tncAddress.id;
     }
