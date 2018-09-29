@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="/statics/layui-v2.4.3/css/layui.css">
 </head>
 <body>
+
+
+
 <!--套餐-->
 <div class="layui-fluid">
     <div class="layui-row layui-col-space15">
@@ -26,13 +29,14 @@
 
 <script type="text/html" id="tnc_package_toolbar">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
-        <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中项</button>
-        <button class="layui-btn layui-btn-sm" lay-event="isAll">是否全选</button>
+        <button class="layui-btn layui-btn-sm" lay-event="addPackage" ><i class="layui-icon">&#xe608;</i> 添加</button>
+        <button class="layui-btn layui-btn-sm  layui-btn-danger" lay-event="cancelPackage">批量取消套餐</button>
+        <!--<button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中项</button>-->
+        <!--<button class="layui-btn layui-btn-sm" lay-event="isAll">是否全选</button>-->
     </div>
 </script>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="edit"> <i class="layui-icon"> &#xe642;</i>编辑</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit"> <i class="layui-icon"> &#xe642;</i>修改</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"> <i class="layui-icon"> &#xe640;</i>删除</a>
 </script>
 

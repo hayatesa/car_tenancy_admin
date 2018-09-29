@@ -161,4 +161,32 @@
       gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <resultMap id="carPrice" type="com.dev.main.tenancy.vo.TncCarPriceVo">
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="base_price" property="basePrice" jdbcType="DECIMAL" />
+    <result column="base_hour_price" property="baseHourPrice" jdbcType="DECIMAL" />
+    <result column="service_price" property="servicePrice" jdbcType="DECIMAL" />
+    <result column="deposit" property="deposit" jdbcType="DECIMAL" />
+    <result column="discount" property="discount" jdbcType="DECIMAL" />
+    <result column="car_id" property="carId" jdbcType="BIGINT" />
+    <result column="package_id" property="packageId" jdbcType="BIGINT" />
+    <result column="is_deleted" property="isDeleted" jdbcType="TINYINT" />
+    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+    <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+    <association column="package_id" property="tncPackageScheme" javaType="com.dev.main.tenancy.domain.TncPackageScheme">
+      <id column="package_id" property="id" jdbcType="BIGINT" />
+      <result column="name" property="name" jdbcType="VARCHAR" />
+    </association>
+
+  </resultMap>
+  <sql id="Car_Price_Column_List" >
+     tnc_package_scheme.name,tnc_price_scheme.id, base_price,base_hour_price, service_price, deposit, discount, car_id, package_id, tnc_price_scheme.is_deleted,
+    tnc_price_scheme.gmt_create, tnc_price_scheme.gmt_modified
+  </sql>
+  <select id="selectCarPriceList" resultMap="carPrice">
+    select
+    <include refid="Car_Price_Column_List"/>
+    from tnc_price_scheme,tnc_package_scheme
+    where package_id = tnc_package_scheme.id and car_id = #{carId} and tnc_price_scheme.is_deleted = 0
+  </select>
 </mapper>

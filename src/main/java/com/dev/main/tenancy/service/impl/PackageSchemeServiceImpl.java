@@ -94,5 +94,9 @@ public class PackageSchemeServiceImpl implements IPackageSchemeService {
         return resultMap;
     }
 
+    @Override
+    public List<TncPackageScheme> getUnSelectPackage(byte carId) {
 
+        return tncPackageSchemeMapper.getUnSelectPackage(carId);
+    }
 }

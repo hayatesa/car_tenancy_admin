@@ -1,33 +1,5 @@
 var carId = window.location.search.slice(7);
 
-function addCarItem(){
-    var text = $("#carItemInput").val();
-    if( text== ""){
-        layer.msg("车牌号不能为空！");
-        $("#carItemInput").focus();
-        return;
-    }
-    var data = {
-        "number":text,
-        "carId":carId,
-        "status":0
-    }
-    $.ajax({
-        url: "/api/carItem/upload",
-        data:data,
-        method:"POST",
-        success:function (res) {
-            console.log(res);
-            if (res.code ==0){
-                layer.msg("添加成功");
-            }
-        }
-    })
-
-
-}
-
-
 /*车牌*/
 layui.use('table', function(){
     var table = layui.table;
@@ -217,7 +189,7 @@ layui.use('table', function(){
     });
 
     //监听排序事件
-    //注：tool是工具条事件名，carList是table原始容器的属性 lay-filter="对应的值"
+    //注：tool是工具条事件名，fcar_num是table原始容器的属性 lay-filter="对应的值"
     table.on('sort(fcar_num)', function (obj) {
         //当前排序的字段名
         var orderField = obj.field;
@@ -301,5 +273,36 @@ function showOptionsTips(code) {
             break;
 
     }
+}
+
+
+function addCarItem(){
+    var text = $("#carItemInput").val();
+    if( text== ""){
+        layer.msg("车牌号不能为空！");
+        $("#carItemInput").focus();
+        return;
+    }
+    var data = {
+        "number":text,
+        "carId":carId,
+        "status":0
+    }
+    $.ajax({
+        url: "/api/carItem/upload",
+        data:data,
+        method:"POST",
+        success:function (res) {
+            console.log(res);
+            if (res.code ==0){
+                layer.msg("添加成功");
+                layui.table.reload('car_num', {
+                    url: "/api/carItem/"+carId
+                });
+            }
+        }
+    })
+
+
 }
 

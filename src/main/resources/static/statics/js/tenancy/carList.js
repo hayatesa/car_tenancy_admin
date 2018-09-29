@@ -232,7 +232,7 @@ function showPackage(carId) {
 function showCarPic(carId) {
     layer.open({
         type: 2 //此处以iframe举例
-        ,title: '车辆套餐'
+        ,title: '车辆照片'
         ,area: ['100%', '100%']
         ,shade: 0
         ,id:"6"
