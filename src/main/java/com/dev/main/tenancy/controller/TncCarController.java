@@ -36,4 +36,21 @@ public class TncCarController {
             return ResultMap.fail("添加失败");
         }
     }
+
+    @GetMapping("/get")
+    public ResultMap getCarByCarId(Long carId){
+        ResultMap map = new ResultMap();
+        TncCar car = carService.getCarByCarId(carId);
+        map.put("data",car);
+        return map;
+    }
+    @GetMapping("/delete")
+    public ResultMap deleteCarByCarId(Long carId){
+        int n = carService.deleteCarByCarId(carId);
+        if (n>0){
+            return ResultMap.success();
+        }else {
+            return ResultMap.fail("添加失败");
+        }
+    }
 }

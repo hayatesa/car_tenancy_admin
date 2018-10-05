@@ -8,4 +8,8 @@ public interface ICarService {
     Page getCarList(QueryObject queryObject);
 
     int addCar(TncCar tncCar);
+
+    TncCar getCarByCarId(Long carId);
+
+    int deleteCarByCarId(Long carId);
 }

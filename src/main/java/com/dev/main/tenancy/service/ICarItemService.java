@@ -20,4 +20,6 @@ public interface ICarItemService {
     int batchShelves(String dataList);
 
     int repairCarItemList(String dataList);
+
+    int quantityPlusOne(Long carId);
 }

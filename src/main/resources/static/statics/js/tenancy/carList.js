@@ -1,4 +1,3 @@
-var tableId = "carList",tableFilter = "lf_carList";
 layui.use('table', function() {
     var table = layui.table;
     var tableIns=table.render({
@@ -6,7 +5,6 @@ layui.use('table', function() {
         , height: 525
         , url: '/api/car/list'
         , toolbar: '#carListToolbar'
-        , limit: 10
         , title: '车辆数据表'
         , cols: [
             [{type: 'checkbox', fixed: 'left'}
@@ -32,7 +30,7 @@ layui.use('table', function() {
                     else
                         return "其他";
                 }}
-                , {fixed: 'right', title: '操作', toolbar: '#sideBar', unresize: true, width: 400}]
+                , {fixed: 'right', title: '操作', toolbar: '#sideBar', unresize: true, width: 320}]
         ]
         , page: true
     });
@@ -40,7 +38,12 @@ layui.use('table', function() {
     //工具栏事件
     table.on('toolbar(lf_carList)', function (obj) {
         var checkStatus = table.checkStatus(obj.config.id);
+        console.log(obj);
         switch (obj.event) {
+
+            case "addCar":
+                showAddWindows();
+                break;
             case 'search':
                 doSearch();
                 break;
@@ -57,8 +60,6 @@ layui.use('table', function() {
         var tr = obj.tr; //获得当前行 tr 的DOM对象
 
         if (layEvent === 'detail') { //查看
-            //do somehing
-            // console.log("detail");
             showDetailView();
         }else if(layEvent ==='license'){
             showAddLicense(data.id);
@@ -119,6 +120,89 @@ layui.use('table', function() {
             }
         });
     }
+
+    /*显示车辆详情*/
+    function showDetailView(carId) {
+        layer.open({
+            type: 2 //此处以iframe举例
+            , title: '详情'
+            , area: ['100%', '100%']
+            , shade: 0
+            , id: "3"
+            , anim: 3
+            , maxmin: true
+            , offset: 'auto'
+            , content: './updateCar.html?carId='+carId
+            , zIndex: layer.zIndex //重点1
+            , success: function (layero) {
+                layer.setTop(layero); //重点2
+            }
+            ,cancel: function(index, layero){
+                tableIns.reload({
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                });
+                return true;
+            }
+        });
+    }
+
+    /*显示添加窗口*/
+    function showAddWindows() {
+//多窗口模式，层叠置顶
+        layer.open({
+            type: 2 //此处以iframe举例
+            ,title: '添加车辆'
+            ,area: ['100%', '100%']
+            ,shade: 0
+            ,id:"2"
+            ,anim: 4
+            ,maxmin: true
+            ,offset: 'auto'
+            ,content: './addCar.html'
+            ,zIndex: layer.zIndex //重点1
+            ,success: function(layero){
+                layer.setTop(layero); //重点2
+            }
+            ,cancel: function(index, layero){
+                tableIns.reload({
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                });
+                return true;
+            }
+        });
+    }
+
+
+    function showAddLicense(carId) {
+        layer.open({
+            type: 2 //此处以iframe举例
+            ,title: '添加车辆'
+            ,area: ['100%', '100%']
+            ,shade: 0
+            ,id:"4"
+            ,anim: 4
+            ,maxmin: true
+            ,offset: 'auto'
+            ,content: './licensePlate.html?carId='+carId
+            ,zIndex: layer.zIndex //重点1
+            ,success: function(layero){
+                layer.setTop(layero); //重点2
+            }
+            ,cancel: function(index, layero){
+                tableIns.reload({
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                });
+                return true;
+            }
+        });
+    }
+
 });
 /*点击按钮删除*/
 function doDeleteByBtn(tableObj) {
@@ -126,8 +210,25 @@ function doDeleteByBtn(tableObj) {
             tableObj.del(); //删除对应行（tr）的DOM结构，并更新缓存
             layer.close(index);
             //向服务端发送删除指令
+            var data = tableObj.data;
+            doDelete(data);
         });
     }
+/*删除*/
+function doDelete(data) {
+    console.log(data);
+    $.ajax({
+        url:'/api/car/delete',
+        data:{carId:data.id},
+        success:function (res) {
+            if (res.code == 0){
+                layer.msg("删除成功");
+            }else{
+                layer.msg("删除失败");
+            }
+        }
+    })
+}
 
 //上传选中项
 function doUploadData(data) {
@@ -154,62 +255,6 @@ function doDeleteData(data) {
     }
 }
 
-/*显示添加窗口*/
-function showAddWindows() {
-//多窗口模式，层叠置顶
-    layer.open({
-        type: 2 //此处以iframe举例
-        ,title: '添加车辆'
-        ,area: ['100%', '100%']
-        ,shade: 0
-        ,id:"2"
-        ,anim: 4
-        ,maxmin: true
-        ,offset: 'auto'
-        ,content: './addCar.html'
-        ,zIndex: layer.zIndex //重点1
-        ,success: function(layero){
-            layer.setTop(layero); //重点2
-        }
-    });
-}
-
-/*显示车辆详情*/
-function showDetailView(carId) {
-    layer.open({
-        type: 2 //此处以iframe举例
-        , title: '车辆详情'
-        , area: ['100%', '100%']
-        , shade: 0
-        , id: "3"
-        , anim: 3
-        , maxmin: true
-        , offset: 'auto'
-        , content: './addCar.html?carId='+carId
-        , zIndex: layer.zIndex //重点1
-        , success: function (layero) {
-            layer.setTop(layero); //重点2
-        }
-    });
-}
-
-function showAddLicense(carId) {
-    layer.open({
-        type: 2 //此处以iframe举例
-        ,title: '添加车辆'
-        ,area: ['100%', '100%']
-        ,shade: 0
-        ,id:"4"
-        ,anim: 4
-        ,maxmin: true
-        ,offset: 'auto'
-        ,content: './licensePlate.html?carId='+carId
-        ,zIndex: layer.zIndex //重点1
-        ,success: function(layero){
-            layer.setTop(layero); //重点2
-        }
-    });
-}
 
 function showPackage(carId) {
     layer.open({

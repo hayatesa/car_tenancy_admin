@@ -24,8 +24,6 @@ public class CarServiceImpl implements ICarService {
 
     @Override
     public Page getCarList(QueryObject queryObject) {
-        System.out.println(queryObject.get("orderField"));
-
         if(queryObject.get("orderField") == null ){
             queryObject.put("orderField","tnc_car.gmt_modified");
             queryObject.put("orderType","desc");
@@ -44,6 +42,25 @@ public class CarServiceImpl implements ICarService {
         tncCar.setGmtCreate(new Date());
         tncCar.setGmtModified(new Date());
         tncCar.setIsDeleted(new Byte("0"));
+        tncCar.setQuantity(0);
+        tncCar.setResidual(0);
+        tncCar.setAccessTimes(new Long(0));
         return tncCarMapper.insert(tncCar);
+    }
+
+    @Override
+    public TncCar getCarByCarId(Long carId) {
+        return tncCarMapper.selectByPrimaryKey(carId);
+    }
+
+    @Override
+    public int deleteCarByCarId(Long carId) {
+        TncCar car = new TncCar();
+        car.setGmtModified(new Date());
+        car.setGmtCreate(null);
+        car.setId(carId);
+        car.setIsDeleted(new Byte("1"));
+
+        return tncCarMapper.updateByPrimaryKeySelective(car);
     }
 }

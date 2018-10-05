@@ -44,7 +44,7 @@
     select 
     <include refid="Base_Column_List" />
     from tnc_car
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT} AND tnc_car.is_deleted = 0
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from tnc_car
@@ -440,6 +440,7 @@
         )
       </if>
     </where>
+    AND tnc_car.is_deleted = 0
   </select>
 
 </mapper>
