@@ -20,4 +20,6 @@ public interface AddressRegionMapper extends BaseMapper<AddressRegion> {
     int updateByPrimaryKey(AddressRegion record);
 
     List<AddressRegion> searchAddress(@Param("id") Long id, @Param("level") byte level);
+
+    List<AddressRegion> selectAddressByLevel(@Param("id")Long id, @Param("level") byte level);
 }

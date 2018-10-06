@@ -142,4 +142,11 @@
     </if>
     </where>
   </select>
+  
+  <select id="getUnSelectPackage" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tnc_package_scheme
+    where id NOT IN (SELECT package_id FROM tnc_price_scheme where car_id=#{carId})
+  </select>
 </mapper>

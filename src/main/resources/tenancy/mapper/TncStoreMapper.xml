@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.dev.main.tenancy.domain.TncStore" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="name" property="name" jdbcType="VARCHAR" />
-    <!--<result column="addr_id" property="addrId" jdbcType="BIGINT" />-->
+    <result column="addr_id" property="addrId" jdbcType="BIGINT" />
     <result column="service_tel" property="serviceTel" jdbcType="VARCHAR" />
     <result column="manager_phone" property="managerPhone" jdbcType="VARCHAR" />
     <result column="manager_name" property="managerName" jdbcType="VARCHAR" />
@@ -157,6 +157,7 @@
     <include refid="Base_Column_List" />
     from tnc_store
     <where>
+      AND ( is_deleted = 0 )
     <if test="search!=null">AND (
       name LIKE CONCAT('%',#{search},'%')
       OR manager_name LIKE CONCAT('%',#{search},'%')
@@ -167,4 +168,9 @@
     </where>
   </select>
 
+    <select id="selectStoreByAreaId" resultType="com.dev.main.tenancy.domain.TncStore">
+     SELECT tnc_store.id, name
+     FROM tnc_address,tnc_store
+     where tnc_address.id = tnc_store.addr_id and area_id =#{areaId} and store_or_user =0
+    </select>
 </mapper>

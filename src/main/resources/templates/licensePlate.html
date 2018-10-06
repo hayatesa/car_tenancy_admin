@@ -7,13 +7,38 @@
     <link rel="stylesheet" href="/statics/layui-v2.4.3/css/layui.css">
 </head>
 <body layadmin-themealias="default" style="padding: 10px;">
+
+
     <!--车牌-->
     <div class="layui-fluid">
         <div class="layui-row layui-col-space15">
             <div class="layui-col-md12">
-                <!--车牌选择-->
                 <div class="layui-card layui-form">
                     <div class="layui-card-header">车牌录入</div>
+                    <div class="layui-card-body layui-row layui-col-space10">
+                        <div class="layui-col-md6">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">车牌号</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="title" id="carItemInput" placeholder="请输入车牌号" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-col-md6">
+                            <button class="layui-btn" onclick="addCarItem()"><i class="layui-icon">&#xe608;</i> 添加</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+                <div class="layui-col-md12">
+                <!--车牌选择-->
+                <div class="layui-card layui-form">
                     <div class="layui-card-body layui-row layui-col-space10">
                         <div class="layui-col-md12">
                             <table id="car_num" lay-filter="fcar_num"></table>
@@ -51,12 +76,13 @@
 
         {{# } }}
     </script>
+
     <script type="text/html" id="tnc_toolbar">
         <div class="layui-btn-container">
             <div class="layui-row layui-col-space10">
                 <div class="layui-col-md8">
-                    <button class="layui-btn layui-btn-sm" lay-event="addCarNum" ><i class="layui-icon">&#xe608;</i> 添加</button>
-                    <button class="layui-btn layui-btn-sm" lay-event="uploadSelected"><i class="layui-icon">  &#xe67c;</i>批量上传</button>
+                    <!--<button class="layui-btn layui-btn-sm" lay-event="addCarNum" ><i class="layui-icon">&#xe608;</i> 添加</button>-->
+                    <button class="layui-btn layui-btn-sm" lay-event="uploadSelected"><i class="layui-icon">  &#xe67c;</i>批量上架</button>
                     <button class="layui-btn  layui-btn-danger  layui-btn-sm" lay-event="repairSelected"><i class="layui-icon"> &#xe631;</i>批量维修</button>
 
                 </div>

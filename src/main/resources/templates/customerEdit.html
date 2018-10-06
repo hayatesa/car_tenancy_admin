@@ -22,26 +22,15 @@
     <div class="layui-form-item div_margin">
         <label class="layui-form-label">姓名</label>
         <div class="layui-input-block">
-            <input type="hidden" name="uid" v-model="customer.id">
             <input type="text" name="title" v-model="customer.name" lay-verify="required" placeholder="请输入真实姓名" class="layui-input input_width">
         </div>
     </div>
-    <div class="layui-form-item div_margin" >
+    <div class="layui-form-item div_margin">
         <label class="layui-form-label">性别</label>
-        <div>
-            <input type="radio" name="gender" title="男" :checked="customer.gender==1 ? true : false ">
-            <input type="radio" name="gender" title="女" :checked="customer.gender==0 ? true : false ">
+        <div class="layui-input-block" style="width:44.9%" onclick="clickGender()">
+            <select id="gender" name="gender"></select>
         </div>
     </div>
-    <!--<div class="layui-form-item div_margin">
-        <label class="layui-form-label">性别</label>
-        <div class="layui-input-block" style="width:44.9%">
-            <select>
-                <option value="1">男</option>
-                <option value="0">女</option>
-            </select>
-        </div>
-    </div>-->
     <div class="layui-form-item div_margin">
         <label class="layui-form-label">证件</label>
         <div class="layui-input-block">
@@ -62,29 +51,23 @@
     </div>
     <div class="layui-form-item div_margin">
         <label class="layui-form-label" style="display:block; height: 152px; line-height: 135px">通信地址</label>
-        <div class="layui-input-block" style="width:44.9%">
-            <select id="province" name="province">
-
-            </select>
+        <div class="layui-input-block" style="width:44.9%" lay-verify="allAddress">
+            <select id="province" name="province"></select>
         </div>
         <div class="layui-input-block" style="width:44.9%" onclick="clickCity()">
-            <select id="city" name="city">
-
-            </select>
+            <select id="city" name="city"></select>
         </div>
         <div class="layui-input-block" style="width:44.9%" onclick="clickArea()">
-            <select id="area" name="area">
-
-            </select>
+            <select id="area" name="area"></select>
         </div>
         <div class="layui-input-block">
-            <input type="text" name="username" v-model="customer.tncAddress.detail"  placeholder="请输入详细地址" class="layui-input input_width">
+            <input type="text" name="detail" id="detail" placeholder="请输入详细地址" class="layui-input input_width">
         </div>
     </div>
     <div class="layui-form-item div_margin">
         <label class="layui-form-label">新密码</label>
         <div class="layui-input-block">
-            <input type="text" name="password" id="password" v-model="customer.password" placeholder="更改客户密码" class="layui-input input_width">
+            <input type="password" name="password" id="password" v-model="customer.password" placeholder="更改客户密码" class="layui-input input_width">
         </div>
     </div>
     <div class="layui-form-item div_margin">
@@ -119,205 +102,9 @@
 <script src="/statics/vue-2.5.17/vue.min.js"></script>
 <script src="/statics/layui-v2.4.3/layui.all.js"></script>
 <script src="/statics/js/common/common.js"></script>
+<script src="/statics/js/tenancy/customerEdit.js"></script>
 </body>
 <script>
-    var addressProvinceId;
-    var addressCityId;
-    var addressAreaId;
-    $(document).ready(function () {
-        var uid = T.p('id');
-        $.ajax({
-            type: "get",
-            url: "/api/customer/edit",
-            data:{
-                uid: uid
-            },
-            success:function(res) {
-                customerEdit_app.customer = res.data;
-                loadAddress(0, 0);
-                var provinceName = res.data.tncAddress.province.name;
-                var cityName = res.data.tncAddress.city.name;
-                var areaName = res.data.tncAddress.area.name;
-                $($("#province").siblings().eq(0).children("div").children("input")[0]).attr('value',provinceName);
-                $($("#city").siblings().eq(0).children("div").children("input")[0]).attr('value',cityName);
-                $($("#area").siblings().eq(0).children("div").children("input")[0]).attr('value',areaName);
-                //console.log(provinceName);
-                addressProvinceId = "province"+res.data.tncAddress.province.id;
-                addressCityId = "city"+res.data.tncAddress.city.id;
-                addressAreaId = "area"+res.data.tncAddress.area.id;
-            },
-            fail: function (res) {
-                console.log(res)
-            }
-        })
-    });
-
-    //data
-    var customerData = {
-        customer:{
-            id:"",
-            name:"",
-            phone:"",
-            gender:"",
-            idCard:"",
-            email:"",
-            tncAddress:"",
-            emergencyName:"",
-            emergencyPhone:"",
-            password:"",
-        }
-    };
-    //Vue app，编辑页
-    var customerEdit_app = new Vue({
-        el: "#customerEdit",
-        data: customerData,
-        mounted: function () {
-            layui.use('form', function () {
-                var form = layui.form;
-                form.render();
-            });
-        }
-    });
-
-    /*省市区已选项样式加载*/
-    var loadStyle = function () {
-        $("#"+ addressProvinceId).addClass('layui-this');
-        $("#"+ addressCityId).addClass('layui-this');
-        $("#"+ addressAreaId).addClass('layui-this');
-    }
-
-    /*加载省内容及其点击事件，其他的就不多说了*/
-    var loadProvince = function (res) {
-        /*因vue与lay冲突缘故，只能手动渲染*/
-        var optionProvince = "<option value='0'>请选择省</option>"
-        var ddProvince = "<dd id='province0' class='layui-select-tips'>请选择省</dd>"
-        for(var i=0; i<res.data.length; i++) {
-            optionProvince += "<option value='"+res.data[i].id+"'>"+res.data[i].name+"</option>";
-            ddProvince += "<dd id=province"+res.data[i].id+" value='"+res.data[i].name+"'>"+res.data[i].name+"</dd>";
-        }
-        $("#province").html(optionProvince);
-        /*怎么说呢？无法用言语来表达，结合layui的代码来写的*/
-        /*提示框内容*/
-        $($("#province").siblings().eq(0).children("div").children("input")[0]).attr('placeholder','请输入省');
-        /*添加省项*/
-        $($("#province").siblings().eq(0).children("dl")[0]).html(ddProvince);
-        loadStyle();
-        /*点击事件*/
-        $($("#province").siblings().eq(0).children("dl").children("dd")).click(function () {
-            /*使市、区下拉框回复为默认状态*/
-            $($("#city").siblings().eq(0).children("div").children("input")[0]).attr('placeholder','请输入市');
-            $($("#city").siblings().eq(0).children("div").children("input")[0]).attr('value','');
-            $($("#area").siblings().eq(0).children("div").children("input")[0]).attr('placeholder','请输入区（县）');
-            $($("#area").siblings().eq(0).children("div").children("input")[0]).attr('value','');
-            /*添加选中样式*/
-            $(this).siblings('dd').removeClass('layui-this');
-            $(this).addClass('layui-this');
-            /*获取选中的值将其显示在输入框里*/
-            var provinceName = $(this)[0].getAttribute('value');
-            addressProvinceId = $(this)[0].getAttribute('id');
-            $($("#province").siblings().eq(0).children("div").children("input")[0]).attr('value',provinceName);
-            //console.log(this);
-        });
-    }
-
-    /*字面意思，自己体会*/
-    var clickCity = function () {
-        /*获取省id*/
-        var parent_cityId = addressProvinceId.substring(8);
-        /*获取市数据*/
-        loadAddress(parent_cityId,1);
-    }
-
-    var loadCity = function (res) {
-        var optionCity = "<option value='0'>请选择市</option>"
-        var ddCity = "<dd id='city0' class='layui-select-tips'>请选择市</dd>"
-        for(var i=0; i<res.data.length; i++) {
-            optionCity += "<option value='"+res.data[i].id+"'>"+res.data[i].name+"</option>";
-            ddCity += "<dd id=city"+res.data[i].id+" value='"+res.data[i].name+"'>"+res.data[i].name+"</dd>";
-        }
-        $("#city").html(optionCity);
-        /*怎么说呢？无法用言语来表达，结合layui的代码来写的*/
-        /*提示框内容*/
-        $($("#city").siblings().eq(0).children("div").children("input")[0]).attr('placeholder','请输入市');
-        /*添加省项*/
-        $($("#city").siblings().eq(0).children("dl")[0]).html(ddCity);
-        loadStyle();
-        /*点击事件*/
-        $($("#city").siblings().eq(0).children("dl").children("dd")).click(function () {
-            /*使市、区下拉框回复为默认状态*/
-            $($("#area").siblings().eq(0).children("div").children("input")[0]).attr('placeholder','请输入区（县）');
-            $($("#area").siblings().eq(0).children("div").children("input")[0]).attr('value','');
-            /*添加选中样式*/
-            $(this).siblings('dd').removeClass('layui-this');
-            $(this).addClass('layui-this');
-            /*获取选中的值将其显示在输入框里*/
-            var cityName = $(this)[0].getAttribute('value');
-            addressCityId = $(this)[0].getAttribute('id');
-            $($("#city").siblings().eq(0).children("div").children("input")[0]).attr('value',cityName);
-            //console.log(this);
-        });
-    }
-
-    var clickArea = function () {
-        var parent_AreaId = addressCityId.substring(4);
-        loadAddress(parent_AreaId,2);
-    }
-
-    var loadArea = function (res) {
-        var optionArea = "<option value='0'>请选择区（县）</option>"
-        var ddArea = "<dd id='area0' class='layui-select-tips'>请选择区（县）</dd>"
-        for(var i=0; i<res.data.length; i++) {
-            optionArea += "<option value='"+res.data[i].id+"'>"+res.data[i].name+"</option>";
-            ddArea += "<dd id=area"+res.data[i].id+" value='"+res.data[i].name+"'>"+res.data[i].name+"</dd>";
-        }
-        $("#area").html(optionArea);
-        /*怎么说呢？无法用言语来表达，结合layui的代码来写的*/
-        /*提示框内容*/
-        $($("#area").siblings().eq(0).children("div").children("input")[0]).attr('placeholder','请输入区（县）');
-        /*添加省项*/
-        $($("#area").siblings().eq(0).children("dl")[0]).html(ddArea);
-        loadStyle();
-        /*点击事件*/
-        $($("#area").siblings().eq(0).children("dl").children("dd")).click(function () {
-            /*使市、区下拉框回复为默认状态*/
-            $($("#area").siblings().eq(0).children("div").children("input")[0]).attr('placeholder','请输入区（县）');
-            $($("#area").siblings().eq(0).children("div").children("input")[0]).attr('value','');
-            /*添加选中样式*/
-            $(this).siblings('dd').removeClass('layui-this');
-            $(this).addClass('layui-this');
-            /*获取选中的值将其显示在输入框里*/
-            var areaName = $(this)[0].getAttribute('value');
-            addressAreaId = $(this)[0].getAttribute('id');
-            $($("#area").siblings().eq(0).children("div").children("input")[0]).attr('value',areaName);
-            //console.log(this);
-        });
-    }
-
-    var loadAddress = function (aid, level) {
-        $.ajax({
-            type: "get",
-            url: "/api/customer/address",
-            data: {
-                aid : aid,
-                level : level
-            },
-            success:function (res) {
-                if(level===0) {
-                    loadProvince(res);
-                }else if(level===1) {
-                    loadCity(res);
-                }else {
-                    console.log(res);
-                    loadArea(res);
-                }
-            }
-        })
-    }
-
-    var back = function() {
-        window.history.back();
-    }
-
     window.onkeydown = function(){
         if (event.keyCode===13){  //回车键的键值为13
             $("#saveBtn").click();//模拟按下submit确认按钮

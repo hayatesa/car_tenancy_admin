@@ -1,0 +1,18 @@
+{
+  "code": 0,
+  "msg": "",
+  "count": 3000000,
+  "data": [
+    {
+      "province":"广东"
+    }, {
+      "province":"广西"
+    },{
+      "province":"云南"
+    },{
+      "province":"山东"
+    },{
+      "province":"北京"
+    }
+  ]
+}

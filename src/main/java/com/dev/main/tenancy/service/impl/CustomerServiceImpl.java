@@ -1,13 +1,18 @@
 package com.dev.main.tenancy.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
+import com.dev.main.common.exception.CommonException;
 import com.dev.main.common.util.*;
+import com.dev.main.tenancy.dao.TncAddressMapper;
 import com.dev.main.tenancy.dao.TncCustomerMapper;
 import com.dev.main.tenancy.domain.AddressRegion;
+import com.dev.main.tenancy.domain.TncAddress;
 import com.dev.main.tenancy.domain.TncCustomer;
 import com.dev.main.tenancy.service.ICustomerService;
 import com.dev.main.tenancy.vo.TncCustomerVo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +24,8 @@ public class CustomerServiceImpl implements ICustomerService {
 
     @Autowired
     private TncCustomerMapper tncCustomerMapper;
+    @Autowired
+    private TncAddressMapper tncAddressMapper;
 
     @Override
     public Page queryByPage(QueryObject queryObject) {
@@ -30,7 +37,7 @@ public class CustomerServiceImpl implements ICustomerService {
     }
 
     @Override
-    public ResultMap disable_delete(Long uid, int select) {
+    public void disable_delete(Long uid, int select) {
         /**0、禁用 1、解禁  3、删除*/
         TncCustomer tncCustomer = new TncCustomer();
         tncCustomer.setId(uid);
@@ -39,68 +46,74 @@ public class CustomerServiceImpl implements ICustomerService {
 
         if(select==1) {
             tncCustomer.setStatus((byte)1);
-            int res = tncCustomerMapper.updateByPrimaryKeySelective(tncCustomer);
-            if(res > 0){
-                resultMap.put("msg","操作成功");
-            }else{
-                resultMap.put("msg","操作失败");
-            }
+            tncCustomerMapper.updateByPrimaryKeySelective(tncCustomer);
         }else if(select==0) {
             tncCustomer.setStatus((byte)0);
-            int res = tncCustomerMapper.updateByPrimaryKeySelective(tncCustomer);
-            if(res > 0){
-                resultMap.put("msg","操作成功");
-            }else{
-                resultMap.put("msg","操作失败");
-            }
+            tncCustomerMapper.updateByPrimaryKeySelective(tncCustomer);
         }else if(select==3) {
             tncCustomer.setIsDeleted((byte)1);
-            int res = tncCustomerMapper.updateByPrimaryKeySelective(tncCustomer);
-            if(res > 0){
-                resultMap.put("msg","删除成功");
-            }else{
-                resultMap.put("msg","删除失败");
-            }
+            tncCustomerMapper.updateByPrimaryKeySelective(tncCustomer);
         }
-        return resultMap;
     }
 
     @Override
-    public ResultMap save(TncCustomer tncCustomer) {
+    public void save(TncCustomer tncCustomer) {
         ResultMap resultMap = new ResultMap();
 
-        if(tncCustomer.getId()==null||tncCustomer.getId()==0) {
-            if(tncCustomerMapper.selectByPhone(tncCustomer.getPhone())==null) {
-                // 产随机产生6位数作为盐值
-                String salt = RandomUtil.getRandomNumString(6);
-                // 盐值加密
-                String password = CryptographyUtil.MD5Hash(tncCustomer.getPassword(), salt);
-                tncCustomer.setSalt(salt);
-                tncCustomer.setPassword(password);
-                int res = tncCustomerMapper.insertSelective(tncCustomer);
-                if (res > 0) {
-                    resultMap.put("msg", "添加成功");
-                } else {
-                    resultMap.put("msg", "添加失败");
-                }
-            } else {
-                resultMap.put("repeat","用户已存在");
-            }
-        }else {
-            int res = tncCustomerMapper.updateByPrimaryKeySelective(tncCustomer);
-            if(res > 0){
-                resultMap.put("msg","编辑成功");
-            }else{
-                resultMap.put("msg","编辑失败");
-            }
+        if(tncCustomerMapper.selectByPhone(tncCustomer.getPhone())==null) {
+            // 产随机产生6位数作为盐值
+            String salt = RandomUtil.getRandomNumString(6);
+            // 盐值加密
+            String password = CryptographyUtil.MD5Hash(tncCustomer.getPassword(), salt);
+            tncCustomer.setSalt(salt);
+            tncCustomer.setPassword(password);
+            tncCustomerMapper.insertSelective(tncCustomer);
+        } else {
+            throw new CommonException("用户已存在");
         }
-        return resultMap;
     }
 
     @Override
     public TncCustomerVo findCustomerVo(Long uid) {
         TncCustomerVo tncCustomerVo = tncCustomerMapper.findVo(uid);
         return tncCustomerVo;
+    }
+
+    @Override
+    public void changeInfo(TncCustomerVo tncCustomerVo) {
+        TncAddress tncAddress = tncCustomerVo.getTncAddress();
+        TncCustomer tncCustomer = new TncCustomer();
+        tncCustomer.setId(tncCustomerVo.getId());
+        tncCustomer.setName(tncCustomerVo.getName());
+        tncCustomer.setGender(tncCustomerVo.getGender());
+        tncCustomer.setIdCard(tncCustomerVo.getIdCard());
+        tncCustomer.setPhone(tncCustomerVo.getPhone());
+        tncCustomer.setEmail(tncCustomerVo.getEmail());
+        tncCustomer.setEmergencyName(tncCustomerVo.getEmergencyName());
+        tncCustomer.setEmergencyPhone(tncCustomerVo.getEmergencyPhone());
+        tncCustomer.setGmtModified(new Date());
+        String password = tncCustomerVo.getPassword();
+        if(!StringUtils.isEmpty(password)) {
+            // 产随机产生6位数作为盐值
+            String salt = RandomUtil.getRandomNumString(6);
+            // 盐值加密
+            password = CryptographyUtil.MD5Hash(password, salt);
+            tncCustomer.setSalt(salt);
+            tncCustomer.setPassword(password);
+        }
+        if(tncAddress!=null) {
+            if(tncAddress.getId()!=null) {
+                tncAddress.setGmtModified(new Date());
+                tncAddressMapper.updateByPrimaryKeySelective(tncAddress);
+            }else {
+                tncAddress.setStoreOrUser((byte)1);
+                tncAddress.setGmtCreate(new Date());
+                tncAddress.setGmtModified(new Date());
+                tncAddressMapper.insertSelective(tncAddress);
+                tncCustomer.setAddrId(tncAddress.getId());
+            }
+        }
+        tncCustomerMapper.updateByPrimaryKeySelective(tncCustomer);
     }
 
     public void setTncCustomerMapper(TncCustomerMapper tncCustomerMapper) {

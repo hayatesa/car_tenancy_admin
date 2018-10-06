@@ -1,15 +1,18 @@
 package com.dev.main.tenancy.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.dev.main.common.controller.exception.GlobalExceptionResolver;
 import com.dev.main.common.statics.StatusCode;
 import com.dev.main.common.util.Page;
 import com.dev.main.common.util.QueryObject;
 import com.dev.main.common.util.ResultMap;
 import com.dev.main.shiro.controller.exception.ShiroExceptionResolver;
+import com.dev.main.tenancy.domain.TncAddress;
 import com.dev.main.tenancy.domain.TncCustomer;
 import com.dev.main.tenancy.service.ICustomerService;
 import com.dev.main.tenancy.service.IRegionService;
 import com.dev.main.tenancy.vo.TncCustomerVo;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +20,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@ShiroExceptionResolver
+@GlobalExceptionResolver
 @RequestMapping("/api/customer")
 public class CustomerController {
     @Autowired
@@ -37,37 +40,27 @@ public class CustomerController {
     /**禁不禁用*/
     @PostMapping("/disable")
     public ResultMap disable(String uid, String select) {
-        ResultMap result = null;
         int select_disable = Integer.valueOf(select);
-        result = customerService.disable_delete(Long.valueOf(uid), select_disable);
-        result.put("code", StatusCode.SUCCESS);
-        return result;
+        customerService.disable_delete(Long.valueOf(uid), select_disable);
+        return ResultMap.success();
     }
     /**删除*/
     @PostMapping("/delete")
     public ResultMap delete(String uid,String select) {
-        ResultMap result = null;
         int select_disable = Integer.valueOf(select);
-        result = customerService.disable_delete(Long.valueOf(uid), select_disable);
-        result.put("code", StatusCode.SUCCESS);
-        return result;
+        customerService.disable_delete(Long.valueOf(uid), select_disable);
+        return ResultMap.success();
     }
 
-    /**添加兼修改*/
+    /**添加*/
     @PostMapping("/save")
-    public ResultMap save(@RequestBody String data) {
-        ResultMap result = null;
-        JSONObject jpsCustomer = JSONObject.parseObject(data);
-        TncCustomer tncCustomer = new TncCustomer();
-        tncCustomer.setName(jpsCustomer.getString("name"));
-        tncCustomer.setPhone(jpsCustomer.getString("phone"));
-        tncCustomer.setPassword(jpsCustomer.getString("password"));
+    public ResultMap save(@RequestBody TncCustomer tncCustomer) {
         tncCustomer.setStatus((byte)1);
         tncCustomer.setIsDeleted((byte)0);
         tncCustomer.setGmtCreate(new Date());
         tncCustomer.setGmtModified(new Date());
-        result = customerService.save(tncCustomer);
-        return result;
+        customerService.save(tncCustomer);
+        return ResultMap.success();
     }
 
     @GetMapping("/edit")
@@ -84,6 +77,12 @@ public class CustomerController {
         Long id =  Long.valueOf(aid);
         result.put("data", regionService.findAddress(id, level));
         return  result;
+    }
+
+    @PostMapping("/change")
+    public ResultMap change(@RequestBody TncCustomerVo tncCustomerVo) {
+        customerService.changeInfo(tncCustomerVo);
+        return ResultMap.success();
     }
 
     public void setRegionService(IRegionService regionService) {

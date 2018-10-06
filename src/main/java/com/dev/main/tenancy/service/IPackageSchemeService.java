@@ -5,6 +5,8 @@ import com.dev.main.common.util.QueryObject;
 import com.dev.main.common.util.ResultMap;
 import com.dev.main.tenancy.domain.TncPackageScheme;
 
+import java.util.List;
+
 public interface IPackageSchemeService {
     ResultMap deleteByPrimaryKey(Long id);
 
@@ -36,4 +38,6 @@ public interface IPackageSchemeService {
     ResultMap selectPackageSchemeNmae(TncPackageScheme record);
 
     Page listPackageScheme(QueryObject queryObject);
+
+    List<TncPackageScheme> getUnSelectPackage(byte carId);
 }

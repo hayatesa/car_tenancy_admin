@@ -9,10 +9,7 @@ import com.dev.main.shiro.controller.exception.ShiroExceptionResolver;
 import com.dev.main.tenancy.domain.TncBrand;
 import com.dev.main.tenancy.service.ITncBrandService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 
@@ -38,7 +35,7 @@ public class TncBrandController {
      * @param orderType
      * @return
      */
-    @RequestMapping("/list")
+    @GetMapping("/list")
     public Page BrandList(@RequestParam(required = false) Integer page,
                           @RequestParam(required = false) Integer limit,
                           @RequestParam(required = false) String search,
@@ -54,7 +51,7 @@ public class TncBrandController {
      * @param data
      * @return
      */
-    @RequestMapping("/add")
+    @PostMapping("/add")
     public ResultMap BrandAdd(@RequestBody String data) {
         JSONObject jsonObject = JSONObject.parseObject(data);
         TncBrand tncBrand = new TncBrand();
@@ -81,7 +78,7 @@ public class TncBrandController {
      * @param data
      * @return
      */
-    @RequestMapping("/edit")
+    @PostMapping("/edit")
     public ResultMap BrandModified(@RequestBody String data) {
         JSONObject jsonObject = JSONObject.parseObject(data);
         TncBrand tncBrand = new TncBrand();
@@ -107,7 +104,7 @@ public class TncBrandController {
      * @param id
      * @return
      */
-    @RequestMapping("/delete")
+    @PostMapping("/delete")
     public ResultMap BrandDelete(@RequestParam Long id) {
         TncBrand tncBrand = new TncBrand();
         tncBrand.setId(id);
@@ -132,7 +129,7 @@ public class TncBrandController {
      * @param data
      * @return
      */
-    @RequestMapping("/find")
+    @PostMapping("/find")
     public ResultMap BrandFind(@RequestBody String data) {
         JSONObject jsonObject = JSONObject.parseObject(data);
         TncBrand tncBrand = new TncBrand();

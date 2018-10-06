@@ -17,4 +17,7 @@ public interface IRegionService {
 
     /**查询下级所有地址*/
     List<AddressRegion> findAddress(Long aid, byte level);
+
+    /*查询所有省*/
+    List<AddressRegion> getAddressByStore(Long id, byte level);
 }

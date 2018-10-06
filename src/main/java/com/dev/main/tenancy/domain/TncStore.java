@@ -11,6 +11,9 @@ public class TncStore extends BaseDomain {
     // 门店名称
     private String name;
 
+    //门店Id
+    private Long addrId;
+
     //门店地址
     private TncAddress tncAddress;
 
@@ -49,6 +52,14 @@ public class TncStore extends BaseDomain {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
+    }
+
+    public Long getAddrId() {
+        return addrId;
+    }
+
+    public void setAddrId(Long addrId) {
+        this.addrId = addrId;
     }
 
     public TncAddress getTncAddress() {

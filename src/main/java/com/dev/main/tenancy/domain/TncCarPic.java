@@ -14,6 +14,9 @@ public class TncCarPic extends BaseDomain {
     // 车（型号） 外键
     private Long carId;
 
+    // 是否封面 0-非封面 1-封面
+    private Byte isCover;
+
     // 是否删除 1-删除
     private Byte isDeleted;
 
@@ -45,6 +48,14 @@ public class TncCarPic extends BaseDomain {
 
     public void setCarId(Long carId) {
         this.carId = carId;
+    }
+
+    public Byte getIsCover() {
+        return isCover;
+    }
+
+    public void setIsCover(Byte isCover) {
+        this.isCover = isCover;
     }
 
     public Byte getIsDeleted() {

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>乘风租车后台管理系统</title>
+    <link rel="stylesheet" href="/statics/fonts/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="/statics/layui-v2.4.3/css/layui.css">
+    <style>
+        td .layui-table-cell{
+            height: 80px;
+        }
+    </style>
+</head>
+<body>
+
+
+<!--封面上传-->
+<div id="coverField" class="layui-hide">
+    <div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card layui-form">
+                <div class="layui-card-header">汽车配图</div>
+                <div class="layui-card-body layui-row layui-col-space10">
+                    <div class="layui-col-md12">
+                        <div class="layui-upload">
+                            <button type="button" class="layui-btn" id="cover">选择图片</button>
+                            <div class="layui-upload-list">
+                                <img style="width: 200px;height: 150px;" class="layui-upload-img" id="demo1">
+                                <p id="demoText">'<a class="layui-btn layui-btn-xs demo-reload" onclick="closeCoverUpload()">关闭</a></p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div id="otherField" class="layui-hide">
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-md12">
+                <div class="layui-card layui-form">
+                    <div class="layui-card-header">汽车配图</div>
+                    <div class="layui-card-body layui-row layui-col-space10">
+                        <div class="layui-col-md12">
+                            <button type="button" class="layui-btn" id="uploadPhoto">
+                                选择图片
+                            </button>
+                        </div>
+                        <div class="layui-col-md12">
+                            <div id="previewPicture" class="layui-upload-list" >
+                            </div>
+                        </div>
+
+                        <div class="layui-col-md12">
+                            <button class="layui-btn test" lay-data="{url: '/b/', accept: 'file'}" id="uploadListAction">
+                                <i class="layui-icon">&#xe67c;</i>上传图片
+                            </button>
+                            <button class="layui-btn test" onclick="closeNotCoverUpload()">
+                               关闭
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <table class="layui-hide" id="photoList" lay-filter="photoList"></table>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="replace"><i class="layui-icon"> &#xe642;</i>更换</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"> <i class="layui-icon"> &#xe640;</i>删除</a>
+</script>
+
+<script type="text/html" id="tnc_toolbar">
+    <div class="layui-btn-container">
+        <div class="layui-row layui-col-space10">
+            <div class="layui-col-md12">
+                <button class="layui-btn layui-btn-sm" lay-event="addPic" ><i class="layui-icon">&#xe608;</i> 上传封面</button>
+                <button class="layui-btn layui-btn-sm" lay-event="batchAddPic"><i class="layui-icon">  &#xe67c;</i>上传非封面</button>
+            </div>
+
+        </div>
+    </div>
+</script>
+
+
+<!--[if lt IE 9]>
+<script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+<script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<script src="/statics/js/jquery-3.3.1.min.js"></script>
+<script src="/statics/js/common/common.js"></script>
+<script src="/statics/vue-2.5.17/vue.min.js"></script>
+<script src="/statics/layui-v2.4.3/layui.all.js"></script>
+<script src="/statics/js/tenancy/index.js"></script>
+<script src="/statics/js/tenancy/carPic.js"></script>
+
+</body>
+</html>

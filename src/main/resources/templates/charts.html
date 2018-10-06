@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Echart</title>
+    <link rel="stylesheet" href="/statics/css/style.css"></link>
+    <link rel="stylesheet" href="/statics/layui-v2.4.3/lay/modules/theme/default/layer.css"></link>
+    <link rel="stylesheet" href="/statics/css/chart.css"></link>
+</head>
+<body style="padding: 10px;background-color: #f3f3f3;">
+<div id="chart-app">
+    <div class="chart-body" style="width: 100%;">
+        <div class="data-block" style="background: #a0c2ac;">
+            <div class="data-icon">
+                <span class="data-icon-text" style="color: #a0c2ac">乘</span>
+            </div>
+            <div class="data-text">
+             <span href="#" class="title">今日销量</span>
+                 <span class="counter" id="todayVolume">-</span>
+             <span class="title">辆次</span>
+            </div>
+        </div>
+        <div class="data-block" style="background: #8da2aa;">
+            <div class="data-icon">
+                <span class="data-icon-text" style="color: #8da2aa">风</span>
+            </div>
+            <div class="data-text">
+             <span href="#" class="title">今日销售额</span>
+                 <span class="counter" id="todayAmount">-</span>
+             <span class="title">元</span>
+            </div>
+        </div>
+        <div class="data-block" style="background: #a7b19a;">
+            <div class="data-icon">
+                <span class="data-icon-text" style="color: #a7b19a">租</span>
+            </div>
+            <div class="data-text">
+             <span href="#" class="title">
+                 近30日总销量
+             </span>
+                 <span class="counter" id="totalVolume">-</span>
+             <span class="title">辆次</span>
+            </div>
+        </div>
+        <div class="data-block" style="background: #bfaaa6;">
+            <div class="data-icon">
+                <span class="data-icon-text" style="color: #bfaaa6">车</span>
+            </div>
+            <div class="data-text">
+             <span href="#" class="title">近30日总销售额</span>
+                 <span class="counter" id="totalAmount">-</span>
+             <span class="title">元</span>
+            </div>
+        </div>
+    </div>
+    <div class="chart-body">
+        <div class="chart-md">
+            <div class="chart-tool-bar">
+                <input r-bind="volumeChartParam.startDate" type="date" class="tnc_input">
+                <span> - </span>
+                <input r-bind="volumeChartParam.endDate" type="date" class="tnc_input">
+                <span> Top </span>
+                <select class="tnc_input" style="width: 65px;" r-bind="volumeChartParam.x">
+                    <option value="5">5</option>
+                    <option value="10" selected>10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                </select>
+                <button onclick="loadTopVolumeChart()" class="tnc_btn_green" style="width: 4em;height: 40px;margin: 1px;">统计</button>
+            </div>
+            <div id="topVolumeChart" style="width: 100%;height: 400px"></div>
+        </div>
+        <div class="chart-md">
+            <div class="chart-tool-bar">
+                <input r-bind="amountChartParam.startDate" type="date" class="tnc_input">
+                <span> - </span>
+                <input r-bind="amountChartParam.endDate" type="date" class="tnc_input">
+                <span> Top </span>
+                <select r-bind="amountChartParam.x" class="tnc_input" style="width: 65px;">
+                    <option value="5">5</option>
+                    <option value="10" selected>10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                </select>
+                <button onclick="loadTopAmountChart()" class="tnc_btn_green" style="width: 4em;height: 40px;margin: 1px;">统计</button>
+            </div>
+            <div id="topAmountChart" style="width: 100%;height: 400px;"></div>
+        </div>
+        <div class="chart-lg">
+            <div class="chart-tool-bar">
+                <input r-bind="situationChartParam.startDate" type="date" class="tnc_input">
+                <span> - </span>
+                <input r-bind="situationChartParam.endDate" type="date" class="tnc_input">
+                <button onclick="loadSalesSituationChart()" class="tnc_btn_green" style="width: 4em;height: 40px;margin: 1px;">统计</button>
+            </div>
+            <div id="salesSituationChart" style="width: 100%;height: 400px;"></div>
+        </div>
+    </div>
+</div>
+<script src="/statics/js/jquery-3.3.1.min.js"></script>
+<script src="/statics/layui-v2.4.3/lay/modules/layer.js"></script>
+<script src="/statics/js/rmj.js"></script>
+<script src="/statics/js/plugins/echarts.min.js"></script>
+<script src="/statics/js/common/common.js"></script>
+<script src="/statics/js/tenancy/charts.js"></script>
+</body>
+</html>

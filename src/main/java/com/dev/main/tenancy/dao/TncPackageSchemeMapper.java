@@ -2,6 +2,8 @@ package com.dev.main.tenancy.dao;
 
 import com.dev.main.tenancy.domain.TncPackageScheme;
 
+import java.util.List;
+
 public interface TncPackageSchemeMapper extends BaseMapper<TncPackageScheme> {
     int deleteByPrimaryKey(Long id);
 
@@ -16,4 +18,6 @@ public interface TncPackageSchemeMapper extends BaseMapper<TncPackageScheme> {
     int updateByPrimaryKey(TncPackageScheme record);
 
     TncPackageScheme selectPackageSchemeByNmae(TncPackageScheme name);
+
+    List<TncPackageScheme> getUnSelectPackage(byte carId);
 }

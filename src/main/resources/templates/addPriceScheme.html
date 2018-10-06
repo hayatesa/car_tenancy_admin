@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>乘风租车后台管理系统</title>
+    <link rel="stylesheet" href="/statics/fonts/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="/statics/layui-v2.4.3/css/layui.css">
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">添加价格方案</div>
+                <div class="layui-card-body layui-form  layui-form-pane layui-row layui-col-space10" lay-filter="package_form">
+                        <div class="layui-col-md12">
+                            <div class="layui-form-item" >
+                                <label class="layui-form-label">选择套餐</label>
+                                <div class="layui-input-block">
+                                    <select name="package" id="package_id" lay-filter="package">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="layui-col-md12">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">基础价(天)</label>
+                                <div class="layui-input-block">
+                                    <input type="text" id="basePrice" name="title" autocomplete="off" placeholder="例：500" class="layui-input">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-col-md12">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">小时价(时)</label>
+                                <div class="layui-input-block">
+                                    <input type="text" id="baseHourPrice" name="title" autocomplete="off" placeholder="例：100" class="layui-input">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-col-md12">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">服务费</label>
+                                <div class="layui-input-block">
+                                    <input type="text" id="servicePrice" name="title" autocomplete="off" placeholder="例：50" class="layui-input">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-col-md12">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">押金</label>
+                                <div class="layui-input-block">
+                                    <input type="text" id="deposit" name="title" autocomplete="off" placeholder="例：3000" class="layui-input">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-col-md12">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">折扣</label>
+                                <div class="layui-input-block">
+                                    <input type="text" id="discount" name="title" autocomplete="off" placeholder="例：0.85" class="layui-input">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-col-md12">
+                            <button class="layui-btn" onclick="addPriceScheme()">提交</button>
+                        </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="/statics/js/jquery-3.3.1.min.js"></script>
+<script src="/statics/js/common/common.js"></script>
+<script src="/statics/vue-2.5.17/vue.min.js"></script>
+<script src="/statics/layui-v2.4.3/layui.all.js"></script>
+<script src="/statics/js/tenancy/index.js"></script>
+<script src="/statics/js/tenancy/addPriceScheme.js"></script>
+</body>
+</html>

@@ -27,8 +27,7 @@ $(document).ready(function () {
     if (str !== "") {
         var data = JSON.parse(str);
         if (data !== "") {
-            brandEdit_app.brand.id = data.id;
-            brandEdit_app.brand.name = data.name;
+            brandEdit_app.brand = data;
         }
     }
 });

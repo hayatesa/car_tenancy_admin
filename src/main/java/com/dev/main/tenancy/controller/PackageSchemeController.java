@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 
 
 @RestController
@@ -110,5 +111,17 @@ public class PackageSchemeController {
         QueryObject queryObject = new QueryObject(page, limit, search, orderField, orderType);
 
         return iPackageSchemeService.listPackageScheme(queryObject);
+    }
+    /**
+     *查询车辆未添加的套餐列表
+     * @param carId 车辆ID
+     *
+     */
+    @GetMapping("/unselect")
+    public ResultMap getUnSelectPackage(byte carId){
+        ResultMap map=new ResultMap();
+        List<TncPackageScheme> list = iPackageSchemeService.getUnSelectPackage(carId);
+        map.put("data",list);
+        return map;
     }
 }

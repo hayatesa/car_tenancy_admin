@@ -13,6 +13,7 @@
         <setting name="aggressiveLazyLoading" value="false"/>
         <!-- Object对象上面的哪些方法触发延迟加载。默认值equals,clone,hashCode,toString -->
         <setting name="lazyLoadTriggerMethods" value="clone"/>
+
     </settings>
 
 </configuration>
