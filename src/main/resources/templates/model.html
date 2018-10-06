@@ -5,12 +5,12 @@
   <link rel="stylesheet" href="/statics/layui-v2.4.3/css/layui.css"  media="all">
 </head>
 <body>
-<div style="padding-top: 20px;">
-<form class="layui-form layui-form-pane" action="/api/Ads/save" method="">
+<div style="padding:20px 10px 0 10px">
+<form id="myForm" class="layui-form layui-form-pane" action="" method="">
     <div class="layui-form-item">
         <label class="layui-form-label">标题</label>
         <div class="layui-input-block">
-            <input id="title" name="title" autocomplete="off" placeholder="请输入标题" class="layui-input" type="text">
+            <input id="title" name="title" required lay-verify="required" autocomplete="off" placeholder="请输入标题" class="layui-input" type="text">
         </div>
     </div>
     <div class="layui-form-item">
@@ -27,19 +27,32 @@
     <div class="layui-form-item">
         <label class="layui-form-label">跳转链接</label>
         <div class="layui-input-block">
-            <input id="url" name="url" autocomplete="off" placeholder="请输入跳转链接" class="layui-input" type="text">
+            <input id="url" name="url" required lay-verify="required" autocomplete="off" placeholder="请输入跳转链接" class="layui-input" type="text">
         </div>
     </div>
+    <!--<div class="layui-form-item">-->
+        <!--<label class="layui-form-label">图片路径</label>-->
+        <!--<div class="layui-input-block">-->
+            <!--<input id="imagePath" name="imagePath" required lay-verify="required" autocomplete="off" placeholder="请输入图片路径" class="layui-input" type="text">-->
+        <!--</div>-->
+    <!--</div>-->
     <div class="layui-form-item">
-        <label class="layui-form-label">图片路径</label>
-        <div class="layui-input-block">
-            <input id="imagePath" name="imagePath" autocomplete="off" placeholder="请输入图片路径" class="layui-input" type="text">
+        <label class="layui-form-label">图片</label>
+        <div class="layui-upload">
+            <button type="button" class="layui-btn" id="chooseImg">选择图片</button>
+            <span id="filename" style="color: gray"></span>
+            <div class="layui-upload-list">
+                <img class="layui-upload-img" style="margin: 0 0 0 110px;width: 92px;height: 92px;border: thin solid #9F9F9F" id="demo1">
+                <p id="demoText" style="margin: 0 0 0 110px;"></p>
+            </div>
+            <button type="button" class="layui-btn" style="margin: 0 0 0 110px;" id="upload">上传图片</button>
         </div>
     </div>
+    <input id="imagePath" name="imagePath" hidden="true" type="text">
     <input id="id" name="id" hidden="true">
     <div class="layui-form-item" style="margin-left: 330px">
         <div class="layui-input-block">
-            <button class="layui-btn" type = "submit" id="save"></button>
+            <button class="layui-btn" lay-submit lay-filter="go" id="save" type="button"></button>
             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
         </div>
     </div>
@@ -47,13 +60,8 @@
 </form>
 </div>
 <script src="/statics/js/jquery-3.3.1.min.js"></script>
+<script src="/statics/layui-v2.4.3/layui.all.js"></script>
+<script src="/statics/js/tenancy/getParam.js"></script>
 <script src="/statics/js/tenancy/model.js"></script>
-<script src="/statics/layui-v2.4.3/layui.js" charset="utf-8"></script>
-<script>
-
-    layui.use(['form', 'layedit', 'laydate'], function(){
-
-    });
-</script>
 </body>
 </html>

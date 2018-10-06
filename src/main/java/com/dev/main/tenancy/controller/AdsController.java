@@ -2,6 +2,7 @@ package com.dev.main.tenancy.controller;
 
 import com.dev.main.common.util.Page;
 import com.dev.main.common.util.QueryObject;
+import com.dev.main.common.util.ResultMap;
 import com.dev.main.tenancy.domain.TncAds;
 import com.dev.main.tenancy.service.IAdsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,16 +29,19 @@ public class AdsController {
         return adsService.queryByPage(queryObject);
     }
     @GetMapping("/save")
-    public void addAds(TncAds tncAds){
-        adsService.addAds(tncAds);
+    public ResultMap addAds(TncAds tncAds){
+        ResultMap resultMap = adsService.addAds(tncAds);
+        return resultMap;
     }
     @PostMapping("/save")
-    public void updateAds(TncAds tncAds){
-        adsService.updateAds(tncAds);
+    public ResultMap updateAds(TncAds tncAds){
+        ResultMap resultMap = adsService.updateAds(tncAds);
+        return resultMap;
     }
     @GetMapping("/del")
-    public Object deleteAds(TncAds tncAds){
-        return adsService.deleteAds(tncAds);
+    public ResultMap deleteAds(TncAds tncAds){
+        ResultMap resultMap = adsService.deleteAds(tncAds);
+        return resultMap;
     }
 
 }

@@ -2,6 +2,7 @@ package com.dev.main.tenancy.service;
 
 import com.dev.main.common.util.Page;
 import com.dev.main.common.util.QueryObject;
+import com.dev.main.common.util.ResultMap;
 import com.dev.main.tenancy.domain.TncAds;
 
 /**
@@ -22,17 +23,17 @@ public interface IAdsService {
      * @param tncAds
      * @return
      */
-    void addAds(TncAds tncAds);
+    ResultMap addAds(TncAds tncAds);
     /**
      * 修改一条记录
      * @param tncAds
      * @return
      */
-    void updateAds(TncAds tncAds);
+    ResultMap updateAds(TncAds tncAds);
     /**
      * 删除一条记录
      * @param tncAds
      * @return
      */
-    int deleteAds(TncAds tncAds);
+    ResultMap deleteAds(TncAds tncAds);
 }
