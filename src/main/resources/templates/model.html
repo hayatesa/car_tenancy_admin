@@ -6,24 +6,22 @@
 </head>
 <body>
 <div style="padding: 10px;">
-<form class="layui-form layui-form-pane" action="/api/Ads/save" method="">
+<form id="myForm" class="layui-form layui-form-pane" action="/api/Ads/save" method="">
     <div class="layui-form-item">
         <label class="layui-form-label">标题</label>
         <div class="layui-input-block">
             <input id="title" name="title" required lay-verify="required" autocomplete="off" placeholder="请输入标题" class="layui-input" type="text">
         </div>
     </div>
-    <div class="layui-form-item">
         <div class="layui-form-item">
             <label class="layui-form-label">图片类型</label>
             <div class="layui-input-block">
                 <select id="type" name="type">
-                    <option value="0">轮播图</option>
-                    <option value="1">其它</option>
+                    <option value="0" id="sowing">轮播图</option>
+                    <option value="1" id="others">其他</option>
                 </select>
             </div>
         </div>
-    </div>
     <div class="layui-form-item">
         <label class="layui-form-label">跳转链接</label>
         <div class="layui-input-block">
@@ -60,6 +58,7 @@
 </form>
 </div>
 <script src="/statics/js/jquery-3.3.1.min.js"></script>
+<script src="/statics/vue-2.5.17/vue.min.js"></script>
 <script src="/statics/layui-v2.4.3/layui.all.js"></script>
 <script src="/statics/js/tenancy/getParam.js"></script>
 <script src="/statics/js/tenancy/model.js"></script>

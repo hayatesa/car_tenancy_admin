@@ -1,16 +1,24 @@
-
     $(document).ready(function(){
+        // 获取页面参数
         var id = $.getUrlParam('id');
         var title = $.getUrlParam('title');
         var url = $.getUrlParam('url');
         var imagePath = $.getUrlParam('imagePath');
-        if(title==''&&url==''&&image_path==''&&id=='')
+        console.log(imagePath);
+        if ($.getUrlParam('type') == 0){
+            $($("#type").siblings().eq(0).children("div").children("input")[0]).attr('value', "轮播图");
+            $("#sowing").attr("selected",true);
+        } else{
+            $($("#type").siblings().eq(0).children("div").children("input")[0]).attr('value', "其他");
+            $("#others").attr("selected",true);
+        }
+        if(title==''&&url==''&&imagePath==''&&id=='')
             $('#save').text('添加'),
                 $('#myForm').attr('method','get');
         else
             $('#save').text('保存'),
                 $('#myForm').attr('method','post');
-        $("#myForm #type").val('1');
+        // 回显
         $('#title').attr("value",title);
         $('#url').attr("value",url);
         $('#imagePath').attr("value",imagePath);
