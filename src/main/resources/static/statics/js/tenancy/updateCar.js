@@ -1,16 +1,24 @@
-var carId=window.location.search.slice(7);
+var carId = window.location.search.slice(7);
 console.log(carId);
+
+/*请求品牌列表*/
+doRequestBrand();
+
+/*请求车类型*/
+doRequestCarType();
+/*请求门店地址*/
+doRequestProvince();
+
 /*查询车辆信息*/
 doGetCar();
 
-
 function doGetCar() {
     $.ajax({
-        url:'/api/car/get',
-        data:{carId:carId},
-        success:function (res) {
+        url: '/api/car/get',
+        data: {carId: carId},
+        success: function (res) {
             console.log(res);
-            if (res.code == 0){
+            if (res.code == 0) {
                 doSetBlank(res.data);
             }
         }
@@ -19,97 +27,95 @@ function doGetCar() {
 }
 
 function doSetBlank(data) {
-        $("#series").val(data.series);
-        $("#year").val(data.year);
-        $("#config_section").val(data.configSection);
-        $("#province_id").val(data.provinceId);
-        $("#city_id").val(data.cityId);
-        $("#area_id").val(data.areaId);
-        $("#seat_quantity").val(data.seatQuantity);
-        $("#door_quantity").val(data.doorQuantity);
-        $("#transmission_type").val(data.transmissionType);
-        $("#displacement").val(data.displacement);
-        $("#fuel_type").val(data.fuelType);
-        $("#octane_rating").val(data.octaneRating);
-        $("#driven_method").val(data.drivenMethod);
-        $("#en_itk_form").val(data.enItkForm);
-        $("#skylight").val(data.skylight);
-        $("#tank_capacity").val(data.tankCapacity);
-        $("#speaker").val(data.speaker);
-        $("#box_quantity").val(data.boxQuantity);
-        $("#seat").val(data.seat);
-        $("#reversing_radar").val(data.reversingRadar);
-        $("#airbag").val(data.airbag);
-        $("#dvd_cd").val(data.dvdCd);
-        $("#gps").val(data.gps);
-        $("#car_type_id").val(data.typeId);
-        $("#store_id").val(data.storeId);
-        $("#brand_id").val(data.brandId);
 
+    $("#series").val(data.series);
+    $("#year").val(data.year);
+    $("#config_section").val(data.configSection);
+    $("#province_id").val(data.provinceId);
+    $("#city_id").val(data.cityId);
+    $("#area_id").val(data.areaId);
+    $("#seat_quantity").val(data.seatQuantity);
+    $("#door_quantity").val(data.doorQuantity);
+    $("#transmission_type").val(data.transmissionType);
+    $("#displacement").val(data.displacement);
+    $("#fuel_type").val(data.fuelType);
+    $("#octane_rating").val(data.octaneRating);
+    $("#driven_method").val(data.drivenMethod);
+    $("#en_itk_form").val(data.enItkForm);
+    $("#skylight").val(data.skylight);
+    $("#tank_capacity").val(data.tankCapacity);
+    $("#speaker").val(data.speaker);
+    $("#box_quantity").val(data.boxQuantity);
+    $("#seat").val(data.seat);
+    $("#reversing_radar").val(data.reversingRadar);
+    $("#airbag").val(data.airbag);
+    $("#dvd_cd").val(data.dvdCd);
+    $("#gps").val(data.gps);
+    $("#car_type_id").val(data.typeId);
+    $("#store_id").val(data.storeId);
+    $("#brand_id").val(data.brandId);
+    layui.form.render('select');
 }
 
-/*请求品牌列表*/
-doRequestBrand();
-/*请求车类型*/
-doRequestCarType();
-/*请求门店地址*/
-doRequestProvince();
 
 
 
 /*请求品牌列表*/
-function  doRequestBrand() {
+function doRequestBrand() {
     $.ajax({
-        type:"GET",
-        url:"/api/tncBrand/list",
-        success:function (res) {
-            if(res.code ==0){
+        type: "GET",
+        url: "/api/tncBrand/list",
+        success: function (res) {
+            if (res.code == 0) {
                 console.log(res);
                 var b_data = res.data;
                 // vueObj.data.brands = res.data;
 
-                for(var i=0;i<b_data.length;i++){
-                    $("#brand_id").append('<option value="'+b_data[i].id+'">'+b_data[i].name+'</option>');
-                    console.log(i);
+                for (var i = 0; i < b_data.length; i++) {
+                    $("#brand_id").append('<option value="' + b_data[i].id + '">' + b_data[i].name + '</option>');
+                    // console.log(i);
                 }
-                layui.form.render('select','brandFilter');
+                $("#brand_id").val(carcar.brand_id);
+                layui.form.render('select', 'brandFilter');
             }
 
         },
     })
 }
+
 /*请求车类型*/
 function doRequestCarType() {
     $.ajax({
-        type:"GET",
-        url:"/api/carType/list",
-        success:function (res) {
-            if(res.code ==0){
+        type: "GET",
+        url: "/api/carType/list",
+        success: function (res) {
+            if (res.code == 0) {
                 console.log(res);
                 var b_data = res.data;
                 // vueObj.data.brands = res.data;
-                for(var i=0;i<b_data.length;i++){
-                    $("#car_type_id").append('<option value="'+b_data[i].id+'">'+b_data[i].name+'</option>');
+                for (var i = 0; i < b_data.length; i++) {
+                    $("#car_type_id").append('<option value="' + b_data[i].id + '">' + b_data[i].name + '</option>');
                     // console.log(i+"ui");
                 }
-                layui.form.render('select','carTypeFilter');
+                layui.form.render('select', 'carTypeFilter');
             }
 
         },
     })
 }
 
-function showTips(idName,tips) {
-    if($(idName).val() ==""){
-        layer.msg(tips+"不能为空！");
+function showTips(idName, tips) {
+    if ($(idName).val() == "") {
+        layer.msg(tips + "不能为空！");
         $(idName).focus();
         return false;
     }
     return true;
 }
-function showSelectTips(idName,tips) {
-    if($(idName).val() ==""){
-        layer.msg(tips+"不能为空！");
+
+function showSelectTips(idName, tips) {
+    if ($(idName).val() == "") {
+        layer.msg(tips + "不能为空！");
         return false;
     }
     return true;
@@ -117,118 +123,118 @@ function showSelectTips(idName,tips) {
 
 function doCollectingData() {
     var series = $("#series").val();
-    var year  = $("#year").val();
-    var config_section  = $("#config_section").val();
-    var province_id  = $("#province_id").val();
-    var city_id  = $("#city_id").val();
-    var area_id  = $("#area_id").val();
-    var seat_quantity  = $("#seat_quantity").val();
-    var door_quantity  = $("#door_quantity").val();
+    var year = $("#year").val();
+    var config_section = $("#config_section").val();
+    var province_id = $("#province_id").val();
+    var city_id = $("#city_id").val();
+    var area_id = $("#area_id").val();
+    var seat_quantity = $("#seat_quantity").val();
+    var door_quantity = $("#door_quantity").val();
     var transmission_type = $("#transmission_type").val();
     var displacement = $("#displacement").val();
-    var fuel_type  = $("#fuel_type").val();
-    var octane_rating  = $("#octane_rating").val();
-    var driven_method  = $("#driven_method").val();
-    var en_itk_form  = $("#en_itk_form").val();
-    var skylight  = $("#skylight").val();
-    var tank_capacity  = $("#tank_capacity").val();
-    var speaker  = $("#speaker").val();
-    var box_quantity  = $("#box_quantity").val();
-    var seat  = $("#seat").val();
-    var reversing_radar  = $("#reversing_radar").val();
-    var airbag  = $("#airbag").val();
-    var dvd_cd  = $("#dvd_cd").val();
-    var gps  = $("#gps").val();
-    var type_id  = $("#car_type_id").val();
-    var store_id  = $("#store_id").val();
-    var brand_id  = $("#brand_id").val();
+    var fuel_type = $("#fuel_type").val();
+    var octane_rating = $("#octane_rating").val();
+    var driven_method = $("#driven_method").val();
+    var en_itk_form = $("#en_itk_form").val();
+    var skylight = $("#skylight").val();
+    var tank_capacity = $("#tank_capacity").val();
+    var speaker = $("#speaker").val();
+    var box_quantity = $("#box_quantity").val();
+    var seat = $("#seat").val();
+    var reversing_radar = $("#reversing_radar").val();
+    var airbag = $("#airbag").val();
+    var dvd_cd = $("#dvd_cd").val();
+    var gps = $("#gps").val();
+    var type_id = $("#car_type_id").val();
+    var store_id = $("#store_id").val();
+    var brand_id = $("#brand_id").val();
 
 
-    var data ={
-        id:carId
-        ,series:series
-        ,year:year
-        ,configSection:config_section
-        ,provinceId:province_id
-        ,cityId:city_id
-        ,areaId:area_id
-        ,seatQuantity:seat_quantity
-        ,doorQuantity:door_quantity
-        ,transmissionType:transmission_type
-        ,displacement:displacement
-        ,fuelType:fuel_type
-        ,octaneRating:octane_rating
-        ,drivenMethod:driven_method
-        ,enItkForm:en_itk_form
-        ,skylight:skylight
-        ,tankCapacity:tank_capacity
-        ,speaker:speaker
-        ,boxQuantity:box_quantity
-        ,seat:seat
-        ,reversingRadar:reversing_radar
-        ,airbag:airbag
-        ,dvdCd:dvd_cd
-        ,gps:gps
-        ,typeId:type_id
-        ,storeId:store_id
-        ,brandId:brand_id
+    var data = {
+        id: carId
+        , series: series
+        , year: year
+        , configSection: config_section
+        , provinceId: province_id
+        , cityId: city_id
+        , areaId: area_id
+        , seatQuantity: seat_quantity
+        , doorQuantity: door_quantity
+        , transmissionType: transmission_type
+        , displacement: displacement
+        , fuelType: fuel_type
+        , octaneRating: octane_rating
+        , drivenMethod: driven_method
+        , enItkForm: en_itk_form
+        , skylight: skylight
+        , tankCapacity: tank_capacity
+        , speaker: speaker
+        , boxQuantity: box_quantity
+        , seat: seat
+        , reversingRadar: reversing_radar
+        , airbag: airbag
+        , dvdCd: dvd_cd
+        , gps: gps
+        , typeId: type_id
+        , storeId: store_id
+        , brandId: brand_id
 
-}
+    }
     return data;
 }
 
 function doCheckData() {
-    if(!showSelectTips("#brand_id","品牌"))
+    if (!showSelectTips("#brand_id", "品牌"))
         return false;
-    if(!showTips("#series","系列"))
+    if (!showTips("#series", "系列"))
         return false;
-    if(!showSelectTips("#car_type_id","车型"))
+    if (!showSelectTips("#car_type_id", "车型"))
         return false;
-    if(!showTips("#year","年代款"))
+    if (!showTips("#year", "年代款"))
         return false;
-    if(!showTips("#config_section","配置款"))
+    if (!showTips("#config_section", "配置款"))
         return false;
-    if(!showSelectTips("#province_id","省"))
+    if (!showSelectTips("#province_id", "省"))
         return false;
-    if(!showSelectTips("#city_id","市"))
+    if (!showSelectTips("#city_id", "市"))
         return false;
-    if(!showSelectTips("#area_id","县/区"))
+    if (!showSelectTips("#area_id", "县/区"))
         return false;
-    if(!showSelectTips("#store_id","门店"))
+    if (!showSelectTips("#store_id", "门店"))
         return false;
-    if(!showTips("#seat_quantity","座位数"))
+    if (!showTips("#seat_quantity", "座位数"))
         return false;
-    if(!showTips("#door_quantity","车门数"))
+    if (!showTips("#door_quantity", "车门数"))
         return false;
-    if(!showTips("#fuel_type","燃料类型"))
+    if (!showTips("#fuel_type", "燃料类型"))
         return false;
-    if(!showTips("#transmission_type","变速箱类型"))
+    if (!showTips("#transmission_type", "变速箱类型"))
         return false;
-    if(!showTips("#displacement","排量"))
+    if (!showTips("#displacement", "排量"))
         return false;
-    if(!showTips("#octane_rating","燃油标号"))
+    if (!showTips("#octane_rating", "燃油标号"))
         return false;
-    if(!showTips("#driven_method","驱动方式"))
+    if (!showTips("#driven_method", "驱动方式"))
         return false;
-    if(!showTips("#en_itk_form","发动机进气形式"))
+    if (!showTips("#en_itk_form", "发动机进气形式"))
         return false;
-    if(!showSelectTips("#skylight","天窗"))
+    if (!showSelectTips("#skylight", "天窗"))
         return false;
-    if(!showTips("#tank_capacity","油箱容量(升)"))
+    if (!showTips("#tank_capacity", "油箱容量(升)"))
         return false;
-    if(!showSelectTips("#speaker","音箱"))
+    if (!showSelectTips("#speaker", "音箱"))
         return false;
-    if(!showTips("#box_quantity","箱数"))
+    if (!showTips("#box_quantity", "箱数"))
         return false;
-    if(!showTips("#seat","座椅材料"))
+    if (!showTips("#seat", "座椅材料"))
         return false;
-    if(!showSelectTips("#reversing_radar","雷达"))
+    if (!showSelectTips("#reversing_radar", "雷达"))
         return false;
-    if(!showTips("#airbag","气囊数"))
+    if (!showTips("#airbag", "气囊数"))
         return false;
-    if(!showTips("#dvd_cd","DVD/CD"))
+    if (!showTips("#dvd_cd", "DVD/CD"))
         return false;
-    if(!showSelectTips("#gps","GPS导航"))
+    if (!showSelectTips("#gps", "GPS导航"))
         return false;
 
 
@@ -236,58 +242,58 @@ function doCheckData() {
 }
 
 /*提交车辆基本信息*/
- function doSubmitCarBaseMsg() {
+function doSubmitCarBaseMsg() {
     console.log("submit");
     var flag = doCheckData();
     if (!flag)
         return;
-     var data = doCollectingData();
-     $.ajax({
-         url:"/api/car/update",
-         data:data,
-         success:function (res) {
-             if (res.code == 0){
-                 layer.msg("修改成功");
-             }else{
-                 layer.msg(res.msg);
-             }
-         }
-     })
+    var data = doCollectingData();
+    $.ajax({
+        url: "/api/car/update",
+        data: data,
+        success: function (res) {
+            if (res.code == 0) {
+                layer.msg("修改成功");
+            } else {
+                layer.msg(res.msg);
+            }
+        }
+    })
 }
 
 
 var form = layui.form;
- /*监听省下拉列表变化*/
-form.on('select(province)',function(res){
+/*监听省下拉列表变化*/
+form.on('select(province)', function (res) {
     var data = {
-        id:res.value,
-        level:1
+        id: res.value,
+        level: 1
     }
     doReset(data.level);
-    doRequestAddr(data,"#city_id");
+    doRequestAddr(data, "#city_id");
 });
 
 /*监听城市下拉列表变化*/
-form.on('select(city)',function(res){
+form.on('select(city)', function (res) {
     var data = {
-        id:res.value,
-        level:2
+        id: res.value,
+        level: 2
     }
     doReset(data.level);
-    doRequestAddr(data,"#area_id");
+    doRequestAddr(data, "#area_id");
 });
 /*监听地区下拉列表变化*/
-form.on('select(area)',function(res){
+form.on('select(area)', function (res) {
     var data = {
-        areaId:res.value,
+        areaId: res.value,
     }
     doReset(3);
     doRequestStore(data);
 });
 /*监听地区下拉列表变化*/
-form.on('select(store)',function(res){
+form.on('select(store)', function (res) {
     var data = {
-        areaId:res.value,
+        areaId: res.value,
     }
 
 })
@@ -295,20 +301,20 @@ form.on('select(store)',function(res){
 /*请求门店地址*/
 function doRequestProvince() {
     var data = {
-        id:0,
-        level:0
+        id: 0,
+        level: 0
     }
     $.ajax({
-        type:"GET",
-        data:data,
-        url:"/api/region/addr",
-        success:function (res) {
-            if(res.code ==0){
+        type: "GET",
+        data: data,
+        url: "/api/region/addr",
+        success: function (res) {
+            if (res.code == 0) {
                 var b_data = res.data;
-                for(var i=0;i<b_data.length;i++){
-                    $("#province_id").append('<option value="'+b_data[i].id+'">'+b_data[i].name+'</option>');
+                for (var i = 0; i < b_data.length; i++) {
+                    $("#province_id").append('<option value="' + b_data[i].id + '">' + b_data[i].name + '</option>');
                 }
-                layui.form.render('select','store_addr');
+                layui.form.render('select', 'store_addr');
             }
         },
     })
@@ -317,41 +323,41 @@ function doRequestProvince() {
 /*联动地址请求 门店*/
 function doRequestStore(data) {
     $.ajax({
-        type:"GET",
-        data:data,
-        url:"/api/tncStore/store",
-        success:function (res) {
-            if(res.code ==0){
+        type: "GET",
+        data: data,
+        url: "/api/tncStore/store",
+        success: function (res) {
+            if (res.code == 0) {
                 console.log(res);
                 var b_data = res.data;
                 // vueObj.data.province = res.data;
                 $("#store_id").empty();
                 $("#store_id").append('<option value="">请选择门店</option>');
-                for(var i=0;i<b_data.length;i++){
-                    $("#store_id").append('<option value="'+b_data[i].id+'">'+b_data[i].name+'</option>');
+                for (var i = 0; i < b_data.length; i++) {
+                    $("#store_id").append('<option value="' + b_data[i].id + '">' + b_data[i].name + '</option>');
                     // console.log(i+"store_id");
                 }
-                layui.form.render('select','store_addr');
+                layui.form.render('select', 'store_addr');
             }
         },
     })
 }
 
 /**请求市和县数据*/
-function doRequestAddr(data,comIdName){
-    if(data.id == "")
+function doRequestAddr(data, comIdName) {
+    if (data.id == "")
         return;
     $.ajax({
-        type:"GET",
-        data:data,
-        url:"/api/region/addr",
-        success:function (res) {
-            if(res.code ==0){
+        type: "GET",
+        data: data,
+        url: "/api/region/addr",
+        success: function (res) {
+            if (res.code == 0) {
                 var b_data = res.data;
-                for(var i=0;i<b_data.length;i++){
-                    $(comIdName).append('<option value="'+b_data[i].id+'">'+b_data[i].name+'</option>');
+                for (var i = 0; i < b_data.length; i++) {
+                    $(comIdName).append('<option value="' + b_data[i].id + '">' + b_data[i].name + '</option>');
                 }
-                layui.form.render('select','store_addr');
+                layui.form.render('select', 'store_addr');
             }
         },
     })
@@ -360,19 +366,19 @@ function doRequestAddr(data,comIdName){
 /*重设下拉列表提示内容*/
 function doReset(level) {
 
-    if(level ==1){
+    if (level == 1) {
         $("#city_id").empty();
         $("#city_id").append('<option value="">请选择市</option>');
         $("#area_id").empty();
         $("#area_id").append('<option value="">请选择县/区</option>');
         $("#store_id").empty();
         $("#store_id").append('<option value="">请选择门店</option>');
-    }else if (level == 2){
+    } else if (level == 2) {
         $("#area_id").empty();
         $("#area_id").append('<option value="">请选择县/区</option>');
         $("#store_id").empty();
         $("#store_id").append('<option value="">请选择门店</option>');
-    }else if (level == 3){
+    } else if (level == 3) {
         $("#store_id").empty();
         $("#store_id").append('<option value="">请选择门店</option>');
     }
