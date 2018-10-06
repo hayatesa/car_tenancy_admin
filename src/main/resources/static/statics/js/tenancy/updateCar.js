@@ -1,6 +1,4 @@
 var carId=window.location.search.slice(7);
-
-
 console.log(carId);
 /*查询车辆信息*/
 doGetCar();
@@ -147,7 +145,8 @@ function doCollectingData() {
 
 
     var data ={
-        series:series
+        id:carId
+        ,series:series
         ,year:year
         ,configSection:config_section
         ,provinceId:province_id
@@ -244,11 +243,11 @@ function doCheckData() {
         return;
      var data = doCollectingData();
      $.ajax({
-         url:"/api/car/add",
+         url:"/api/car/update",
          data:data,
          success:function (res) {
              if (res.code == 0){
-                 layer.msg("上传成功");
+                 layer.msg("修改成功");
              }else{
                  layer.msg(res.msg);
              }

@@ -40,7 +40,6 @@ layui.use('table', function() {
         var checkStatus = table.checkStatus(obj.config.id);
         console.log(obj);
         switch (obj.event) {
-
             case "addCar":
                 showAddWindows();
                 break;
@@ -60,7 +59,7 @@ layui.use('table', function() {
         var tr = obj.tr; //获得当前行 tr 的DOM对象
 
         if (layEvent === 'detail') { //查看
-            showDetailView();
+            showDetailView(data.id);
         }else if(layEvent ==='license'){
             showAddLicense(data.id);
         } else if(layEvent ==='package'){

@@ -63,4 +63,11 @@ public class CarServiceImpl implements ICarService {
 
         return tncCarMapper.updateByPrimaryKeySelective(car);
     }
+
+    @Override
+    public int updateCar(TncCar tncCar) {
+
+        tncCar.setGmtModified(new Date());
+        return tncCarMapper.updateByPrimaryKeySelective(tncCar);
+    }
 }

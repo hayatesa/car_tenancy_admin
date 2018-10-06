@@ -12,4 +12,6 @@ public interface ICarService {
     TncCar getCarByCarId(Long carId);
 
     int deleteCarByCarId(Long carId);
+
+    int updateCar(TncCar tncCar);
 }

@@ -1,5 +1,6 @@
 package com.dev.main.tenancy.controller;
 
+import com.dev.main.common.controller.exception.GlobalExceptionResolver;
 import com.dev.main.common.util.Page;
 import com.dev.main.common.util.QueryObject;
 import com.dev.main.common.util.ResultMap;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/car")
+@GlobalExceptionResolver
 public class TncCarController {
     @Autowired
     private ICarService carService;
@@ -50,7 +52,19 @@ public class TncCarController {
         if (n>0){
             return ResultMap.success();
         }else {
-            return ResultMap.fail("添加失败");
+            return ResultMap.fail("删除失败");
         }
     }
+
+    @GetMapping("/update")
+    public ResultMap updateCar(TncCar tncCar){
+        int n = carService.updateCar(tncCar);
+
+        if (n>0){
+            return ResultMap.success();
+        }else {
+            return ResultMap.fail("修改失败");
+        }
+    }
+
 }
