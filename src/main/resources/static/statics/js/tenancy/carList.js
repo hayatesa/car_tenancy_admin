@@ -30,7 +30,7 @@ layui.use('table', function() {
                     else
                         return "其他";
                 }}
-                , {fixed: 'right', title: '操作', toolbar: '#sideBar', unresize: true, width: 320}]
+                , {fixed: 'right', title: '操作', toolbar: '#sideBar', unresize: true, width: 260}]
         ]
         , page: true
     });
@@ -69,14 +69,6 @@ layui.use('table', function() {
             showCarPic(data.id);
         } else if (layEvent === 'del') { //删除
             doDeleteByBtn(obj);
-        } else if (layEvent === 'edit') { //编辑
-            //do something
-            console.log("edit");
-            //同步更新缓存对应的值
-            /*obj.update({
-                store_id: '123'
-                ,title: 'xxx'
-            });*/
         }
     });
     //监听排序事件

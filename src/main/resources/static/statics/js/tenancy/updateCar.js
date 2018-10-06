@@ -1,5 +1,4 @@
-var carId= 16;
-//window.location.search.slice(7);
+var carId=window.location.search.slice(7);
 
 
 console.log(carId);

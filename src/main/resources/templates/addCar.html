@@ -10,17 +10,21 @@
 
             <!--车辆信息-->
             <div class="layui-fluid" >
-                <div class="layui-row layui-col-space15">
-                        <div class="layui-col-md6">
+                <div class="layui-row layui-form-pane layui-col-space15">
+                        <div class="layui-col-md12">
                         <!--品牌-->
                         <div class="layui-card layui-form" lay-filter="brandFilter">
                             <div class="layui-card-header">品牌</div>
                             <div class="layui-card-body layui-row layui-col-space10">
                                 <div class="layui-col-md12">
-                                    <select name="brand" id="brand_id" lay-verify="" >
-                                        <option value="">请选择一个品牌</option>
-                                    </select>
-                                    <!--<input type="text" name="title" placeholder="请输入标题" autocomplete="off" class="layui-input">-->
+                                    <div class="layui-form-item" >
+                                        <label class="layui-form-label">品牌</label>
+                                        <div class="layui-input-block">
+                                            <select name="brand" id="brand_id" lay-verify="" >
+                                                <option value="">请选择一个品牌</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -29,19 +33,39 @@
                             <div class="layui-card-header">基本信息</div>
                             <div class="layui-card-body layui-row layui-col-space10">
                                 <div class="layui-col-md6">
-                                    <input type="text" name="title" id="series" placeholder="车系" autocomplete="off" class="layui-input">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">车系</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" name="title" id="series" placeholder="例：K2" autocomplete="off" class="layui-input">
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="layui-col-md6">
-                                    <select name="car_type" id="car_type_id" >
-                                        <option value="">类型</option>
-                                    </select>
+                                    <div class="layui-form-item" >
+                                        <label class="layui-form-label">选择类型</label>
+                                        <div class="layui-input-block">
+                                            <select name="car_type" id="car_type_id" >
+                                                <option value="">类型</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="layui-col-md6">
-                                    <input type="text" name="title" id="year" placeholder="年代款" autocomplete="off" class="layui-input">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">年代款</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" name="title" id="year" placeholder="例：2018" autocomplete="off" class="layui-input">
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="layui-col-md6">
-                                    <input type="text" name="title" id="config_section" placeholder="配置款" autocomplete="off" class="layui-input">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">配置款</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" name="title" id="config_section" placeholder="例：GL" autocomplete="off" class="layui-input">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -50,119 +74,235 @@
                             <div class="layui-card-header">门店选择</div>
                             <div class="layui-card-body layui-row layui-col-space10">
                                 <div class="layui-col-md6">
-                                    <select name="province" id="province_id" lay-filter="province">
-                                        <option value="">请选择省</option>
-                                    </select>
+                                    <div class="layui-form-item" >
+                                        <label class="layui-form-label">省</label>
+                                        <div class="layui-input-block">
+                                            <select name="province" id="province_id" lay-filter="province">
+                                                <option value="">请选择省</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md6">
+                                    <div class="layui-form-item" >
+                                        <label class="layui-form-label">市</label>
+                                        <div class="layui-input-block">
+                                            <select name="city" id="city_id" lay-filter="city">
+                                                <option value="">请选择市</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md6">
+                                    <div class="layui-form-item" >
+                                        <label class="layui-form-label">县/区</label>
+                                        <div class="layui-input-block">
+                                            <select name="area"  id="area_id" lay-filter="area">
+                                                <option value="">请选择县/区</option>
+                                            </select>
+                                        </div>
+                                    </div>
 
                                 </div>
                                 <div class="layui-col-md6">
-                                    <select name="city" id="city_id" lay-filter="city">
-                                        <option value="">请选择市</option>
-                                    </select>
+                                    <div class="layui-form-item" >
+                                        <label class="layui-form-label">门店</label>
+                                        <div class="layui-input-block">
+                                            <select name="store" id="store_id" lay-filter="store">
+                                                <option value="">请选择门店</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="layui-col-md6">
-                                    <select name="area"  id="area_id" lay-filter="area">
-                                        <option value="">请选择县/区</option>
-                                    </select>
-                                </div>
-                                <div class="layui-col-md6">
-                                    <select name="store" id="store_id" lay-filter="store">
-                                        <option value="">请选择门店</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                        <div class="layui-col-md6">
-                        <!--汽车车配置信息-->
-                        <div class="layui-card layui-form" lay-filter="component-form-element">
-                            <div class="layui-card-header">汽车配置信息</div>
-                            <div class="layui-card-body layui-row layui-col-space10">
-                                <div class="layui-col-md6">
-                                    <input type="text" name="title" id="seat_quantity" placeholder="座位数" autocomplete="off" value="5" class="layui-input">
-                                </div>
-                                <div class="layui-col-md6">
-                                    <input type="text" name="title" id="door_quantity" placeholder="车门数" autocomplete="off" value="4" class="layui-input">
-                                </div>
-                                <div class="layui-col-md6">
-                                    <input type="text" name="title" id="fuel_type" placeholder="燃料类型" autocomplete="off" value="汽油" class="layui-input">
-                                </div>
-                                <div class="layui-col-md6">
-                                    <input type="text" id="transmission_type" placeholder="变速箱类型" value="" class="layui-input">
-                                </div>
-                                <div class="layui-col-md6">
-                                    <input type="text" id="displacement" placeholder="排量" value="" class="layui-input">
-                                </div>
-                                <div class="layui-col-md6">
-                                    <input type="text" id="octane_rating" placeholder="燃油标号" value="92-93汽油" class="layui-input">
-                                </div>
-                                <div class="layui-col-md6">
-                                    <input type="text" id="driven_method" placeholder="驱动方式" value="前驱" class="layui-input">
-                                </div>
-                                <div class="layui-col-md6">
-                                    <input type="text" id="en_itk_form" placeholder="发动机进气形式" value="自然吸气" class="layui-input">
-                                </div>
-                                <div class="layui-col-md6">
-                                    <select name="windows" id="skylight" >
-                                        <option value="">天　　窗</option>
-                                        <option value="0">无</option>
-                                        <option value="1">有</option>
-                                    </select>
-                                </div>
-                                <div class="layui-col-md6">
-                                    <input type="text" id="tank_capacity" placeholder="油箱容量" class="layui-input">
-                                </div>
-                                <div class="layui-col-md6">
-                                    <select name="soundbox" id="speaker"  lay-verify="">
-                                        <option value="">音　　箱</option>
-                                        <option value="0">无</option>
-                                        <option value="1">有</option>
-                                    </select>
-                                </div>
-                                <div class="layui-col-md6">
-                                    <input type="text" id="box_quantity" placeholder="箱数" class="layui-input">
-                                </div>
-                                <div class="layui-col-md6">
-                                    <select name="radar" id="reversing_radar" lay-verify="">
-                                        <option value="">倒车雷达</option>
-                                        <option value="0">无</option>
-                                        <option value="1">有</option>
-                                    </select>
-                                </div>
-                                <div class="layui-col-md6">
-                                    <input type="text" id="airbag" placeholder="气囊" class="layui-input">
-                                </div>
-                                <div class="layui-col-md6">
-                                    <input type="text" id="dvd_cd" placeholder="DVD / CD" class="layui-input">
-                                </div>
-                                <div class="layui-col-md6">
-                                    <select name="gps" id="gps" lay-verify="">
-                                        <option value="">GPS导航</option>
-                                        <option value="0">无</option>
-                                        <option value="1">有</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-            <div id="addCar">
-            <div class="layui-fluid">
-                <div class="layui-row layui-col-space15">
-                    <div class="layui-col-md12">
-                        <div class="layui-card-body layui-row layui-col-space10">
-                            <div class="layui-col-md12">
-                                <button class="layui-btn" id="uploadCar" @click="doSubmitCarBaseMsg">
-                                    <i class="layui-icon">&#xe67c;</i> 上传车辆信息
-                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+
+            <div class="layui-fluid" >
+                <div class="layui-row layui-form-pane layui-col-space15">
+                    <div class="layui-col-md12">
+                        <!--汽车车配置信息-->
+                        <div class="layui-card layui-form" lay-filter="component-form-element">
+                            <div class="layui-card-header">汽车配置信息</div>
+                            <div class="layui-card-body layui-row layui-col-space10">
+                                <div class="layui-col-md6">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">座位数</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" name="title" id="seat_quantity" placeholder="例：5" autocomplete="off" class="layui-input">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md6">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">车门数</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" name="title" id="door_quantity" placeholder="例：4" autocomplete="off"  class="layui-input">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md6">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">燃料类型</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" name="title" id="fuel_type" placeholder="例：汽油" autocomplete="off"  class="layui-input">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md6">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">变速箱类型</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" id="transmission_type" placeholder="例：AT" value="" class="layui-input">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md6">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">排量</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" id="displacement" placeholder="例：1499" value="" class="layui-input">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md6">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">燃油标号</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" id="octane_rating" placeholder="例：92-93汽油" class="layui-input">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md6">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">驱动方式</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" id="driven_method" placeholder="例：前驱"  class="layui-input">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md6">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">发动机进气形式</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" id="en_itk_form" placeholder="例：自然吸气"  class="layui-input">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md6">
+                                    <div class="layui-form-item" >
+                                        <label class="layui-form-label">天　　窗</label>
+                                        <div class="layui-input-block">
+                                            <select name="windows" id="skylight" >
+                                                <option value="">天　　窗</option>
+                                                <option value="0">无</option>
+                                                <option value="1">有</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md6">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">油箱容量</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" id="tank_capacity" placeholder="例：1396" class="layui-input">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md6">
+                                    <div class="layui-form-item" >
+                                        <label class="layui-form-label">音　　箱</label>
+                                        <div class="layui-input-block">
+                                            <select name="soundbox" id="speaker"  lay-verify="">
+                                                <option value="">音　　箱</option>
+                                                <option value="0">无</option>
+                                                <option value="1">有</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md6">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">箱数</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" id="box_quantity" placeholder="例：3" class="layui-input">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md6">
+                                    <div class="layui-form-item" >
+                                        <label class="layui-form-label">倒车雷达</label>
+                                        <div class="layui-input-block">
+                                            <select name="radar" id="reversing_radar" lay-verify="">
+                                                <option value="">倒车雷达</option>
+                                                <option value="0">无</option>
+                                                <option value="1">有</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md6">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">气囊</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" id="airbag" placeholder="例：2" class="layui-input">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md6">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">DVD / CD</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" id="dvd_cd" placeholder="例：CD" class="layui-input">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md6">
+                                    <div class="layui-form-item" >
+                                        <label class="layui-form-label">GPS导航</label>
+                                        <div class="layui-input-block">
+                                            <select name="gps" id="gps" lay-verify="">
+                                                <option value="">GPS导航</option>
+                                                <option value="0">无</option>
+                                                <option value="1">有</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="layui-col-md6">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">座位材料</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" id="seat" placeholder="例：织物座椅" class="layui-input">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div id="addCar">
+                <div class="layui-fluid">
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-col-md12">
+                            <div class="layui-card-body layui-row layui-col-space10">
+                                <div class="layui-col-md12">
+                                    <button class="layui-btn" id="uploadCar" @click="doSubmitCarBaseMsg">
+                                        <i class="layui-icon">&#xe67c;</i> 上传车辆信息
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
     <script type="text/html" id="barDemo">
         <a class="layui-btn layui-btn-xs" lay-event="edit"> <i class="layui-icon"> &#xe642;</i>编辑</a>

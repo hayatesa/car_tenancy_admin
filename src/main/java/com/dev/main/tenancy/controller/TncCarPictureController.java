@@ -28,6 +28,7 @@ public class TncCarPictureController {
 
     @GetMapping("/storage")
     public ResultMap storagePic(TncCarPic tncCarPic){
+        System.out.println(tncCarPic.getIsCover());
         int n = tncCarPicService.storagePic(tncCarPic);
         if (n>0){
             return ResultMap.success("上传成功");

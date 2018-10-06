@@ -14,12 +14,18 @@ layui.use('upload', function(){
             });
         }
         ,done: function(res){
+            console.log(res);
             //如果上传失败
             if(res.code > 0){
                 return layer.msg('上传失败');
             }
+            var data={
+                carId:carId,
+                path:res.path,
+                isCover:1
+            }
             //上传成功
-            doStoragePic(res.path);
+            doStoragePic(data);
 
         }
         ,error: function(){
@@ -57,9 +63,14 @@ layui.use('upload', function(){
         }
         ,done: function(res){
             //上传完毕回调
-            // console.log(res)
+            console.log(res)
             if (res.code ==0){
-                doStoragePic(res.path);
+                var data={
+                    carId:carId,
+                    path:res.path,
+                    isCover:0
+                }
+                doStoragePic(data);
             }
         }
         ,error: function(res){
@@ -72,14 +83,10 @@ layui.use('upload', function(){
 
 });
 
-function doStoragePic(path) {
+function doStoragePic(data) {
+    console.log("ICANTBELIEVE");
+    console.log(data);
     var url ="/api/carPic/storage";
-    var data={
-        carId:carId,
-        path:path,
-        isCover:0
-    }
-
     if(picData != null){
         url ="/api/carPic/update";
         data.id=picData.id;
@@ -213,10 +220,10 @@ function hoverOpenImg(){
     var img_show = null; // tips提示
     $('td img').hover(function(){
         //alert($(this).attr('src'));
-        var img = "<img class='img_msg' src='"+$(this).attr('src')+"' style='width:230px;' />";
+        var img = "<img class='img_msg' src='"+$(this).attr('src')+"' style='width:330px;' />";
         img_show = layer.tips(img, this,{
             tips:[2, 'rgba(41,41,41,.5)']
-            ,area: ['260px']
+            ,area: ['360px']
         });
     },function(){
         layer.close(img_show);
