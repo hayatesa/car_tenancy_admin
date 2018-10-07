@@ -17,12 +17,12 @@
                 <div class="layui-card-body">
                     <div class="layui-row" >
                         <div class="layui-col-md6">
-                            <img src="https://fimg.zuchecdn.com/upload/web/modepic/842.jpg" style="height:120px;width: 212px">
+                            <img :src="car.picPath" style="height:120px;width: 212px">
                         </div>
                         <div class="layui-col-md6">
-                            <label class="mylabel_1" style="margin-top:15px;">品牌：别克</label><br>
-                            <label class="mylabel_1">系列：君威V4</label><br>
-                            <label class="mylabel_1">车牌号：粤B AD446</label>
+                            <label class="mylabel_1" style="margin-top:15px;">品牌：{{car.carName}}</label><br>
+                            <label class="mylabel_1">系列：{{car.carSeries}}</label><br>
+                            <label class="mylabel_1">车牌号：{{car.carNub}}</label>
                         </div>
                     </div>
                 </div>
@@ -34,31 +34,31 @@
                 <div class="layui-card-body">
                     <div class="layui-row" >
                         <div class="layui-col-md6">
-                            <label class="mylabel_3">用户姓名：林悦鸿</label>
+                            <label class="mylabel_3">用户姓名：{{user.name}}</label>
                         </div>
                         <div class="layui-col-md6">
-                            <label class="mylabel_3">性别：男</label>
+                            <label class="mylabel_3">性别：{{user.gender=="1"?"男":"女"}}</label>
                         </div>
                     </div>
                     <div class="layui-row" >
                         <div class="layui-col-md6">
-                            <label class="mylabel_3">联系电话：17876253498</label>
+                            <label class="mylabel_3">联系电话：{{user.phone}}</label>
                         </div>
                         <div class="layui-col-md6">
-                            <label class="mylabel_3">邮箱：330730953@qq.com</label>
+                            <label class="mylabel_3">邮箱：{{user.email}}</label>
                         </div>
                     </div>
                     <div class="layui-row" >
                         <div class="layui-col-md12">
-                            <label class="mylabel_3">身份证号码：441581199707124779</label>
+                            <label class="mylabel_3">身份证号码：{{user.idCard}}</label>
                         </div>
                     </div>
                     <div class="layui-row" >
                         <div class="layui-col-md6">
-                            <label class="mylabel_3">紧急人姓名：阿木木</label>
+                            <label class="mylabel_3">紧急人姓名：{{user.emergencyName}}</label>
                         </div>
                         <div class="layui-col-md6">
-                            <label class="mylabel_3">紧急人电话：18218191891</label>
+                            <label class="mylabel_3">紧急人电话：{{user.emergencyPhone}}</label>
                         </div>
                     </div>
                 </div>
@@ -70,10 +70,10 @@
                 <div class="layui-card-body">
                     <div class="layui-row" >
                         <div class="layui-col-md6">
-                            <label class="mylabel_2">押金金额：2000元</label>
+                            <label class="mylabel_2">押金金额：{{order.deposit}}</label>
                         </div>
                         <div class="layui-col-md6">
-                            <label class="mylabel_2">押金状态：&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp已收</label>
+                            <label class="mylabel_2">押金状态：&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{{(order.isDepositReturned==0||order.isDepositReturned==1)?(order.isDepositReturned==1?"已退":"未退"):"未缴"}}</label>
                         </div>
                     </div>
                     <div class="layui-row" >
@@ -81,7 +81,7 @@
                             <label class="mylabel_2">租赁费用：</label>
                         </div>
                         <div class="layui-col-md6">
-                            <label class="mylabel_money"><pp>40*5 = </pp>200</label>
+                            <label class="mylabel_money"><pp>40*5 = </pp>{{order.baseAmount}}</label>
                         </div>
                     </div>
                     <div class="layui-row" >
@@ -89,7 +89,7 @@
                             <label class="mylabel_2">服务费用：</label>
                         </div>
                         <div class="layui-col-md6">
-                            <label class="mylabel_money"><pp>60*5 = </pp>300</label>
+                            <label class="mylabel_money"><pp>60*5 = </pp>{{order.serviceAmount}}</label>
                         </div>
                     </div>
                     <div class="layui-row" >
@@ -97,7 +97,7 @@
                             <label class="mylabel_2">折扣：</label>
                         </div>
                         <div class="layui-col-md6">
-                            <label class="mylabel_money">0.55</label>
+                            <label class="mylabel_money">{{order.discount}}</label>
                         </div>
                     </div>
                     <div class="layui-row" >
@@ -105,7 +105,7 @@
                             <label class="mylabel_2">优惠券：</label>
                         </div>
                         <div class="layui-col-md6">
-                            <label class="mylabel_money">-100</label>
+                            <label class="mylabel_money">{{car.amount}}</label>
                         </div>
                     </div>
                     <div class="layui-row" >
@@ -113,7 +113,7 @@
                             <label class="mylabel_2"><a onclick="getother()">其他费用：</a></label>
                         </div>
                         <div class="layui-col-md6">
-                            <label class="mylabel_money">20</label>
+                            <label class="mylabel_money">{{order.otherAmount}}</label>
                         </div>
                     </div>
                     <div class="layui-row" >
@@ -122,65 +122,67 @@
                             <label class="mylabel_2" style="margin-top:-5px;">总价：</label>
                         </div>
                         <div class="layui-col-md6">
-                            <label class="mylabel_money" style="margin-top:-5px;">666</label>
+                            <label class="mylabel_money" style="margin-top:-5px;">{{order.totalAmount}}</label>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="layui-col-md8">
-            <div class="layui-card" style="height: 265px">
+            <div class="layui-card" style="height: 285px">
                 <div class="layui-card-header">订单跟踪</div>
                 <div class="layui-card-body">
                     <div class="layui-row" >
                         <div class="layui-col-md4">
-                            <label class="mylabel">订单编号：15374302222</label><!--最长位数12-->
+                            <label class="mylabel">订单编号：{{order.id}}</label><!--最长位数12-->
                         </div>
                         <div class="layui-col-md4">
-                            <label class="mylabel">订单状态：租赁中</label>
+                            <label class="mylabel">订单状态：{{status}}</label>
                         </div>
                         <div class="layui-col-md4">
-                            <label class="mylabel">租赁天数：2天</label>
+                            <label class="mylabel">租赁天数：{{days}}天</label>
+                        </div>
+                    </div>
+                    <div class="layui-row" >
+                        <div class="layui-col-md12">
+                            <label class="mylabel">借车门店：{{getadd}}</label>
+                        </div>
+                    </div>
+                    <div class="layui-row" >
+                        <div class="layui-col-md12">
+                            <label class="mylabel">还车门店：{{returnadd}}</label>
                         </div>
                     </div>
                     <div class="layui-row" >
                         <div class="layui-col-md6">
-                            <label class="mylabel">借车店：广东省肇庆市端州区肇庆学院店</label>
+                            <label class="mylabel">开始时间：{{order.startDate}}</label>
                         </div>
                         <div class="layui-col-md6">
-                            <label class="mylabel">还车店：广东省深圳市福田区上梅林市店</label>
-                        </div>
-                    </div>
-                    <div class="layui-row" >
-                        <div class="layui-col-md6">
-                            <label class="mylabel">开始时间：2018.10.20 16:30</label>
-                        </div>
-                        <div class="layui-col-md6">
-                            <label class="mylabel">应还时间：2018.10.21 16:30</label>
+                            <label class="mylabel">应还时间：{{order.returnDate}}</label>
                         </div>
                     </div>
                     <div class="layui-row" >
                         <div class="layui-col-md6">
-                            <label class="mylabel">创建时间：2018.10.20 16:30</label>
+                            <label class="mylabel">创建时间：{{order.gmtCreate}}</label>
                         </div>
                         <div class="layui-col-md6">
-                            <label class="mylabel">支付时间：2018.10.21 16:30</label>
-                        </div>
-                    </div>
-                    <div class="layui-row" >
-                        <div class="layui-col-md6">
-                            <label class="mylabel">提车时间：2018.10.20 16:30</label>
-                        </div>
-                        <div class="layui-col-md6">
-                            <label class="mylabel">还车时间：2018.10.21 16:30</label>
+                            <label class="mylabel">支付时间：{{order.payTime}}</label>
                         </div>
                     </div>
                     <div class="layui-row" >
                         <div class="layui-col-md6">
-                            <label class="mylabel">申请退款时间：2018.10.20 16:30</label>
+                            <label class="mylabel">提车时间：{{}}</label>
                         </div>
                         <div class="layui-col-md6">
-                            <label class="mylabel">确认退款时间：2018.10.21 16:30</label>
+                            <label class="mylabel">还车时间：{{order.realReturnDate}}</label>
+                        </div>
+                    </div>
+                    <div class="layui-row" >
+                        <div class="layui-col-md6">
+                            <label class="mylabel">申请退款时间：{{}}</label>
+                        </div>
+                        <div class="layui-col-md6">
+                            <label class="mylabel">确认退款时间：{{}}</label>
                         </div>
                     </div>
                 </div>

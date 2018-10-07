@@ -21,14 +21,14 @@
                 <div class="layui-card-body">
                     <div class="layui-row" >
                         <div class="layui-col-md6">
-                            <img  :src="order.car_pic" style="height:120px;width: 212px">
+                            <img  :src="car.picPath" style="height:120px;width: 212px">
                         </div>
                         <div class="layui-col-md6">
                             <div style="height: 10px"> </div>
-                            <label class="mylabel_car" style="padding-top:60px;">品牌：{{order.car_name}}</label><br>
-                            <label class="mylabel_car">系列：{{order.car_series}}</label><br>
+                            <label class="mylabel_car" style="padding-top:60px;">品牌：{{car.carName}}</label><br>
+                            <label class="mylabel_car">系列：{{car.carSeries}}</label><br>
                             <label class="mylabel_car">车牌号：
-                                <nub>{{order.car_number}}</nub>
+                                <nub>{{car.carNub}}</nub>
                             </label>
                         </div>
                     </div>
@@ -53,31 +53,31 @@
                 <div class="layui-card-body">
                     <div class="layui-row" style="margin-top: 5px">
                         <div class="layui-col-md6">
-                            <label class="mylabel_user">用户姓名：<input class="beforeinput" disabled="true" v-model="order.user_name"/></label>
+                            <label class="mylabel_user">用户姓名：<input class="beforeinput" disabled="true" v-model="user.name"/></label>
                         </div>
                         <div class="layui-col-md6">
-                            <label class="mylabel_user">性别：<input class="beforeinput" disabled="true" v-model="order.user_sex"/></label>
+                            <label class="mylabel_user">性别：<input class="phoneinput" disabled="true" v-model="user.gender=='1'?'男':'女'"/></label>
                         </div>
                     </div>
                     <div class="layui-row" >
                         <div class="layui-col-md6">
-                            <label class="mylabel_user">联系电话：<input class="phoneinput" disabled="true" v-model="order.user_phone"/></label>
+                            <label class="mylabel_user">联系电话：<input class="phoneinput" disabled="true" v-model="user.phone"/></label>
                         </div>
                         <div class="layui-col-md6">
-                            <label class="mylabel_user">邮箱：<input style="width:150px" class="beforeinput" disabled="true" v-model="order.user_email"/></label>
+                            <label class="mylabel_user">邮箱：<input style="width:150px" class="beforeinput" disabled="true" v-model="user.email"/></label>
                         </div>
                     </div>
                     <div class="layui-row" >
                         <div class="layui-col-md12">
-                            <label class="mylabel_user">身份证号码：<input style="width:200px" class="beforeinput" disabled="true" v-model="order.user_id_card"/></label>
+                            <label class="mylabel_user">身份证号码：<input style="width:200px" class="beforeinput" disabled="true" v-model="user.idCard"/></label>
                         </div>
                     </div>
                     <div class="layui-row" >
                         <div class="layui-col-md6">
-                            <label class="mylabel_user">紧急人姓名：<input class="beforeinput" disabled="true" style="width: 125px" v-model="order.user_emergency_name"/></label>
+                            <label class="mylabel_user">紧急人姓名：<input class="beforeinput" disabled="true" style="width: 125px" v-model="user.emergencyName"/></label>
                         </div>
                         <div class="layui-col-md6">
-                            <label class="mylabel_user">紧急人电话：<input class="beforeinput" disabled="true" v-model="order.user_emergency_phone"/></label>
+                            <label class="mylabel_user">紧急人电话：<input class="beforeinput" disabled="true" v-model="user.emergencyPhone"/></label>
                         </div>
                     </div>
                 </div>
@@ -88,44 +88,44 @@
             <div class="layui-card-body">
                 <div class="layui-row" >
                     <div class="layui-col-md6">
-                        <label class="mylabel">用户姓名：{{order.user_name}}</label><!--最长位数12-->
+                        <label class="mylabel">用户姓名：{{user.name}}</label><!--最长位数12-->
                     </div>
                     <div class="layui-col-md6">
-                        <label class="mylabel">联系电话：{{order.user_phone}}</label>
+                        <label class="mylabel">联系电话：{{user.phone}}</label>
                     </div>
                 </div>
                 <div class="layui-row" >
                     <div class="layui-col-md6">
-                        <label class="mylabel">订单编号：{{order.order_id}}</label><!--最长位数12-->
+                        <label class="mylabel">订单编号：{{order.id}}</label><!--最长位数12-->
                     </div>
                     <div class="layui-col-md6">
-                        <label class="mylabel">订单状态：{{order.order_status}}</label>
-                    </div>
-                </div>
-                <div class="layui-row" >
-                    <div class="layui-col-md12">
-                        <label class="mylabel">借车门店：{{order.order_get_store_province}}{{order.order_get_store_city}}{{order.order_get_store_area}}{{order.order_get_store_detail}}</label>
+                        <label class="mylabel">订单状态：{{status}}</label>
                     </div>
                 </div>
                 <div class="layui-row" >
                     <div class="layui-col-md12">
-                        <label class="mylabel">还车门店：{{order.order_return_store_province}}{{order.order_return_store_city}}{{order.order_return_store_area}}{{order.order_return_store_detail}}</label>
+                        <label class="mylabel">借车门店：{{getadd}}</label>
+                    </div>
+                </div>
+                <div class="layui-row" >
+                    <div class="layui-col-md12">
+                        <label class="mylabel">还车门店：{{returnadd}}</label>
                     </div>
                 </div>
                 <div class="layui-row" >
                     <div class="layui-col-md6">
-                        <label class="mylabel">开始时间：{{order.order_start_date}}</label>
+                        <label class="mylabel">开始时间：{{order.startDate}}</label>
                     </div>
                     <div class="layui-col-md6">
-                        <label class="mylabel">应还时间：{{order.order_return_date}}</label>
+                        <label class="mylabel">应还时间：{{order.returnDate}}</label>
                     </div>
                 </div>
                 <div class="layui-row" >
                     <div class="layui-col-md6">
-                        <label class="mylabel">支付时间：{{order.order_pay_time}}</label>
+                        <label class="mylabel">支付时间：{{order.payTime}}</label>
                     </div>
                     <div class="layui-col-md6">
-                        <label class="mylabel">支付金额：{{order.total_amount}}</label>
+                        <label class="mylabel">支付金额：{{order.totalAmount}}</label>
                     </div>
                 </div>
             </div>
@@ -141,36 +141,36 @@
                 <div class="layui-card-body">
                     <div class="layui-row" >
                         <div class="layui-col-md6">
-                            <label class="mylabel">订单编号：{{order.order_id}}</label><!--最长位数12-->
+                            <label class="mylabel">订单编号：{{order.id}}</label><!--最长位数12-->
                         </div>
                         <div class="layui-col-md6">
-                            <label class="mylabel">订单状态：{{order.order_status}}</label>
+                            <label class="mylabel">订单状态：{{status}}</label>
                         </div>
                     </div>
                     <div class="layui-row" >
                         <div class="layui-col-md12">
-                            <label class="mylabel">借车门店：{{order.order_get_store_province}}{{order.order_get_store_city}}{{order.order_get_store_area}}{{order.order_get_store_detail}}</label>
+                            <label class="mylabel">借车门店：{{getadd}}</label>
                         </div>
                     </div>
                     <div class="layui-row" >
                         <div class="layui-col-md12">
-                            <label class="mylabel">还车门店：{{order.order_return_store_province}}{{order.order_return_store_city}}{{order.order_return_store_area}}{{order.order_return_store_detail}}</label>
+                            <label class="mylabel">还车门店：{{returnadd}}</label>
                         </div>
                     </div>
                     <div class="layui-row" >
                         <div class="layui-col-md6">
-                            <label class="mylabel">开始时间：{{order.order_start_date}}</label>
+                            <label class="mylabel">开始时间：{{order.startDate}}</label>
                         </div>
                         <div class="layui-col-md6">
-                            <label class="mylabel">应还时间：{{order.order_return_date}}</label>
+                            <label class="mylabel">应还时间：{{order.returnDate}}</label>
                         </div>
                     </div>
                     <div class="layui-row" >
                         <div class="layui-col-md6">
-                            <label class="mylabel">支付时间：{{order.order_pay_time}}</label>
+                            <label class="mylabel">支付时间：{{order.payTime}}</label>
                         </div>
                         <div class="layui-col-md6">
-                            <label class="mylabel">提车时间：2018</label>
+                            <label class="mylabel">提车时间：{{}}</label>
                         </div>
                     </div>
                 </div>

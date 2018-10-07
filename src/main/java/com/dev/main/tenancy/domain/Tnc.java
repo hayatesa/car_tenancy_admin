@@ -4,7 +4,7 @@ import com.dev.main.common.domain.BaseDomain;
 
 import java.util.Date;
 
-public class TncCarItem extends BaseDomain {
+public class Tnc extends BaseDomain {
     // 主键
     private Long id;
 
@@ -16,15 +16,6 @@ public class TncCarItem extends BaseDomain {
 
     // 车（型号）外键
     private Long carId;
-    private TncCar car;
-
-    public TncCar getCar() {
-        return car;
-    }
-
-    public void setCar(TncCar car) {
-        this.car = car;
-    }
 
     // 是否删除 1-删除
     private Byte isDeleted;

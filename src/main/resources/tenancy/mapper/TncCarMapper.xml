@@ -33,6 +33,7 @@
     <result column="is_deleted" property="isDeleted" jdbcType="TINYINT" />
     <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
     <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+    <association property="brand" column="brand_id" select="com.dev.main.tenancy.dao.TncBrandMapper.selectByPrimaryKey" javaType="com.dev.main.tenancy.domain.TncBrand"></association>
   </resultMap>
   <sql id="Base_Column_List" >
     id, series, quantity, residual, year, config_section, seat_quantity, door_quantity, 

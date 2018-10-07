@@ -31,6 +31,29 @@
     <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
     <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
     <result column="car_item_id" property="carItemId" jdbcType="BIGINT" />
+    <association property="returnStore" column="return_store_id" select="com.dev.main.tenancy.dao.TncStoreMapper.selectByPrimaryKey" javaType="com.dev.main.tenancy.domain.TncStore"></association>
+    <association property="getStore" column="get_store_id" select="com.dev.main.tenancy.dao.TncStoreMapper.selectByPrimaryKey" javaType="com.dev.main.tenancy.domain.TncStore"></association>
+  </resultMap>
+  <resultMap id="shortdetail" type="com.dev.main.tenancy.vo.TncOrderListVo">
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="get_store_id" property="getStoreId" jdbcType="BIGINT" />
+    <result column="return_store_id" property="returnStoreId" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="total_amount" property="totalAmount" jdbcType="DECIMAL" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="car_item_id" property="carItemId" jdbcType="BIGINT" />
+    <association property="carItem" column="car_item_id" select="getCar" javaType="com.dev.main.tenancy.vo.CarVo" ></association>
+    <association property="returnStore" column="return_store_id" select="getStore" javaType="com.dev.main.tenancy.vo.StoreVo"></association>
+    <association property="getStore" column="get_store_id" select="getStore" javaType="com.dev.main.tenancy.vo.StoreVo"></association>
+  </resultMap>
+  <resultMap id="caritem" type="com.dev.main.tenancy.vo.TncOrderVo">
+    <result column="car_id" property="carId"/>
+    <association property="car" column="car_id" select="selectcar"></association>
+  </resultMap>
+  <resultMap id="car" type="com.dev.main.tenancy.vo.TncOrderVo">
+    <result column="brand_id" property="brandId"/>
+    <association property="band" column="brand_id" select="selectbrand"></association>
   </resultMap>
   <sql id="Base_Column_List" >
     id, name, credentials_type, credentials_number, email, phone, total_amount, order_amount, 
@@ -39,6 +62,241 @@
     start_date, return_date, real_return_date, pay_time, status, is_deleted, gmt_create, 
     gmt_modified, car_item_id
   </sql>
+  <select id="selectbrand" resultType="com.dev.main.tenancy.domain.TncBrand">
+    select * from tnc_brand where id = #{xxx}
+  </select>
+<select id="selectitem" resultMap="caritem">
+  select car_Id from tnc_car_item where id = #{xxx}
+</select>
+  <select id="selectcar" resultMap="car">
+    select brand_id from tnc_car where id = #{xxx}
+  </select>
+  <select id="query2" resultMap="shortdetail">
+    select
+    <include refid="Base_Column_List" />
+     from tnc_order
+    <where>
+    AND ( is_deleted = 0 )
+      <if test="search!=null">
+          AND ( status = #{search} )
+      </if>
+    </where>
+  </select>
+  <!--<select id="queryByWord" resultMap="shortdetail">-->
+    <!--select *-->
+    <!--from tnc_order a,tnc_car_item b,tnc_car c,tnc_brand d-->
+    <!--<where>-->
+      <!--a.is_deleted = 0 AND a.car_item_id = b.id AND b.car_id = c.id AND c.brand_id = d.id-->
+    <!--</where>-->
+    <!--<if test="search!=null">AND (-->
+      <!--b.number LIKE CONCAT('%',#{search},'%')-->
+      <!--OR c.series LIKE CONCAT('%',#{search},'%')-->
+      <!--OR a.id LIKE CONCAT('%',#{search},'%')-->
+      <!--OR a.name LIKE CONCAT('%',#{search},'%')-->
+      <!--OR a.phone LIKE CONCAT('%',#{search},'%')-->
+      <!--OR d.name LIKE CONCAT('%',#{search},'%')-->
+      <!--OR a.status LIKE CONCAT('%',#{search},'%')-->
+      <!--)-->
+    <!--</if>-->
+    <!--<if test="status!=null">-->
+      <!--AND ( a.status = #{status} )-->
+    <!--</if>-->
+  <!--</select>-->
+  <select id="queryByWord" resultMap="shortdetail">
+    select *
+    from tnc_order a
+    join tnc_car_item b on a.car_item_id = b.id
+    join tnc_store getstore on a.get_store_id = getstore.id
+    join tnc_address getadd on getstore.addr_id = getadd.id
+    join tnc_store returnstore on a.return_store_id = returnstore.id
+    join tnc_address returnadd on returnstore.addr_id = returnadd.id
+    join tnc_car c on b.car_id = c.id
+    join tnc_brand d on c.brand_id = d.id
+    <where>
+      a.is_deleted = 0
+    </where>
+    <if test="search!=null">AND (
+      b.number LIKE CONCAT('%',#{search},'%')
+      OR c.series LIKE CONCAT('%',#{search},'%')
+      OR getstore.name LIKE CONCAT('%',#{search},'%')
+      OR returnstore.name LIKE CONCAT('%',#{search},'%')
+      OR a.id LIKE CONCAT('%',#{search},'%')
+      OR a.name LIKE CONCAT('%',#{search},'%')
+      OR a.phone LIKE CONCAT('%',#{search},'%')
+      OR d.name LIKE CONCAT('%',#{search},'%')
+      )
+    </if>
+    <if test="gp!=null">AND ( getadd.province_id = #{gp})</if>
+    <if test="gc!=null">AND ( getadd.city_id = #{gc})</if>
+    <if test="ga!=null">AND ( getadd.area_id = #{ga})</if>
+    <if test="bp!=null">AND ( returnadd.province_id = #{bp})</if>
+    <if test="bc!=null">AND ( returnadd.city_id = #{bc})</if>
+    <if test="ba!=null">AND ( returnadd.area_id = #{ba})</if>
+    <if test="now!=null">
+      <![CDATA[ and a.return_date >= #{now} ]]>
+    </if>
+    <if test="status!=null">
+      AND ( a.status = #{status} )
+    </if>
+  </select>
+  <!--<select id="queryByWord" resultMap="shortdetail">-->
+    <!--select *-->
+    <!--from tnc_order a-->
+    <!--join tnc_car_item b on a.car_item_id = b.id-->
+    <!--join tnc_store getstore on a.get_store_id = getstore.id-->
+    <!--join tnc_store returnstore on a.return_store_id = returnstore.id-->
+    <!--join tnc_car c on b.car_id = c.id-->
+    <!--join tnc_brand d on c.brand_id = d.id-->
+    <!--<where>-->
+      <!--a.is_deleted = 0-->
+    <!--</where>-->
+    <!--<if test="search!=null">AND (-->
+      <!--b.number LIKE CONCAT('%',#{search},'%')-->
+      <!--OR c.series LIKE CONCAT('%',#{search},'%')-->
+      <!--OR getstore.name LIKE CONCAT('%',#{search},'%')-->
+      <!--OR returnstore.name LIKE CONCAT('%',#{search},'%')-->
+      <!--OR a.id LIKE CONCAT('%',#{search},'%')-->
+      <!--OR a.name LIKE CONCAT('%',#{search},'%')-->
+      <!--OR a.phone LIKE CONCAT('%',#{search},'%')-->
+      <!--OR d.name LIKE CONCAT('%',#{search},'%')-->
+      <!--)-->
+    <!--</if>-->
+    <!--<if test="status!=null">-->
+      <!--AND ( a.status = #{status} )-->
+    <!--</if>-->
+  <!--</select>-->
+  <select id="query" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tnc_order
+  </select>
+
+
+
+  <resultMap id="getOrderListRm" type="com.dev.main.tenancy.vo.OrderListVo">
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="total_amount" property="totalAmount" jdbcType="DECIMAL" />
+    <result column="get_store_id" property="getStoreId" jdbcType="BIGINT" />
+    <result column="return_store_id" property="returnStoreId" jdbcType="BIGINT" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="car_item_id" property="carId" jdbcType="BIGINT" />
+    <association property="carVo" column="car_item_id" select="getCar" javaType="com.dev.main.tenancy.vo.CarVo"/>
+    <association property="getStoreVo" column="get_store_id" select="getStore" javaType="com.dev.main.tenancy.vo.StoreVo"/>
+    <association property="returnStoreVo" column="return_store_id" select="getStore" javaType="com.dev.main.tenancy.vo.StoreVo"/>
+  </resultMap>
+    <resultMap id="getOrderListByWordRm" type="com.dev.main.tenancy.vo.OrderListVo">
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="phone" property="phone" jdbcType="VARCHAR" />
+        <result column="total_amount" property="totalAmount" jdbcType="DECIMAL" />
+        <result column="get_store_id" property="getStoreId" jdbcType="BIGINT" />
+        <result column="return_store_id" property="returnStoreId" jdbcType="BIGINT" />
+        <result column="status" property="status" jdbcType="TINYINT" />
+        <result column="car_item_id" property="carId" jdbcType="BIGINT" />
+    </resultMap>
+<select id="getOrderList" resultMap="getOrderListRm">
+  select *
+  from tnc_order
+  <where>
+    AND ( is_deleted = 0 )
+    <if test="search!=null">
+      AND ( status = #{search} )
+    </if>
+  </where>
+</select>
+  <!--<select id="getOrderListByWord" resultMap="getOrderListByWordRm">-->
+    <!--select *-->
+    <!--from tnc_order a,tnc_car_item b,tnc_car c,tnc_brand d-->
+    <!--<where>-->
+        <!--a.is_deleted = 0 AND a.car_item_id = b.id AND b.car_id = c.id AND c.brand_id = d.id-->
+    <!--</where>-->
+      <!--<if test="search!=null">AND (-->
+          <!--b.number LIKE CONCAT('%',#{search},'%')-->
+          <!--OR c.series LIKE CONCAT('%',#{search},'%')-->
+          <!--OR a.id LIKE CONCAT('%',#{search},'%')-->
+          <!--OR a.name LIKE CONCAT('%',#{search},'%')-->
+          <!--OR a.phone LIKE CONCAT('%',#{search},'%')-->
+          <!--OR d.name LIKE CONCAT('%',#{search},'%')-->
+          <!--)-->
+      <!--</if>-->
+      <!--<if test="status!=null">-->
+          <!--AND ( a.status = #{status} )-->
+      <!--</if>-->
+  <!--</select>-->
+  <select id="getOrderListByWord" resultMap="getOrderListByWordRm">
+    select *
+    from tnc_order a
+    join tnc_car_item b on a.car_item_id = b.id
+    join tnc_store getstore on a.get_store_id = getstore.id
+    join tnc_store returnstore on a.return_store_id = returnstore.id
+    join tnc_car c on b.car_id = c.id
+    join tnc_brand d on c.brand_id = d.id
+    <where>
+      a.is_deleted = 0
+    </where>
+    <if test="search!=null">AND (
+      b.number LIKE CONCAT('%',#{search},'%')
+      OR c.series LIKE CONCAT('%',#{search},'%')
+      OR getstore.name LIKE CONCAT('%',#{search},'%')
+      OR returnstore.name LIKE CONCAT('%',#{search},'%')
+      OR a.id LIKE CONCAT('%',#{search},'%')
+      OR a.name LIKE CONCAT('%',#{search},'%')
+      OR a.phone LIKE CONCAT('%',#{search},'%')
+      OR d.name LIKE CONCAT('%',#{search},'%')
+      )
+    </if>
+    <if test="status!=null">
+      AND ( a.status = #{status} )
+    </if>
+  </select>
+  <!--查门店的省、市、区、地址详情、门店名-->
+<resultMap id="getStoreRm" type="com.dev.main.tenancy.vo.StoreVo">
+  <result property="province" column="province"/>
+  <result property="city" column="city" jdbcType="VARCHAR"/>
+  <result property="area" column="area" jdbcType="VARCHAR"/>
+  <result property="detail" column="detail" jdbcType="VARCHAR"/>
+  <result property="name" column="name" jdbcType="VARCHAR"/>
+</resultMap>
+<select id="getStore" resultMap="getStoreRm" parameterType="java.lang.Long">
+  select store.name `name`, pr.name `province`, cr.name `city`, ar.name `area`, a.detail `detail`
+  from tnc_store store
+  join tnc_address a on store.addr_id = a.id
+  join address_region pr on a.province_id = pr.id
+  join address_region cr on a.city_id = cr.id
+  join address_region ar on a.area_id = ar.id
+  where store.id = #{xxx}
+</select>
+  <!--查车图片-->
+  <select id="getCarPic" resultType="String">
+    select path
+    from tnc_car_pic
+    where is_cover = 1 and car_id = #{xxx}
+  </select>
+<!--查车的车牌号、品牌、系列-->
+  <resultMap id="getCarRm" type="com.dev.main.tenancy.vo.CarVo">
+    <result property="carId" column="carId" jdbcType="BIGINT"/>
+    <result property="brand" column="brand" jdbcType="VARCHAR"/>
+    <result property="series" column="series" jdbcType="VARCHAR"/>
+    <result property="nub" column="nub" jdbcType="VARCHAR"/>
+    <association property="path" column="carId" select="getCarPic" javaType="String"/>
+  </resultMap>
+  <select id="getCar" resultMap="getCarRm" parameterType="java.lang.Long">
+  select a.number as nub, b.series as series, b.id as carId, d.name as brand
+  from tnc_car_item as a, tnc_car as b, tnc_brand as d
+  where a.id = #{xxx} and a.car_id = b.id and b.brand_id = d.id
+</select>
+<!--<select id="getCar" resultMap="getCarRm" parameterType="java.lang.Long">-->
+  <!--select a.number nub, d.name brand, b.series series, pic.path path-->
+  <!--from tnc_car_item a-->
+  <!--join tnc_car b on a.car_id = b.id-->
+  <!--join tnc_car_pic pic on b.id = pic.car_id-->
+  <!--join tnc_brand d on b.brand_id = d.id-->
+  <!--where  pic.is_cover = 1 and a.id = #{xxx}-->
+<!--</select>-->
+
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />

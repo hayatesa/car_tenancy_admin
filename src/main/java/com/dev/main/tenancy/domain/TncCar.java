@@ -82,6 +82,15 @@ public class TncCar extends BaseDomain {
 
     // 品牌 外键
     private Long brandId;
+    private TncBrand brand;
+
+    public TncBrand getBrand() {
+        return brand;
+    }
+
+    public void setBrand(TncBrand brand) {
+        this.brand = brand;
+    }
 
     // 访问次数
     private Long accessTimes;

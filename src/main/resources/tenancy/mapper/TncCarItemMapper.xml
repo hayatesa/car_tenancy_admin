@@ -9,6 +9,7 @@
     <result column="is_deleted" property="isDeleted" jdbcType="TINYINT" />
     <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
     <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+    <association property="car" column="car_id" select="com.dev.main.tenancy.dao.TncCarMapper.selectByPrimaryKey" javaType="com.dev.main.tenancy.domain.TncCar"/>
   </resultMap>
   <sql id="Base_Column_List" >
     id, number, status, car_id, is_deleted, gmt_create, gmt_modified

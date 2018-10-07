@@ -1,3 +1,4 @@
+
 //配置过滤器hash
 class Filter {
     constructor() {
@@ -15,109 +16,112 @@ function query(arr, q) {
     return arr.filter(v => Object.values(v).some(v => new RegExp(q + '').test(v))
     )
 }
-
 layui.use(['table','form'], function () {
     var table = layui.table;
     var form = layui.form;
     var $ = layui.$;
-    var tabledata = [];
-    var tabledata_1;
-    var tabledata_2;
-    var callback = function(){
-        tabledata_2 = tabledata_1 = tabledata;
-        var f = new  Filter();
-        //过滤器
-        $('#search').click(function(){
-            tabledata_1 = tabledata;
-            var a = $('#selectID').val();//匹配value
-            var a_1 = $('#selectID_1').val();var a_2 = $('#selectID_2').val();
-            var a_3 = $('#selectID_3').val();var a_4 = $('#selectID_4').val();var a_5 = $('#selectID_5').val();
-            f.set("a", m => {if(a!="") return m.get_store_province == a;else return true});
-            f.set("a_1", m => {if(a_1!="") return m.get_store_city == a_1;else return true});
-            f.set("a_2", m => {if(a_2!="") return m.get_store_area == a_2;else return true});
-            f.set("a_3", m => {if(a_3!="") return m.return_store_province == a_3;else return true});
-            f.set("a_4", m => {if(a_4!="") return m.return_store_city == a_4;else return true});
-            f.set("a_5", m => {if(a_5!="") return m.return_store_area == a_5;else return true});
-            let filters = f.getFilters();
-            for (let k of filters) {
-                //console.log("before---"+tabledata_1+"k----"+k);
-                tabledata_1 = tabledata_1.filter(k);
-                //console.log("after---"+tabledata_1+"k----"+k);
-            }
-
-            table.reload('orderstable', {
-                    data: tabledata_1
-                });
-            $('#selectID_text').val(-1);
-            //tabledata_2 = tabledata_1;
+    form.on('select(business)', function(data){
+        // if($('#selectID_text').val()==6){
+        //     var formatDateTime = function (date) {
+        //         var y = date.getFullYear();
+        //         var m = date.getMonth() + 1;
+        //         m = m < 10 ? ('0' + m) : m;
+        //         var d = date.getDate();
+        //         d = d < 10 ? ('0' + d) : d;
+        //         var h = date.getHours();
+        //         h = h < 10 ? ('0' + h) : h;
+        //         var minute = date.getMinutes();
+        //         minute = minute < 10 ? ('0' + minute) : minute;
+        //         var second = date.getSeconds();
+        //         second = second < 10 ? ('0' + second) : second;
+        //         return y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second;
+        //     };
+        //     var datetime = formatDateTime(new Date());
+        //     //console.log(datetime);
+        //     table.reload('orderstable', {
+        //         url: '/api/order/selectByWord'
+        //         ,where: {
+        //             search:$('#word').val(),
+        //             status:1,
+        //             now:datetime
+        //         } //设定异步数据接口的额外参数
+        //         //,height: 300
+        //     });
+        // }else{
+        table.reload('orderstable', {
+            url: '/api/order/selectByWord'
+            ,where: {
+                search:$('#word').val(),
+                status:$('#selectID_text').val()
+            } //设定异步数据接口的额外参数
+            //,height: 300
         });
-        //状态过滤
-        $('#selectID_text').change(function () {
-            tabledata_2 = tabledata_1
-            var xx = $('#selectID_text').val();
-            if(xx==-1){tabledata_2 = tabledata_1;}
-            else{
-                tabledata_2 = tabledata_2.filter(function (e) {
-                    return e.status==xx;
-                })
-            }
-            table.reload('orderstable', {
-                data: tabledata_2
-            });
-            //alert($('#selectID_text').val())
-        })
+    });
 
-        //文本框的模糊查询
-        $("#word").bind("input propertychange",function(event){
-            console.log($("#word").val())
-            var tabledata_3 = query(tabledata_2,$("#word").val());
-            table.reload('orderstable', {
-                data: tabledata_3
-            });
+    $('#selectbyword').click(function () {
+        table.reload('orderstable', {
+            url: '/api/order/selectByWord'
+            ,where: {
+                search:$('#word').val(),
+                status:$('#selectID_text').val()
+            } //设定异步数据接口的额外参数
+            //,height: 300
         });
-        console.log("--------------"+tabledata_1);
-
-        //2------用获取的数据加载table
+    })
         table.render({
             elem:'#orders'
-            //,url:'/statics/order_data.json'
-            ,data:tabledata_1
+            ,url:'/api/order/list'
             ,page:true
             ,id:'orderstable'
-            // ,toolbar: '#carListToolbar'
+            //,toolbar: '#ListToolbar'
             ,cols:[[
-                {field:'id',title:'订单编号'}//订单编号
-                ,{field:'name',title:'客户名' ,templet:'#userdetail'}//客户名
-                ,{field:'phone',title:'电话'}//电话
-                ,{field:'car_name',title:'车品牌名'}//车品牌名
-                ,{field:'car_series',title:'车系'}//车系
-                ,{field:'car_number',title:'车牌号'}//车牌号
-                ,{field:'total_amount',title:'订单总金额'}//订单总金额
-                ,{field:'get_store_name',title:'借车店名'}//借车店名
-                ,{field:'return_store_name',title:'还车店名'}//还车店名
-                ,{field:'status',title:'订单状态',sort: true ,templet:'#statusdetail'}
-                ,{field: '', title:'操作', width:150, align:'center',toolbar: '#barDemo'}
+                {field:'id', width:100,title:'订单编号'}//订单编号
+                ,{field:'name', width:100,title:'客户名' ,templet:'#userdetail'}//客户名
+                ,{field:'phone',width:150,title:'电话'}//电话
+                ,{field:'car_name', width:90,title:'车品牌名',templet:function (res) {
+                        return res.carItem.brand;
+                    }}//车品牌名
+                ,{field:'car_series', width:90,title:'车系',templet:function (res) {
+                        return res.carItem.series;
+                    }}//车系
+                ,{field:'car_number', width:120,title:'车牌号',templet:function (res) {
+                        return res.carItem.nub;
+                    }}//车牌号
+                ,{field:'totalAmount', width:100,title:'订单总金额'}//订单总金额
+                ,{field:'getStore_name',width:115,title:'借车店名',templet:function (res) {
+                        return res.getStore.name;
+                    }}//借车店名
+                ,{field:'returnStore_name',width:115,title:'还车店名',templet:function (res) {
+                        return res.returnStore.name;
+                    }}//还车店名
+                ,{field:'status',width:110,title:'订单状态',sort: true ,templet:'#statusdetail'}
+                ,{field: '', title:'操作', align:'center',toolbar: '#barDemo'}
             ]]
         })
-    }
-    //1----获取到表格数据
-    $.ajax({
-        url:'/statics/order_data.json',
-        dataType:"json",
-    }).done(function (data) {
-        tabledata = data.data;
-        callback();
-    })
-
 
     //监听工具条
     table.on('tool(orderstool)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
         var data = obj.data; //获得当前行数据
         var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
         var tr = obj.tr; //获得当前行 tr 的DOM对象
-        if(layEvent ==='wordfilter'){
-            alert("wordfilter");
-        }
+         if(layEvent === 'delete'){
+            layer.confirm('真的删除行么', function (index) {
+                dodelete(data.id);
+                layer.close(index);
+            });
+        }else if(layEvent === 'edit'){
+                doEdit(data.id);
+        // }else if(layEvent === 'searchByWord'){
+        //      alert("asdsda");
+        //      console.log($('#searchText').val());
+        //      table.reload('orderstable', {
+        //          url: '/api/order/selectByWord'
+        //          ,where: {
+        //              search:$('#searchText').val()
+        //          } //设定异步数据接口的额外参数
+        //          //,height: 300
+        //      });
+         }
         else if(layEvent === 'detail'){ //查看
             let url = './orderManager_order.html?id='+data.id;
             layer.open({
@@ -212,6 +216,40 @@ layui.use(['table','form'], function () {
     // });
 })
 
+function dodelete(id) {
+    $.ajax({
+        url:'/api/order/delete?id='+id,
+        type:'post',
+        success:function (res) {
+            if (res.code === 0)
+                layer.msg(res.msg, {
+                        time: 1500
+                    },
+                    function () {
+                        layui.table.reload("orderstable");
+                    })
+        },
+        fail: function (res) {
+            console.log(res);
+        }
+    })
+}
+function doEdit(str) {
+    var url = './orderManage_edit.html?id=' + str;
+    layer.open({
+        type: 2 //此处以iframe举例
+        , title: '编辑订单'
+        , area: ['800px', '460px']
+        , shade: 0
+        , maxmin: true
+        , offset: 'auto'
+        , content: url
+        , zIndex: layer.zIndex //重点1
+        , success: function (layero) {
+            layer.setTop(layero); //重点2
+        }
+    });
+}
 //获取个人信息详情
 function getuserdetail(gg){
     var $ = layui.jquery;
@@ -228,18 +266,20 @@ function getuserdetail(gg){
         , content: $('#mydiv')
         , success: function () {
             $.ajax({
-                url:'/statics/userdetail_data.json',
+                url:'/api/order/selectUser?phone='+gg,
                 dataType:'json',
                 success:function(data){
+                    //console.log(data);
                     let a = data.data;
+                    let b = data.data.tncAddress;
                     $("#name").text(a.name);
-                    $("#sex").text(a.gender);
+                    $("#sex").text(a.gender=="1"?"男":"女");
                     $("#phone").text(a.phone);
                     $("#email").text(a.email);
                     $("#pname").text(a.emergency_name);
                     $("#pphone").text(a.emergency_phone);
-                    $("#addr").text(a.province+a.city+a.area+a.detail);
-                    $("#ltime").text(a.last_access_time);
+                    $("#addr").text(b.province.name+b.city.name+b.area.name+b.detail);
+                    $("#ltime").text(a.lastAccessTime);
                 }
             });
         }

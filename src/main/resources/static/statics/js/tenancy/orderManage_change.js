@@ -40,8 +40,12 @@ $(function () {
 //修改用户信息
     $('#changeuser').click(function(){
         // console.log($('.btt'))
-        name = orderchange_data.order.user_name;sex = orderchange_data.order.user_sex;cid = orderchange_data.order.user_id_card;
-        email = orderchange_data.order.user_email;pname = orderchange_data.order.user_emergency_name;pphone = orderchange_data.order.user_emergency_phone;
+        // name = orderchange_data.order.user_name;
+        // sex = orderchange_data.order.user_sex;
+        // cid = orderchange_data.order.user_id_card;
+        // email = orderchange_data.order.user_email;
+        // pname = orderchange_data.order.user_emergency_name;
+        // pphone = orderchange_data.order.user_emergency_phone;
         $('#btnusersubmit').show(); $('#btnusercancel').show();$('#changeuser').hide();
         $('.beforeinput').attr("disabled",false);
         $('.beforeinput').attr("class","myinput");
@@ -49,10 +53,42 @@ $(function () {
     $('#btnusersubmit').click(function() {
         $('#btnusercancel').hide();$('#btnusersubmit').hide();
         $('#changeuser').show();
+
+        //console.log(orderchange_data.user.gender);
+        // var data = {
+        //     id:orderchange_data.user.id,
+        //     idCard:orderchange_data.user.idCard,
+        //     name:orderchange_data.user.name,
+        //     email:orderchange_data.user.email,
+        //     emergencyName:orderchange_data.user.emergencyName,
+        //     emergencyPhone:orderchange_data.user.emergencyPhone,
+        // }
+        // $.ajax({
+        //     type: "post",
+        //     url: "/api/customer/change",
+        //     //data:JSON.stringify(data),
+        //     contentType:'application/json',
+        //     data:JSON.stringify(data),
+        //     success:function (res) {
+        //         if (res.code === 0)
+        //             layer.msg(res.msg, {
+        //                     time: 1000
+        //                 },
+        //                 function () {
+        //                     parent.layui.table.reload("orderstable")
+        //                     const index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+        //                     parent.layer.close(index); //再执行关闭
+        //                     //layui.table.reload("orders");
+        //                 })
+        //     },
+        //     fail: function (res) {
+        //         console.log(res);
+        //     }
+        // })
+
         $('.myinput').attr("class","beforeinput");
         $('.beforeinput').attr("disabled",true);
         //要刷新vue的数据，不然先修改提交再修改取消会有bug
-
     })
     $('#btnusercancel').click(function() {
         $('#btnusercancel').hide();$('#btnusersubmit').hide();
@@ -64,16 +100,161 @@ $(function () {
     })
 //确认提车
     $('#change_get').click(function() {
-        console.log("last"+orderchange_data.order.car_number)
+        //console.log("last"+orderchange_data.order.car_number)
         if($("#changeuser").is(":hidden")||$("#changecar").is(":hidden")) alert("请先提交或取消修改！");
+        else{
+            var deposit = orderchange_data.order.deposit;
+            //confirm("是否确认收取"+deposit+"元押金，完成提车？");
+            layer.confirm("是否确认收取"+deposit+"元押金，完成提车？", function(index){
+                //do something
+
+                layer.close(index);
+
+            var data = {
+                id:orderchange_data.order.id,
+                isDepositReturned:0,
+                status:1,
+                deposit:deposit
+            }
+            console.log();
+            $.ajax({
+                type: "post",
+                url: "/api/order/updateStatus",
+                //data:JSON.stringify(data),
+                contentType:'application/json',
+                data:JSON.stringify(data),
+                success:function (res) {
+                    if (res.code === 0)
+                        layer.msg(res.msg, {
+                                time: 1000
+                            },
+                            function () {
+                                parent.layui.table.reload("orderstable")
+                                const index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                                parent.layer.close(index); //再执行关闭
+                                //layui.table.reload("orders");
+
+                            })
+                },
+                fail: function (res) {
+                    console.log(res);
+                }
+            })
+            });
+
+        }
     })
+    //确认退款
+    $('#change_money').click(function () {
+        layer.confirm("是否确认退款？", function(index){
+            //do something
+            layer.close(index);
+            var data = {
+                id:orderchange_data.order.id,
+                carItemId:orderchange_data.order.carItemId,
+                status:3,
+            }
+            $.ajax({
+                type: "post",
+                url: "/api/order/updateStatus",
+                //data:JSON.stringify(data),
+                contentType:'application/json',
+                data:JSON.stringify(data),
+                success:function (res) {
+                    if (res.code === 0)
+                        layer.msg(res.msg, {
+                                time: 1000
+                            },
+                            function () {
+                                parent.layui.table.reload("orderstable")
+                                const index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                                parent.layer.close(index); //再执行关闭
+                                //layui.table.reload("orders");
+
+                            })
+                },
+                fail: function (res) {
+                    console.log(res);
+                }
+            })
+        });
+    })
+
 //取消提车
     $('#change_cancel').click(function () {
+        //confirm("是否确认收取"+deposit+"元押金，完成提车？");
+        layer.confirm("是否取消租车？", function(index){
+            //do something
+
+            layer.close(index);
+
+            var data = {
+                id:orderchange_data.order.id,
+                carItemId:orderchange_data.order.carItemId,
+                status:3,
+            }
+            $.ajax({
+                type: "post",
+                url: "/api/order/updateStatus",
+                //data:JSON.stringify(data),
+                contentType:'application/json',
+                data:JSON.stringify(data),
+                success:function (res) {
+                    if (res.code === 0)
+                        layer.msg(res.msg, {
+                                time: 1000
+                            },
+                            function () {
+                                parent.layui.table.reload("orderstable")
+                                const index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                                parent.layer.close(index); //再执行关闭
+                                //layui.table.reload("orders");
+
+                            })
+                },
+                fail: function (res) {
+                    console.log(res);
+                }
+            })
+        });
+
 
     })
 //确认还车
     $('#change_back').click(function () {
+        layer.confirm("是否确认还车？", function(index) {
+            //do something
+            var data = {
+                id:orderchange_data.order.id,
+                isDepositReturned:1,
+                otherAmount:$('#zongshu').val(),
+                description:$('#beizhu').val(),
+                status:4,
+            }
+            $.ajax({
+                type: "post",
+                url: "/api/order/updateStatus",
+                //data:JSON.stringify(data),
+                contentType:'application/json',
+                data:JSON.stringify(data),
+                success:function (res) {
+                    if (res.code === 0)
+                        layer.msg(res.msg, {
+                                time: 1000
+                            },
+                            function () {
+                                parent.layui.table.reload("orderstable")
+                                const index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                                parent.layer.close(index); //再执行关闭
+                                //layui.table.reload("orders");
 
+                            })
+                },
+                fail: function (res) {
+                    console.log(res);
+                }
+            })
+        });
     })
 //添加费用
     $('#change_addmoney').click(function () {
@@ -140,7 +321,7 @@ function sub(index) {
         state = $("#mytable tbody tr:eq("+index+") input[name='state']").val();
         yuan = $("#mytable tbody tr:eq("+index+") input[name='yuan']").val();
         sum = sum + parseFloat(yuan);
-        data = data + state + ":" + yuan + ";";
+        data = data +";"+ state + ":" + yuan ;
     })
     $('#beizhu').val(data);
     $('#zongshu').val(sum);
