@@ -20,7 +20,7 @@ layui.use('table', function () {
                         if(!res.tncPoint) {return 0;}
                         return res.tncPoint.point;
                      }}
-                    , {field: 'tncAddress', title: '地址', width: 170 , templet:function (res) {
+                    , {field: 'tncAddress', title: '地址' templet:function (res) {
                         var province = res.tncAddress==null ? "": res.tncAddress.province.name;
                         var city = res.tncAddress==null ? "": res.tncAddress.city.name;
                         var area = res.tncAddress==null ? "": res.tncAddress.area.name;
@@ -59,7 +59,6 @@ layui.use('table', function () {
 
     });
     function doSearch() {
-        alert("dddddddddddddddddddd");
         var searchText = $("#searchText").val();
         if(searchText ===""){
             layer.msg("请输入数据");

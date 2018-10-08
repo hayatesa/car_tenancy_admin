@@ -113,7 +113,7 @@ var saveCustomer = function () {
         if(customerEdit_app.customer.tncAddress.id != null) {
             var id = customerEdit_app.customer.tncAddress.id;
     }
-        var detail = $("#detail").val();;
+        var detail = $("#detail").val();
         province.id = addressProvinceId.substring(8);
         city.id= addressCityId.substring(4);
         area.id=addressAreaId.substring(4);
