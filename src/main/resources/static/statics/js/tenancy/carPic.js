@@ -9,6 +9,14 @@ layui.use('upload', function(){
         ,url: '/api/pic/upload'
         ,before: function(obj){
             //预读本地文件示例，不支持ie8
+            var files  = obj.pushFile();
+            obj.preview(function(index, file, result){
+                // $('#previewPicture').append('<img src="'+ result +'" alt="'+ file.name +'" class="layui-upload-img">')
+                delete files[index]
+            });
+        }
+        ,choose: function(obj){
+            //将每次选择的文件追加到文件队列
             obj.preview(function(index, file, result){
                 $('#demo1').attr('src', result); //图片链接（base64）
             });
@@ -47,13 +55,16 @@ layui.use('upload', function(){
         ,bindAction: '#uploadListAction' //指向一个按钮触发上传
         ,before: function(obj){
             //预读本地文件示例，不支持ie8
+            var files  = obj.pushFile();
             obj.preview(function(index, file, result){
-                $('#demo2').append('<img src="'+ result +'" alt="'+ file.name +'" class="layui-upload-img">')
+                // $('#previewPicture').append('<img src="'+ result +'" alt="'+ file.name +'" class="layui-upload-img">')
+                delete files[index]
             });
+
         }
         ,choose: function(obj){
             //将每次选择的文件追加到文件队列
-            var files = obj.pushFile();
+            var files  = obj.pushFile();
             //预读本地文件，如果是多文件，则会遍历。(不支持ie8/9)
             obj.preview(function(index, file, result){
                 var pit = '<img src="'+result+'" class="layui-upload-img" style="width: 120px;height: 80px;margin-right: 10px;"/>';
@@ -84,7 +95,6 @@ layui.use('upload', function(){
 });
 
 function doStoragePic(data) {
-    console.log("ICANTBELIEVE");
     console.log(data);
     var url ="/api/carPic/storage";
     if(picData != null){
@@ -133,7 +143,13 @@ layui.use('table', function(){
             ,{field:'path', style:'height:100px;',width:200,align:'center',title: '照片',templet:function (res) {
                     return '<img src="/api/pic/item?imagePath='+res.path+'"/>';
                 }}
-            ,{field:'isCover',  title: '是否封面', sort: true,align:'center'}
+            ,{field:'isCover',  title: '是否封面', sort: true,align:'center',templet:function (res) {
+                    if(res.isCover == 1){
+                        return "封面";
+                    }else{
+                       return "非封面";
+                    }
+                }}
             ,{fixed: 'right', title:'操作', toolbar: '#barDemo',align:'center'}
         ]]
         ,done:function(res,curr,count){
@@ -240,6 +256,7 @@ function openCoverUpload() {
 
 function closeCoverUpload() {
     picData =null;
+    $('#demo1').attr('src', '');
     $("#coverField").removeClass("layui-show");
     $("#coverField").addClass("layui-hide");
 }
@@ -252,6 +269,7 @@ function openNotCoverUpload() {
 
 function closeNotCoverUpload() {
     picData =null;
+    $("#previewPicture").children("img").remove();
     $("#otherField").removeClass("layui-show");
     $("#otherField").addClass("layui-hide");
 }
