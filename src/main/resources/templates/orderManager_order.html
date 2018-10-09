@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="/statics/css/orderManage.css">
 </head>
 <body style="padding: 20px; background-color: #F2F2F2;">
-<div id="orderdetail_app">
+<div v-cloak id="orderdetail_app">
     <div class="layui-row layui-col-space15">
         <div class="layui-col-md6">
             <div class="layui-card" style="height: 180px">
@@ -37,7 +37,7 @@
                             <label class="mylabel_3">用户姓名：{{user.name}}</label>
                         </div>
                         <div class="layui-col-md6">
-                            <label class="mylabel_3">性别：{{user.gender=="1"?"男":"女"}}</label>
+                            <label class="mylabel_3">性别：{{user.gender==""?"":(user.gender=="0"?"女":"男")}}</label>
                         </div>
                     </div>
                     <div class="layui-row" >
@@ -73,7 +73,7 @@
                             <label class="mylabel_2">押金金额：{{order.deposit}}</label>
                         </div>
                         <div class="layui-col-md6">
-                            <label class="mylabel_2">押金状态：&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{{(order.isDepositReturned==0||order.isDepositReturned==1)?(order.isDepositReturned==1?"已退":"未退"):"未缴"}}</label>
+                            <label class="mylabel_2">押金状态：&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{{(order.isDepositReturned==1||order.isDepositReturned==2)?(order.isDepositReturned==1?"未退":"已退"):"未付"}}</label>
                         </div>
                     </div>
                     <div class="layui-row" >
@@ -81,7 +81,7 @@
                             <label class="mylabel_2">租赁费用：</label>
                         </div>
                         <div class="layui-col-md6">
-                            <label class="mylabel_money"><pp>40*5 = </pp>{{order.baseAmount}}</label>
+                            <label class="mylabel_money"><pp>{{price.base_price}}*{{price.days}} = </pp><pp v-if="order.discount!=1" style="text-decoration: line-through">{{order.baseAmount}}</pp>  {{price.discount_total_base}}</label>
                         </div>
                     </div>
                     <div class="layui-row" >
@@ -89,7 +89,7 @@
                             <label class="mylabel_2">服务费用：</label>
                         </div>
                         <div class="layui-col-md6">
-                            <label class="mylabel_money"><pp>60*5 = </pp>{{order.serviceAmount}}</label>
+                            <label class="mylabel_money"><pp>{{price.service_price}}*{{price.days}} = </pp><pp v-if="order.discount!=1" style="text-decoration: line-through">{{order.serviceAmount}}</pp>  {{price.discount_total_service}}</label>
                         </div>
                     </div>
                     <div class="layui-row" >
@@ -129,7 +129,7 @@
             </div>
         </div>
         <div class="layui-col-md8">
-            <div class="layui-card" style="height: 285px">
+            <div class="layui-card" style="height: 280px">
                 <div class="layui-card-header">订单跟踪</div>
                 <div class="layui-card-body">
                     <div class="layui-row" >
@@ -140,7 +140,7 @@
                             <label class="mylabel">订单状态：{{status}}</label>
                         </div>
                         <div class="layui-col-md4">
-                            <label class="mylabel">租赁天数：{{days}}天</label>
+                            <label class="mylabel">租赁天数：{{price.days}}天<ppp v-if="price.overtime_count!=0">{{price.overtime_count}}小时</ppp></label>
                         </div>
                     </div>
                     <div class="layui-row" >
@@ -171,20 +171,20 @@
                     </div>
                     <div class="layui-row" >
                         <div class="layui-col-md6">
-                            <label class="mylabel">提车时间：{{}}</label>
+                            <label class="mylabel">提车时间：{{order.gmt_modified}}</label>
                         </div>
                         <div class="layui-col-md6">
                             <label class="mylabel">还车时间：{{order.realReturnDate}}</label>
                         </div>
                     </div>
-                    <div class="layui-row" >
-                        <div class="layui-col-md6">
-                            <label class="mylabel">申请退款时间：{{}}</label>
-                        </div>
-                        <div class="layui-col-md6">
-                            <label class="mylabel">确认退款时间：{{}}</label>
-                        </div>
-                    </div>
+                    <!--<div class="layui-row" >-->
+                        <!--<div class="layui-col-md6">-->
+                            <!--<label class="mylabel">申请退款时间：</label>-->
+                        <!--</div>-->
+                        <!--<div class="layui-col-md6">-->
+                            <!--<label class="mylabel">确认退款时间：</label>-->
+                        <!--</div>-->
+                    <!--</div>-->
                 </div>
                 <div style="text-align: right"><button class="layui-btn layui-btn-sm" style="margin-top:15px" onclick="parent.layer.closeAll()">关闭</button></div>
             </div>

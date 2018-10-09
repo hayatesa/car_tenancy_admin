@@ -2,6 +2,7 @@ package com.dev.main.tenancy.service.impl;
 
 import com.dev.main.common.util.Page;
 import com.dev.main.common.util.QueryObject;
+import com.dev.main.common.util.ResultMap;
 import com.dev.main.tenancy.dao.*;
 import com.dev.main.tenancy.domain.*;
 import com.dev.main.tenancy.service.IOrderService;
@@ -12,6 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import static sun.security.krb5.Confounder.intValue;
@@ -59,23 +63,66 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     @Override
-    public TncOrderVo findByPrimaryKey(Long id) {
-        TncOrderVo vo = new TncOrderVo();
-        TncOrder to = tncOrderMapper.selectByPrimaryKey(id);
-        TncCoupon tncCoupon = tncCouponMapper.selectByPrimaryKey(to.getCouponId());
-        if(tncCoupon==null) vo.setAmount("无");
-        else vo.setAmount("-"+tncCouponMapper.selectByPrimaryKey(to.getCouponId()).getAmount().toString());
-        //System.out.println(tncCouponMapper.selectByPrimaryKey(to.getCouponId()).getAmount());
-
-        TncCustomer tc = tncCustomerMapper.selectByPhone(to.getPhone());
-        vo.setTncOrder(to);vo.setTncCustomer(tc);
-
-        CarVo carVo = tncOrderMapper.getCar(to.getCarItemId());
-        vo.setCarNub(carVo.getNub());
-        vo.setPicPath(carVo.getPath());
-        vo.setCarSeries(carVo.getSeries());
-        vo.setCarName(carVo.getBrand());
-        return vo;
+    public ResultMap findByPrimaryKey(Long id) {
+        TncOrderPriceVo priceVo = new TncOrderPriceVo();
+        TncOrderVo tncOrderVo = new TncOrderVo();
+        TncOrder order = tncOrderMapper.selectByPrimaryKey(id);
+        //获取时间信息
+        Date getdate = order.getStartDate();
+        Date returndate = order.getReturnDate();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+        String gd = DateFormat.getDateInstance().format(getdate);
+        String rd = DateFormat.getDateInstance().format(returndate);
+        String gd1 = dateFormat.format(getdate);
+        String rd1 = dateFormat.format(returndate);
+        int days = (int) ((returndate.getTime() - getdate.getTime()) / (1000*3600*24));
+        Long plus = (returndate.getTime() - getdate.getTime()) % (1000*3600*24);
+        int hour = 0;
+        if(plus>(1000*3600*4)) days++;
+        else if(plus!=0){
+            hour = (int) (plus / (1000*3600));
+            if(hour==0||(plus%(1000*3600))>0) hour++;
+        }
+        priceVo.setOvertime_count(hour);
+        priceVo.setDays(days);
+        priceVo.setGetDate(gd);
+        priceVo.setGetTime(gd1);
+        priceVo.setReturnDate(rd);
+        priceVo.setReturnTime(rd1);
+        //获取价格信息
+        BigDecimal baseAmount = order.getBaseAmount();
+        BigDecimal serviceAmount = order.getServiceAmount();
+        BigDecimal discount = order.getDiscount();
+        priceVo.setTotal_base_price(baseAmount); //基础总价
+        priceVo.setTotal_service_price(serviceAmount);  //服务总价
+        priceVo.setDiscount_total_base(discount.multiply(baseAmount));//折扣基础总价
+        priceVo.setDiscount_total_service(discount.multiply(serviceAmount));//折扣基础服务费总价
+        int base = (baseAmount.divideToIntegralValue(new BigDecimal(days))).intValue();
+        int service = (serviceAmount.divideToIntegralValue(new BigDecimal(days))).intValue();
+//        System.out.println("days"+days);
+//        System.out.println(baseAmount.divideToIntegralValue(new BigDecimal(days)));
+        priceVo.setBase_price(base);
+        priceVo.setService_price(service);
+        //获取优惠券
+        TncCoupon tncCoupon = tncCouponMapper.selectByPrimaryKey(order.getCouponId());
+        if(tncCoupon==null) tncOrderVo.setAmount("无");
+        else tncOrderVo.setAmount("-"+tncCouponMapper.selectByPrimaryKey(order.getCouponId()).getAmount().toString());
+        //System.out.println(tncCouponMapper.selectByPrimaryKey(order.getCouponId()).getAmount());
+        //获取用户信息
+        TncCustomer tc = tncCustomerMapper.selectByPhone(order.getPhone());
+        tncOrderVo.setTncOrder(order);tncOrderVo.setTncCustomer(tc);
+        //获取车辆信息
+        CarVo carVo = tncOrderMapper.getCar(order.getCarItemId());
+        tncOrderVo.setCarNub(carVo.getNub());
+        tncOrderVo.setPicPath(carVo.getPath());
+        tncOrderVo.setCarSeries(carVo.getSeries());
+        tncOrderVo.setCarName(carVo.getBrand());
+        tncOrderVo.setCarId(carVo.getCarId());
+        //System.out.println(priceVo.toString());
+        ResultMap resultMap = new ResultMap();
+        resultMap.put("data", tncOrderVo);
+        resultMap.put("price",priceVo);
+        return resultMap;
     }
 
     @Override
@@ -99,20 +146,30 @@ public class OrderServiceImpl implements IOrderService {
                 tncOrder.setOtherAmount(b.add(otham));
                 tncOrder.setTotalAmount(sum.add(otham));
             };
+                tncOrder.setRealReturnDate(new Date());
                 int rs1 = tncOrderMapper.updateByPrimaryKeySelective(tncOrder);
                 TncOrder tt = tncOrderMapper.selectByPrimaryKey(tncOrder.getId());
+                //car可用数加一
+                Long carid = tncOrderMapper.getCarId(tt.getCarItemId());
+                System.out.println("carid"+carid);
+                int rs3 = tncOrderMapper.updateCarNubUp(carid);
+                //将caritem标记为可用
                 int rs2 = tncCarItemMapper.updateCarItemStatus(Integer.parseInt(tt.getCarItemId().toString()), (byte) 0);
-                if (rs1 > 0 && rs2 > 0) {
+                if (rs1 > 0 && rs2 > 0 && rs3 > 0) {
                     return 1;
                 } else {
                     return 0;
                 }
         } else if (status == 1) {//确认提车
+            tncOrder.setGmtModified(new Date());
             return tncOrderMapper.updateByPrimaryKeySelective(tncOrder);
         } else if (status == 3) {//取消提车、确认退款
             int rs1 = tncOrderMapper.updateByPrimaryKeySelective(tncOrder);
             int rs2 = tncCarItemMapper.updateCarItemStatus(Integer.parseInt(tncOrder.getCarItemId().toString()), (byte) 0);
-            if (rs1 > 0 && rs2 > 0) {
+            TncOrder tt = tncOrderMapper.selectByPrimaryKey(tncOrder.getId());
+            Long carid = tncOrderMapper.getCarId(tt.getCarItemId());
+            int rs3 = tncOrderMapper.updateCarNubUp(carid);
+            if (rs1 > 0 && rs2 > 0 && rs3 > 0 ) {
                 return 1;
             } else {
                 return 0;
@@ -129,5 +186,33 @@ public class OrderServiceImpl implements IOrderService {
     @Override
     public int delete(Long id) {
         return tncOrderMapper.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public ResultMap selectCarId(Long carId) {
+        List<String> list = tncOrderMapper.getCarNub(carId);
+        return new ResultMap().success("获取成功").put("carNub",list);
+    }
+
+    @Override
+    public int updateCarNub(String carNubBefore, String carNubNew) {
+
+        int rs1 = tncOrderMapper.updateCarNub(carNubBefore,(byte)0);
+        int rs2 = tncOrderMapper.updateCarNub(carNubNew,(byte)1);
+        if(rs1>0 && rs2>0) return 1;
+        else return 0;
+    }
+
+    @Override
+    public int updateCarItemId(Long orderId, String carNubBefore, String carNubNew) {
+        Long newItemId = tncOrderMapper.getCarItemIdByNub(carNubNew);
+        int result = tncOrderMapper.updateCarItemId(orderId,newItemId);
+        return result;
+    }
+
+    @Override
+    public int updateUser(TncCustomer customer) {
+        int result = tncCustomerMapper.updateByPrimaryKeySelective(customer);
+        return result;
     }
 }

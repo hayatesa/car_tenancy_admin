@@ -57,7 +57,11 @@ layui.use(['table','form'], function () {
             //,height: 300
         });
     });
-
+    $("body").keydown(function() {
+        if (event.keyCode == "13") {//keyCode=13是回车键
+            $('#selectbyword').click();
+        }
+    });
     $('#selectbyword').click(function () {
         table.reload('orderstable', {
             url: '/api/order/selectByWord'
@@ -75,9 +79,9 @@ layui.use(['table','form'], function () {
             ,id:'orderstable'
             //,toolbar: '#ListToolbar'
             ,cols:[[
-                {field:'id', width:100,title:'订单编号'}//订单编号
+                {field:'id', width:130,title:'订单编号'}//订单编号
                 ,{field:'name', width:100,title:'客户名' ,templet:'#userdetail'}//客户名
-                ,{field:'phone',width:150,title:'电话'}//电话
+                ,{field:'phone',width:130,title:'电话'}//电话
                 ,{field:'car_name', width:90,title:'车品牌名',templet:function (res) {
                         return res.carItem.brand;
                     }}//车品牌名
@@ -273,12 +277,12 @@ function getuserdetail(gg){
                     let a = data.data;
                     let b = data.data.tncAddress;
                     $("#name").text(a.name);
-                    $("#sex").text(a.gender=="1"?"男":"女");
+                    $("#sex").text(a.gender==""?"":(a.gender=="0"?"女":"男"));
                     $("#phone").text(a.phone);
                     $("#email").text(a.email);
-                    $("#pname").text(a.emergency_name);
-                    $("#pphone").text(a.emergency_phone);
-                    $("#addr").text(b.province.name+b.city.name+b.area.name+b.detail);
+                    $("#pname").text(a.emergencyName);
+                    $("#pphone").text(a.emergencyPhone);
+                    $("#addr").text(b==null?"":(b.province.name+b.city.name+b.area.name+b.detail));
                     $("#ltime").text(a.lastAccessTime);
                 }
             });

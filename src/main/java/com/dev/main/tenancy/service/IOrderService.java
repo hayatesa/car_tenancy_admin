@@ -2,6 +2,7 @@ package com.dev.main.tenancy.service;
 
 import com.dev.main.common.util.Page;
 import com.dev.main.common.util.QueryObject;
+import com.dev.main.common.util.ResultMap;
 import com.dev.main.tenancy.domain.TncCustomer;
 import com.dev.main.tenancy.domain.TncOrder;
 import com.dev.main.tenancy.vo.TncCustomerVo;
@@ -15,7 +16,7 @@ public interface IOrderService {
 
     Page queryByPage_Word(QueryObject queryObject);
 
-    TncOrderVo findByPrimaryKey(Long id);
+    ResultMap findByPrimaryKey(Long id);
 
     int modifiedByPrimaryKeySelective(TncOrder tncOrder);
 
@@ -24,4 +25,12 @@ public interface IOrderService {
     TncCustomerVo findUser(String phone);
 
     int delete(Long id);
+
+    ResultMap selectCarId(Long carId);
+
+    int updateCarNub(String carNubBefore, String carNubNew);
+
+    int updateCarItemId(Long orderId, String carNubBefore, String carNubNew);
+
+    int updateUser(TncCustomer customer);
 }

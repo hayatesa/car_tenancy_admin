@@ -77,7 +77,6 @@ public class TncOrderController {
         TncOrder tncOrder = new TncOrder();
         tncOrder.setId(id);
         tncOrder.setIsDeleted((byte) 1);
-        tncOrder.setGmtModified(new Date());
         int result = orderService.modifiedByPrimaryKeySelective(tncOrder);
         if(result < 0){
             return ResultMap.fail(-1,"删除失败");
@@ -96,10 +95,7 @@ public class TncOrderController {
 
     @GetMapping("/selectById")
     public ResultMap selectById(Long id){
-        TncOrderVo tncOrderVo = orderService.findByPrimaryKey(id);
-        ResultMap resultMap = new ResultMap();
-        resultMap.put("data", tncOrderVo);
-        return resultMap;
+        return orderService.findByPrimaryKey(id);
     }
     @GetMapping("/selectUser")
     public ResultMap selectUser(String phone){
@@ -107,5 +103,28 @@ public class TncOrderController {
         ResultMap resultMap = new ResultMap();
         resultMap.put("data", tncCustomer);
         return resultMap;
+    }
+    @GetMapping("/selectCarId")
+    public ResultMap selectCarId(Long carId){
+        return  orderService.selectCarId(carId);
+    }
+    @PostMapping("/updateCarNub")
+    public ResultMap updateCarNub(Long orderId,String carNubBefore,String carNubNew){
+        //修改订单关联的caritemid
+        int res1 = orderService.updateCarItemId(orderId,carNubBefore,carNubNew);
+        //修改车牌状态
+        int res2 = orderService.updateCarNub(carNubBefore,carNubNew);
+        if(res1 < 0 || res2 < 0){
+            return ResultMap.fail(-1,"修改车牌号失败(有多个相同车牌号)");
+        }
+        return ResultMap.success("成功修改车牌号");
+    }
+    @PostMapping("/updateUser")
+    public ResultMap updateUser(@RequestBody TncCustomer customer){
+        int result = orderService.updateUser(customer);
+        if(result < 0){
+            return ResultMap.fail(-1,"修改失败");
+        }
+        return ResultMap.success("修改成功");
     }
 }

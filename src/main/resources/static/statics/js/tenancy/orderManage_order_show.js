@@ -1,4 +1,5 @@
 const orderdetail_data = {
+    price:{},
     order:{},
     car:{},
     getadd:{},
@@ -41,7 +42,9 @@ function init_data(str) {
         url: "/api/order/selectById?id="+str,
         dataType: "json",//若数据不是json则直接进入error,json数据里面不能有注释
        success : function(data) {
+            console.log(data);
             if (data.code==0) {
+                orderdetail_data.price = data.price;
                 orderdetail_data.car = data.data;
                 orderdetail_data.user = data.data.tncCustomer;
                 orderdetail_data.order = data.data.tncOrder;

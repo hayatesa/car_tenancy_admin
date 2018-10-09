@@ -81,6 +81,7 @@
           AND ( status = #{search} )
       </if>
     </where>
+    order by gmt_create DESC
   </select>
   <!--<select id="queryByWord" resultMap="shortdetail">-->
     <!--select *-->
@@ -138,6 +139,7 @@
     <if test="status!=null">
       AND ( a.status = #{status} )
     </if>
+    order by a.gmt_create DESC
   </select>
   <!--<select id="queryByWord" resultMap="shortdetail">-->
     <!--select *-->
@@ -171,7 +173,44 @@
     from tnc_order
   </select>
 
+<update id="updateCarNubUp">
+  update tnc_car
+  set residual = residual + 1
+  where id = #{arg0}
+</update>
 
+  <update id="updateCarNubDown">
+  update tnc_car
+  set residual = residual - 1
+  where id = #{arg0}
+</update>
+  <update id="updateCarNub">
+    update tnc_car_item
+    set status = #{arg1}
+    where number = #{arg0}
+  </update>
+  <select id="getCarItemIdByNub" resultType="java.lang.Long" parameterType="String">
+    select id
+    from tnc_car_item
+    where number = #{xxx}
+  </select>
+  <update id="updateCarItemId">
+    update tnc_order
+    set car_item_id = #{arg1}
+    where id = #{arg0}
+  </update>
+
+  <select id="getCarNub" resultType="String" parameterType="java.lang.Long">
+    select number
+    from tnc_car_item
+    where car_id = #{xxx} and status = 0 and is_deleted = 0
+  </select>
+
+  <select id="getCarId" resultType="java.lang.Long" parameterType="java.lang.Long">
+    select car_id
+    from tnc_car_item
+    where id = #{xxx}
+  </select>
 
   <resultMap id="getOrderListRm" type="com.dev.main.tenancy.vo.OrderListVo">
     <id column="id" property="id" jdbcType="BIGINT" />

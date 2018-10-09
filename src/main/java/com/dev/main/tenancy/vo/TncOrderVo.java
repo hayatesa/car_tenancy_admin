@@ -11,8 +11,18 @@ public class TncOrderVo {
     private String carNub;
     private String carName;
     private String carSeries;
+    private Long carId;
 
     private String amount;
+
+
+    public Long getCarId() {
+        return carId;
+    }
+
+    public void setCarId(Long carId) {
+        this.carId = carId;
+    }
 
     public String getAmount() {
         return amount;
@@ -43,7 +53,7 @@ public class TncOrderVo {
     }
 
     public void setPicPath(String picPath) {
-        this.picPath = picPath;
+        this.picPath = "/api/pic/item?imagePath="+picPath;
     }
 
     public String getCarNub() {
@@ -79,6 +89,7 @@ public class TncOrderVo {
                 ", carNub='" + carNub + '\'' +
                 ", carName='" + carName + '\'' +
                 ", carSeries='" + carSeries + '\'' +
+                ", carId=" + carId +
                 ", amount='" + amount + '\'' +
                 '}';
     }

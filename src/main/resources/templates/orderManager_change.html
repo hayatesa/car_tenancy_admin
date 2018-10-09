@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="/statics/css/orderManage.css">
 </head>
 <body style="padding: 20px; background-color: #F2F2F2;">
-<div id="orderchange_app">
+<div v-cloak id="orderchange_app">
     <div class="layui-row layui-col-space15">
         <div class="layui-col-md6">
             <div class="layui-card" style="height: 180px" >
@@ -30,11 +30,13 @@
                             <label class="mylabel_car">车牌号：
                                 <nub>{{car.carNub}}</nub>
                             </label>
+                            <input id='thisCarId' type="text" :value="car.carId" style="display: none"/>
+                            <input id='thisOrderId' type="text" :value="order.id" style="display: none"/>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="layui-card" style="height: 140px" v-if="reasondiv">
+            <div class="layui-card" style="height: 100px" v-if="reasondiv">
                 <div class="layui-card-header">退款原因</div>
                 <div class="layui-card-body">
                     <div class="layui-row" style="margin-top: 5px">
@@ -53,10 +55,10 @@
                 <div class="layui-card-body">
                     <div class="layui-row" style="margin-top: 5px">
                         <div class="layui-col-md6">
-                            <label class="mylabel_user">用户姓名：<input class="beforeinput" disabled="true" v-model="user.name"/></label>
+                            <label class="mylabel_user">用户姓名：<input class="phoneinput" disabled="true" v-model="user.name"/></label>
                         </div>
                         <div class="layui-col-md6">
-                            <label class="mylabel_user">性别：<input class="phoneinput" disabled="true" v-model="user.gender=='1'?'男':'女'"/></label>
+                            <label class="mylabel_user">性别：<input class="phoneinput" disabled="true" :value="user.gender==''?'':(user.gender=='0'?'女':'男')"/></label>
                         </div>
                     </div>
                     <div class="layui-row" >
@@ -64,12 +66,12 @@
                             <label class="mylabel_user">联系电话：<input class="phoneinput" disabled="true" v-model="user.phone"/></label>
                         </div>
                         <div class="layui-col-md6">
-                            <label class="mylabel_user">邮箱：<input style="width:150px" class="beforeinput" disabled="true" v-model="user.email"/></label>
+                            <label class="mylabel_user">邮箱：<input style="width:150px" class="phoneinput" disabled="true" v-model="user.email"/></label>
                         </div>
                     </div>
                     <div class="layui-row" >
                         <div class="layui-col-md12">
-                            <label class="mylabel_user">身份证号码：<input style="width:200px" class="beforeinput" disabled="true" v-model="user.idCard"/></label>
+                            <label class="mylabel_user">身份证号码：<input style="width:200px" class="phoneinput" disabled="true" v-model="user.idCard"/></label>
                         </div>
                     </div>
                     <div class="layui-row" >
@@ -170,7 +172,7 @@
                             <label class="mylabel">支付时间：{{order.payTime}}</label>
                         </div>
                         <div class="layui-col-md6">
-                            <label class="mylabel">提车时间：{{}}</label>
+                            <label class="mylabel">提车时间：{{order.gmt_modified}}</label>
                         </div>
                     </div>
                 </div>
@@ -180,9 +182,9 @@
                 <div class="layui-field-box">
                     <form class="layui-form" action="">
                         <div class="layui-form-item" style="text-align:center;margin-bottom: 10px ">
-                            <label class="layui-form-label">押金金额（元）：</label>
+                            <label class="layui-form-label">应收押金（元）：</label>
                             <div class="layui-input-inline">
-                                <input v-model="order.deposit" type="text" style="font-size: large" name="title" lay-verify="title" autocomplete="off"  class="layui-input">
+                                <input v-model="order.deposit" type="text" style="border: 0px;font-size: large" name="title" disabled="true" lay-verify="title" autocomplete="off"  class="layui-input">
                             </div>
                         </div>
                     </form>

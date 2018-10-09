@@ -1,27 +1,34 @@
 $(function () {
     let nub, name, sex, cid, email, pname, pphone;
 //修改车牌信息
-    let nublist
-    $.ajax({
-        url:'/statics/order_change_nub.json',
-        dataType:'json',
-        success:function (data) {
-            nublist=data;
-        }
-    })
 
     $('#changecar').click(function(){
         nub = $('nub').text();
-        $myselect=$("<select id='selectcar'><option value='"+nub+"'>"+nub+"</option></select>")
-        $('nub').after($myselect);
-        $('nub').hide();
-        $.each(nublist.data, function (index, item) {
-            if ($.trim(nub) != $.trim(item.nub))
-                $('#selectcar').append(new Option(item.nub, item.nub));//往下拉菜单里添加元素
+        //alert($('#thisCarId').val());
+        let nublist;
+        $.ajax({
+            url:'/api/order/selectCarId?carId='+$('#thisCarId').val(),
+            dataType:'json',
+            success:function (data) {
+                if(data.code==0){
+                    //console.log(data.carNub);
+                    nublist=data;
+                    $myselect=$("<select id='selectcar'><option value='"+nub+"'>"+nub+"</option></select>")
+                    $('nub').after($myselect);
+                    $('nub').hide();
+                    $.each(nublist.carNub, function (index, item) {
+                        if ($.trim(nub) != $.trim(item))
+                            $('#selectcar').append(new Option(item, item));//往下拉菜单里添加元素
+                    })
+                    $('#btncarsubmit').show(); $('#btncarcancel').show();
+                    $('#changecar').hide();
+                }
+
+            }
         })
-        $('#btncarsubmit').show(); $('#btncarcancel').show();
-        $('#changecar').hide();
+
     })
+
     $('#btncarcancel').click(function() {
         $('#btncarcancel').hide();$('#btncarsubmit').hide();
         $('#changecar').show();
@@ -30,11 +37,36 @@ $(function () {
     })
     $('#btncarsubmit').click(function() {
         nub = $('#selectcar').val();
-        $('#btncarcancel').hide();$('#btncarsubmit').hide();
-        $('#changecar').show();
-        $('#selectcar').remove();
-        $('nub').text(nub);
-        $('nub').show()
+        $.ajax({
+            url:'/api/order/updateCarNub',
+            data:{
+                orderId:$('#thisOrderId').val(),
+                carNubBefore:$('nub').text(),
+                carNubNew:$('#selectcar').val()
+            },
+            type:'post',
+            success:function (res) {
+                if (res.code === 0)
+                    layer.msg(res.msg, {
+                            time: 1000
+                        },
+                        function () {
+                            $('#btncarcancel').hide();$('#btncarsubmit').hide();
+                            $('#changecar').show();
+                            $('#selectcar').remove();
+                            $('nub').text(nub);
+                            $('nub').show()
+                            parent.layui.table.reload("orderstable");
+                        })
+            },
+            fail: function (res) {
+                $('#btncarcancel').hide();$('#btncarsubmit').hide();
+                $('#changecar').show();
+                $('#selectcar').remove();
+                $('nub').show()
+                console.log(res);
+            }
+        })
 
     })
 //修改用户信息
@@ -53,38 +85,27 @@ $(function () {
     $('#btnusersubmit').click(function() {
         $('#btnusercancel').hide();$('#btnusersubmit').hide();
         $('#changeuser').show();
-
-        //console.log(orderchange_data.user.gender);
-        // var data = {
-        //     id:orderchange_data.user.id,
-        //     idCard:orderchange_data.user.idCard,
-        //     name:orderchange_data.user.name,
-        //     email:orderchange_data.user.email,
-        //     emergencyName:orderchange_data.user.emergencyName,
-        //     emergencyPhone:orderchange_data.user.emergencyPhone,
-        // }
-        // $.ajax({
-        //     type: "post",
-        //     url: "/api/customer/change",
-        //     //data:JSON.stringify(data),
-        //     contentType:'application/json',
-        //     data:JSON.stringify(data),
-        //     success:function (res) {
-        //         if (res.code === 0)
-        //             layer.msg(res.msg, {
-        //                     time: 1000
-        //                 },
-        //                 function () {
-        //                     parent.layui.table.reload("orderstable")
-        //                     const index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-        //                     parent.layer.close(index); //再执行关闭
-        //                     //layui.table.reload("orders");
-        //                 })
-        //     },
-        //     fail: function (res) {
-        //         console.log(res);
-        //     }
-        // })
+        var data = {
+            id:orderchange_data.user.id,
+            emergencyName:orderchange_data.user.emergencyName,
+            emergencyPhone:orderchange_data.user.emergencyPhone,
+        }
+        $.ajax({
+            type: "post",
+            url: "/api/order/updateUser",
+            //data:JSON.stringify(data),
+            contentType:'application/json',
+            data:JSON.stringify(data),
+            success:function (res) {
+                if (res.code === 0)
+                    layer.msg(res.msg, {
+                            time: 1000
+                        })
+            },
+            fail: function (res) {
+                console.log(res);
+            }
+        })
 
         $('.myinput').attr("class","beforeinput");
         $('.beforeinput').attr("disabled",true);
@@ -101,7 +122,10 @@ $(function () {
 //确认提车
     $('#change_get').click(function() {
         //console.log("last"+orderchange_data.order.car_number)
-        if($("#changeuser").is(":hidden")||$("#changecar").is(":hidden")) alert("请先提交或取消修改！");
+        if($("#changeuser").is(":hidden")||$("#changecar").is(":hidden"))
+            layer.msg("请先提交修改！", {
+                    time: 1000
+                })
         else{
             var deposit = orderchange_data.order.deposit;
             //confirm("是否确认收取"+deposit+"元押金，完成提车？");
@@ -112,9 +136,8 @@ $(function () {
 
             var data = {
                 id:orderchange_data.order.id,
-                isDepositReturned:0,
+                isDepositReturned:1,
                 status:1,
-                deposit:deposit
             }
             console.log();
             $.ajax({
@@ -222,11 +245,17 @@ $(function () {
     })
 //确认还车
     $('#change_back').click(function () {
-        layer.confirm("是否确认还车？", function(index) {
+        var say = "是否退还"+orderchange_data.order.deposit+"元押金，确认还车？";
+        if($('#zongshu').val()!=""){
+            var detl = $('#beizhu').val();
+            detl = detl.substr(1);
+            say = "是否退还"+orderchange_data.order.deposit+"元押金，收取"+detl+",共计"+$('#zongshu').val()+"元，确认还车？";
+        }
+            layer.confirm(say, function(index) {
             //do something
             var data = {
                 id:orderchange_data.order.id,
-                isDepositReturned:1,
+                isDepositReturned:2,
                 otherAmount:$('#zongshu').val(),
                 description:$('#beizhu').val(),
                 status:4,
