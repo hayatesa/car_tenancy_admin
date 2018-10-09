@@ -16,11 +16,11 @@ layui.use('table', function () {
                     }}
                     , {field: 'phone', title: '手机', width: 120}
                     , {field: 'email', title: '邮箱', width: 150}
-                    , {field: 'tncPoint', title: '积分', width: 65, sort: true, templet:(res)=>{
+                    , {field: 'tncPoint', title: '积分', width: 65, sort: true, templet:function(res){
                         if(!res.tncPoint) {return 0;}
                         return res.tncPoint.point;
                      }}
-                    , {field: 'tncAddress', title: '地址' templet:function (res) {
+                    , {field: 'tncAddress', title: '地址', templet:function (res) {
                         var province = res.tncAddress==null ? "": res.tncAddress.province.name;
                         var city = res.tncAddress==null ? "": res.tncAddress.city.name;
                         var area = res.tncAddress==null ? "": res.tncAddress.area.name;
