@@ -55,9 +55,9 @@
                 //上传成功
                 if(res.code == 0){
                     console.log(res);
-                    var demoText = $('#demoText'),pathPre = 'D:/zuche/images';
+                    var demoText = $('#demoText');
                     demoText.html('<span style="color: #FF5722;">上传成功</span>');
-                    $('#imagePath').val(pathPre+res.path);
+                    $('#imagePath').val(res.path);
                 }
             }
             ,error: function(){
