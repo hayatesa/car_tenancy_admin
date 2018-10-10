@@ -1,5 +1,5 @@
 var carId = window.location.search.slice(7);
-console.log(carId);
+//console.log(carId);
 
 /*请求品牌列表*/
 doRequestBrand();
@@ -17,7 +17,7 @@ function doGetCar() {
         url: '/api/car/get',
         data: {carId: carId},
         success: function (res) {
-            console.log(res);
+            //console.log(res);
             if (res.code == 0) {
                 doSetBlank(res.data);
             }
@@ -67,13 +67,13 @@ function doRequestBrand() {
         url: "/api/tncBrand/list",
         success: function (res) {
             if (res.code == 0) {
-                console.log(res);
+                //console.log(res);
                 var b_data = res.data;
                 // vueObj.data.brands = res.data;
 
                 for (var i = 0; i < b_data.length; i++) {
                     $("#brand_id").append('<option value="' + b_data[i].id + '">' + b_data[i].name + '</option>');
-                    // console.log(i);
+                    // //console.log(i);
                 }
                 $("#brand_id").val(carcar.brand_id);
                 layui.form.render('select', 'brandFilter');
@@ -90,12 +90,12 @@ function doRequestCarType() {
         url: "/api/carType/list",
         success: function (res) {
             if (res.code == 0) {
-                console.log(res);
+                //console.log(res);
                 var b_data = res.data;
                 // vueObj.data.brands = res.data;
                 for (var i = 0; i < b_data.length; i++) {
                     $("#car_type_id").append('<option value="' + b_data[i].id + '">' + b_data[i].name + '</option>');
-                    // console.log(i+"ui");
+                    // //console.log(i+"ui");
                 }
                 layui.form.render('select', 'carTypeFilter');
             }
@@ -243,7 +243,7 @@ function doCheckData() {
 
 /*提交车辆基本信息*/
 function doSubmitCarBaseMsg() {
-    console.log("submit");
+    //console.log("submit");
     var flag = doCheckData();
     if (!flag)
         return;
@@ -328,14 +328,14 @@ function doRequestStore(data) {
         url: "/api/tncStore/store",
         success: function (res) {
             if (res.code == 0) {
-                console.log(res);
+                //console.log(res);
                 var b_data = res.data;
                 // vueObj.data.province = res.data;
                 $("#store_id").empty();
                 $("#store_id").append('<option value="">请选择门店</option>');
                 for (var i = 0; i < b_data.length; i++) {
                     $("#store_id").append('<option value="' + b_data[i].id + '">' + b_data[i].name + '</option>');
-                    // console.log(i+"store_id");
+                    // //console.log(i+"store_id");
                 }
                 layui.form.render('select', 'store_addr');
             }

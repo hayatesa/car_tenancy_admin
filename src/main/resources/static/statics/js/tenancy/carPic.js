@@ -22,7 +22,7 @@ layui.use('upload', function(){
             });
         }
         ,done: function(res){
-            console.log(res);
+            //console.log(res);
             //如果上传失败
             if(res.code > 0){
                 return layer.msg('上传失败');
@@ -74,7 +74,7 @@ layui.use('upload', function(){
         }
         ,done: function(res){
             //上传完毕回调
-            console.log(res)
+            //console.log(res)
             if (res.code ==0){
                 var data={
                     carId:carId,
@@ -86,7 +86,7 @@ layui.use('upload', function(){
         }
         ,error: function(res){
             //请求异常回调
-            // console.log(res);
+            // //console.log(res);
             layer.msg("上传失败！");
         }
     });
@@ -95,15 +95,15 @@ layui.use('upload', function(){
 });
 
 function doStoragePic(data) {
-    console.log(data);
+    //console.log(data);
     var url ="/api/carPic/storage";
     if(picData != null){
         url ="/api/carPic/update";
         data.id=picData.id;
         data.isCover=picData.isCover;
     }
-    console.log(picData);
-    console.log(data);
+    //console.log(picData);
+    //console.log(data);
     $.ajax({
         url:url,
         data:data,
@@ -165,7 +165,7 @@ layui.use('table', function(){
     /*侧边栏事件*/
     table.on('tool(photoList)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
         var data = obj.data; //获得当前行数据
-        console.log(data);
+        //console.log(data);
         var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
         var tr = obj.tr; //获得当前行 tr 的DOM对象
 
@@ -181,7 +181,7 @@ layui.use('table', function(){
         function doDelete(data) {
             delete data.gmtCreate;
             delete data.gmtModified;
-            console.log(data);
+            //console.log(data);
             $.ajax({
                 url:"/api/carPic/delete",
                 data:data,

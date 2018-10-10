@@ -1,6 +1,6 @@
 var carId =window.location.search.slice(7);
 var form = layui.form;
-console.log(carId);
+//console.log(carId);
 
 
 doRequestPackage();
@@ -12,7 +12,7 @@ function doRequestPackage() {
         data:{carId:carId},
         url:"/api/PackageScheme/unselect",
         success:function (res) {
-            console.log(res);
+            //console.log(res);
             if(res.code ==0){
                 var b_data = res.data;
                 for(var i=0;i<b_data.length;i++){

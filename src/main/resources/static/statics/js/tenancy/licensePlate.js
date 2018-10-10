@@ -25,7 +25,7 @@ layui.use('table', function(){
     /*侧边栏事件*/
     table.on('tool(fcar_num)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
         var data = obj.data; //获得当前行数据
-        console.log(data);
+        //console.log(data);
 
         var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
         var tr = obj.tr; //获得当前行 tr 的DOM对象
@@ -37,7 +37,7 @@ layui.use('table', function(){
                 contentType:"application/json",
                 method: "POST",
                 success: function (res) {
-                    console.log(res);
+                    //console.log(res);
                     if (res.code == 0) {
                         tableIns.reload();
                     }
@@ -51,7 +51,7 @@ layui.use('table', function(){
                     url: "/api/carItem/"+data.id,
                     method:"DELETE",
                     success:function (res) {
-                        console.log(res);
+                        //console.log(res);
                         if (res.code ==0){
                             layer.msg("删除成功");
                             tableIns.reload({
@@ -70,7 +70,7 @@ layui.use('table', function(){
                 contentType:"application/json",
                 method:"PUT",
                 success:function (res) {
-                    console.log(res);
+                    //console.log(res);
                     if (res.code ==0){
                         showOptionsTips(options);
                         //同步更新缓存对应的值
@@ -122,7 +122,7 @@ layui.use('table', function(){
         var checkStatus = table.checkStatus(obj.config.id);
 
         function doRepairSelected(obj, data) {
-            console.log(data);
+            //console.log(data);
             for(var i=0;i<data.length;i++){
                 data[i].status=2;
             }
@@ -141,7 +141,7 @@ layui.use('table', function(){
         }
 
         function doUploadSelected(obj, data) {
-            console.log(data);
+            //console.log(data);
             for(var i=0;i<data.length;i++) {
                 data[i].status = 0;
             }
@@ -298,7 +298,7 @@ function addCarItem(){
         data:data,
         method:"POST",
         success:function (res) {
-            console.log(res);
+            //console.log(res);
             if (res.code ==0){
                 layer.msg("添加成功");
                 layui.table.reload('car_num', {

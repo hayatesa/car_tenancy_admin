@@ -38,7 +38,7 @@ layui.use('table', function() {
     //工具栏事件
     table.on('toolbar(lf_carList)', function (obj) {
         var checkStatus = table.checkStatus(obj.config.id);
-        console.log(obj);
+        //console.log(obj);
         switch (obj.event) {
             case "addCar":
                 showAddWindows();
@@ -207,7 +207,7 @@ function doDeleteByBtn(tableObj) {
     }
 /*删除*/
 function doDelete(data) {
-    console.log(data);
+    //console.log(data);
     $.ajax({
         url:'/api/car/delete',
         data:{carId:data.id},

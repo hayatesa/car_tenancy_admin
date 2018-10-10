@@ -36,7 +36,7 @@ layui.use('table', function(){
     //工具栏事件
     table.on('toolbar(fpackage)', function(obj){
         var checkStatus = table.checkStatus(obj.config.id);
-        console.log(obj);
+        //console.log(obj);
 
         switch(obj.event){
             case 'cancelPackage':
@@ -50,9 +50,9 @@ layui.use('table', function(){
 
     });
     table.on('edit(fpackage)', function(obj){ //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
-        console.log(obj.value); //得到修改后的值
-        console.log(obj.field); //当前编辑的字段名
-        console.log(obj.data); //所在行的所有相关数据
+        //console.log(obj.value); //得到修改后的值
+        //console.log(obj.field); //当前编辑的字段名
+        //console.log(obj.data); //所在行的所有相关数据
     });
 
     table.on('tool(fpackage)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
@@ -73,7 +73,7 @@ layui.use('table', function(){
         }
     });
     function doAddPackage() {
-        console.log("asda");
+        //console.log("asda");
         layer.open({
             type: 2 //此处以iframe举例
             ,title: '价格方案'
@@ -101,7 +101,7 @@ layui.use('table', function(){
 });
 /*批量删除套餐*/
 function doCancelPackage(data) {
-    console.log(data);
+    //console.log(data);
     if(data.length<=0){
         layer.msg("未选中！");
         return;
@@ -119,7 +119,7 @@ function doCancelPackage(data) {
 
 /*修改价格*/
 function doUpdatePrice(data) {
-     // console.log(data);
+     // //console.log(data);
     delete  data.gmtCreate;
     delete  data.gmtModified;
     $.ajax({
