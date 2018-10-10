@@ -1,29 +1,36 @@
     $(document).ready(function(){
-        // 获取页面参数
-        var id = $.getUrlParam('id');
-        var title = $.getUrlParam('title');
-        var url = $.getUrlParam('url');
-        var imagePath = $.getUrlParam('imagePath');
-        console.log(imagePath);
-        if ($.getUrlParam('type') == 0){
-            $($("#type").siblings().eq(0).children("div").children("input")[0]).attr('value', "轮播图");
-            $("#sowing").attr("selected",true);
-        } else{
-            $($("#type").siblings().eq(0).children("div").children("input")[0]).attr('value', "其他");
-            $("#others").attr("selected",true);
+        // 判断是编辑还是添加 编辑就请求数据
+        if($.getUrlParam('id')!='') {
+            $.ajax({
+                type: 'get',
+                url: "/api/Ads/get/" + $.getUrlParam('id'),
+                success: function (res) {
+                    if (res.code == 0) {
+                        // 将数据回显
+                        $("#demo1").attr("src", "/api/pic/item?imagePath=" + res.ad.imagePath);
+                        if (res.ad.type == 0) {
+                            $($("#type").siblings().eq(0).children("div").children("input")[0]).attr('value', "轮播图");
+                            $("#sowing").attr("selected", true);
+                        } else {
+                            $($("#type").siblings().eq(0).children("div").children("input")[0]).attr('value', "其他");
+                            $("#others").attr("selected", true);
+                        }
+                        $('#title').attr("value",res.ad.title);
+                        $('#url').attr("value",res.ad.url);
+                        $('#imagePath').attr("value",res.ad.imagePath);
+                        $('#id').attr("value",res.ad.id);
+                    }else{
+                        handleAjax(res);
+                    }
+                }
+            })
+            // 编辑的信息
+            $('#save').text('保存'), $('#myForm').attr('method','post');
+        }else{
+            // 添加的信息
+            $('#save').text('添加'), $('#myForm').attr('method','get');
         }
-        if(title==''&&url==''&&imagePath==''&&id=='')
-            $('#save').text('添加'),
-                $('#myForm').attr('method','get');
-        else
-            $('#save').text('保存'),
-                $('#myForm').attr('method','post');
-        // 回显
-        $('#title').attr("value",title);
-        $('#url').attr("value",url);
-        $('#imagePath').attr("value",imagePath);
-        $('#demo1').attr("src",imagePath);
-        $('#id').attr("value",id);
+
     })
     layui.use(['form','layer','upload'], function(){
         var $ = layui.jquery,upload = layui.upload;
@@ -57,7 +64,7 @@
                     console.log(res);
                     var demoText = $('#demoText');
                     demoText.html('<span style="color: #FF5722;">上传成功</span>');
-                    $('#imagePath').val(res.path);
+                    $('#imagePath').attr("value",res.path);
                 }
             }
             ,error: function(){
@@ -71,6 +78,7 @@
         });
 
     });
+    // 保存修改或添加记录
     function submit(data){
         var method = $('#myForm').attr('method');
         $.ajax({

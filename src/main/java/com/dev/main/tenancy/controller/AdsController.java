@@ -43,5 +43,10 @@ public class AdsController {
         ResultMap resultMap = adsService.deleteAds(tncAds);
         return resultMap;
     }
+    @GetMapping("/get/{aid}")
+    public ResultMap deleteAds(@PathVariable("aid") Long id){
+        ResultMap resultMap = adsService.selectById(id);
+        return resultMap;
+    }
 
 }

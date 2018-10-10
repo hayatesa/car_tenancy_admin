@@ -18,18 +18,11 @@
         })
     }
     function showForm(windowTitle,record){
+        var id;
         if(record!=null) {
-            var id = record.id;
-            var title = record.title;
-            var url = record.url;
-            var imagePath = record.imagePath;
-            var type = record.type;
+            id = record.id;
         }else{
-            var id = '';
-            var title = '';
-            var url = '';
-            var imagePath = '';
-            var type = '';
+            id = '';
         }
         layer.open({
             type: 2
@@ -42,7 +35,7 @@
             ,maxmin: true
             ,shade: [0.8, '#393D49']
             ,offset: ['10px', '281px']
-            ,content: 'model.html?title='+title+'&url='+url+'&imagePath='+imagePath+'&type='+type+'&id='+id
+            ,content: 'model.html?id='+id
             ,zIndex: layer.zIndex
             ,success: function(layero){
                 layer.setTop(layero);
@@ -58,25 +51,19 @@
             ,toolbar: '#toolbarDemo'
             ,title: '广告表'
             ,cols: [
-                [{field:'title', title:'标题', fixed: 'left', unresize: true, align:'center'}
+                [{field:'title', title:'标题', style:'height:100px;',width:200,fixed: 'left', unresize: true, align:'center'}
                     ,{field:'url', title:'跳转链接',align:'center'}
-                    ,{field:'imagePath', title:'图片路径',align:'center'}
+                    ,{field:'imagePath', style:'height:100px;',width:200,align:'center',title: '图片',templet:function (res) {
+                        return '<img src="/api/pic/item?imagePath='+res.imagePath+'"/>';
+                    }}
                     ,{field:'type', title:'类型',align:'center', totalRow: true,templet:function(d){
                         if(d.type==0)
                             return "轮播图";
                         else
                             return "其它"
                     }}
-                    ,{field:'gmtCreate', title:'创建时间',align:'center', sort: true, templet:function(d){
-                        var time = new Date(d.gmtCreate);
-                        var times=time.getFullYear() + '-' + (time.getMonth() + 1) + '-' + time.getDate() + ' ' + time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds();
-                        return times;
-                    }}
-                    ,{field:'gmtModified', title:'修改时间',align:'center', sort: true, templet:function(d){
-                        var time = new Date(d.gmtModified);
-                        var times=time.getFullYear() + '-' + (time.getMonth() + 1) + '-' + time.getDate() + ' ' + time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds();
-                        return times;
-                    }}
+                    ,{field:'gmtCreate', title:'创建时间',align:'center', sort: true}
+                    ,{field:'gmtModified', title:'修改时间',align:'center', sort: true}
                     ,{fixed: 'right', title:'操作',align:'center', toolbar: '#barDemo'}]
             ]
             ,page: true

@@ -36,4 +36,10 @@ public interface IAdsService {
      * @return
      */
     ResultMap deleteAds(TncAds tncAds);
+    /**
+     * 查询一条记录
+     * @param id
+     * @return
+     */
+    ResultMap selectById(Long id);
 }
