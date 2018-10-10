@@ -43,7 +43,10 @@ public class CarItemServiceImpl implements ICarItemService {
 
     @Override
     public int addCarItem(TncCarItem tncCarItem) {
-
+        TncCarItem flag =tncCarItemMapper.checkRepetive(tncCarItem.getNumber());
+        if(flag != null){
+            return -1;
+        }
         tncCarItem.setStatus((byte) 0);
         tncCarItem.setIsDeleted((byte) 0);
         tncCarItem.setGmtCreate(new Date());

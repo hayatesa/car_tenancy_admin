@@ -146,4 +146,11 @@
   <update id="quantityPlusOne">
       UPDATE tnc_car SET quantity = quantity+1,residual = residual+1 WHERE id = #{carId}
   </update>
+
+  <select id="checkRepetive"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tnc_car_item
+    where number = #{number,jdbcType=VARCHAR} and is_deleted =0
+  </select>
 </mapper>

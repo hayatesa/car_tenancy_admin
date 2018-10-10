@@ -1,5 +1,6 @@
 package com.dev.main.tenancy.controller;
 
+import com.dev.main.common.controller.exception.GlobalExceptionResolver;
 import com.dev.main.common.util.Page;
 import com.dev.main.common.util.QueryObject;
 import com.dev.main.common.util.ResultMap;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/carItem")
+@GlobalExceptionResolver
 public class TncCarItemController {
 
     @Autowired
@@ -39,7 +41,14 @@ public class TncCarItemController {
     @RequestMapping(value = "/upload",method = RequestMethod.POST)
     public ResultMap addCarItem(TncCarItem tncCarItem){
             int n = carItemService.addCarItem(tncCarItem);
-            return  ResultMap.success();
+            if(n == 1){
+                return  ResultMap.success();
+            }else if(n==-1){
+                return  ResultMap.fail("车牌已重复");
+            }else {
+                return ResultMap.fail("添加失败");
+            }
+
     }
 
     @RequestMapping(value = "/update",method = RequestMethod.POST)

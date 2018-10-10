@@ -299,6 +299,8 @@ function addCarItem(){
                 layui.table.reload('car_num', {
                     url: "/api/carItem/"+carId
                 });
+            }else{
+                layer.msg(res.msg);
             }
         }
     })
