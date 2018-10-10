@@ -31,4 +31,10 @@ public interface TncCarItemMapper extends BaseMapper<TncCarItem> {
     TncCarItem checkRepetive(String number);
 
     int quantitySubOne(Integer id);
+
+    int residualAddOne(Integer id);
+
+    int residualSubOne(Integer id);
+
+    int quantityAndResidualSubOne(Integer id);
 }

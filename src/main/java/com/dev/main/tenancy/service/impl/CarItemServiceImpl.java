@@ -120,4 +120,19 @@ public class CarItemServiceImpl implements ICarItemService {
     public int quantitySubOne(Integer id) {
         return tncCarItemMapper.quantitySubOne(id);
     }
+
+    @Override
+    public int residualAddOne(Integer id) {
+        return tncCarItemMapper.residualAddOne(id);
+    }
+
+    @Override
+    public int residualSubOne(Integer id) {
+        return tncCarItemMapper.residualSubOne(id);
+    }
+
+    @Override
+    public int quantityAndResidualSubOne(Integer id) {
+        return tncCarItemMapper.quantityAndResidualSubOne(id);
+    }
 }

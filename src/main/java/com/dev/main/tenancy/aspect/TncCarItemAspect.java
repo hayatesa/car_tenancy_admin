@@ -35,4 +35,20 @@ public class TncCarItemAspect {
         Integer id  = (Integer) ob[0];
         int n = carItemService.quantitySubOne(id);
     }
+
+    @After(value = "execution(* com.dev.main.tenancy.service.impl.CarItemServiceImpl.updateCarItem(..))")
+    public void doSubResidual(JoinPoint joinPoint){
+        Object[] ob = joinPoint.getArgs();
+        Integer id  = (Integer) ob[0];
+        Byte status  =  new Byte(ob[1].toString());
+        System.out.println(status);
+        if(status == 0){
+            int n = carItemService.residualAddOne(id);
+        }else if(status ==2){
+            int n = carItemService.residualSubOne(id);
+        }else if(status ==3){
+            int n = carItemService.residualSubOne(id);
+        }
+
+    }
 }

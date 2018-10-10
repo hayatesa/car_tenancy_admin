@@ -158,4 +158,18 @@
     from tnc_car_item
     where number = #{number,jdbcType=VARCHAR} and is_deleted =0
   </select>
+  
+  <update id="residualAddOne">
+     UPDATE tnc_car SET residual = residual+1
+      WHERE id in (SELECT DISTINCT car_id  from tnc_car_item where id = #{id})
+  </update>
+  <update id="residualSubOne">
+     UPDATE tnc_car SET residual = residual-1
+      WHERE id in (SELECT DISTINCT car_id  from tnc_car_item where id = #{id})
+  </update>
+
+  <update id="quantityAndResidualSubOne">
+      UPDATE tnc_car SET quantity = quantity-1,residual = residual-1
+      WHERE id in (SELECT DISTINCT car_id  from tnc_car_item where id = #{carId})
+  </update>
 </mapper>

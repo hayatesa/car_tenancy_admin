@@ -24,4 +24,10 @@ public interface ICarItemService {
     int quantityPlusOne(Long carId);
 
     int quantitySubOne(Integer id);
+
+    int residualAddOne(Integer id);
+
+    int residualSubOne(Integer id);
+
+    int quantityAndResidualSubOne(Integer id);
 }
