@@ -17,7 +17,7 @@
 
 	<!--<properties resource="db.properties" />-->
 	<!-- 添加你本地的驱动jar -->
-	<classPathEntry location="/home/hayate/.m2/repository/mysql/mysql-connector-java/5.1.45/mysql-connector-java-5.1.45-sources.jar"/>
+	<classPathEntry location="/home/devl/.m2/repository/mysql/mysql-connector-java/5.1.47/mysql-connector-java-5.1.47.jar"/>
 
 	<!--
     context:生成一组对象的环境
@@ -62,7 +62,7 @@
 		<!-- 必须要有的，使用这个配置链接数据库
 	        @TODO:是否可以扩展
 	     -->
-	    <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql:///car_tenancy" userId="dev" password="dev">
+	    <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://119.29.94.246:3306/car_tenancy?characterEncoding=utf8" userId="dev" password="dev">
 	        <!-- 这里面可以设置property属性，每一个property属性都设置到配置的Driver上 -->
 	    </jdbcConnection>
 
@@ -121,7 +121,7 @@
 		     或者只使用Mapper接口+Annotation，所以，如果 javaClientGenerator配置中配置了需要生成XML的话，这个元素就必须配置
 	      targetPackage/targetProject:同javaModelGenerator
 	     -->
-	    <sqlMapGenerator targetPackage="mapper" targetProject="/home/hayate/workspace/idea/car_tenancy/src/main/resources/tenancy">
+	    <sqlMapGenerator targetPackage="mapper" targetProject="/home/devl/workspace/catr_tenancy_admin/src/main/resources/tenancy">
 	        <!-- 在targetPackage的基础上，根据数据库的schema再生成一层package，最终生成的类放在这个package下，默认为false -->
 	        <property name="enableSubPackages" value="false"/>
 	    </sqlMapGenerator>
@@ -183,7 +183,7 @@
 		-->
 		<!--要根据哪张表生成，要在这里配置 -->
 		<!--用百分号表示生成所有表,可以直接省去一个一个写 <table tableName="%" /> -->
-	    <table  domainObjectName="AddressRegion" tableName="address_region" delimitIdentifiers="false" enableCountByExample="false"
+	    <!--<table  domainObjectName="AddressRegion" tableName="address_region" delimitIdentifiers="false" enableCountByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                enableUpdateByExample="false">
   			<property name="useActualColumnNames" value="false"/>
@@ -269,6 +269,11 @@
 			<property name="useActualColumnNames" value="false"/>
 		</table>
 		<table  domainObjectName="TncStore" tableName="tnc_store" delimitIdentifiers="false" enableCountByExample="false"
+				enableDeleteByExample="false" enableSelectByExample="false"
+				enableUpdateByExample="false">
+			<property name="useActualColumnNames" value="false"/>
+		</table>-->
+		<table  domainObjectName="TncCouponPoint" tableName="tnc_coupon_point" delimitIdentifiers="false" enableCountByExample="false"
 				enableDeleteByExample="false" enableSelectByExample="false"
 				enableUpdateByExample="false">
 			<property name="useActualColumnNames" value="false"/>
