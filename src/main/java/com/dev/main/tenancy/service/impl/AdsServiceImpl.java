@@ -30,12 +30,9 @@ public class AdsServiceImpl implements IAdsService {
     public Page queryByPage(QueryObject queryObject) {
         PageHelper.startPage((int)queryObject.get("page"),(int)queryObject.get("limit"),true);
         List<TncAds> list = tncAdsMapper.query(queryObject);
-        if (list.size()>0){
-            PageInfo pageInfo = new PageInfo(list);
-            return new Page(pageInfo.getTotal(),list);
-        }else{
-            throw new CommonException("无广告数据");
-        }
+        PageInfo pageInfo = new PageInfo(list);
+        return new Page(pageInfo.getTotal(),list);
+
     }
     @Override
     public ResultMap addAds(TncAds tncAds){

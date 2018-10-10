@@ -60,7 +60,7 @@
                         if(d.type==0)
                             return "轮播图";
                         else
-                            return "其它"
+                            return "其他"
                     }}
                     ,{field:'gmtCreate', title:'创建时间',align:'center', sort: true}
                     ,{field:'gmtModified', title:'修改时间',align:'center', sort: true}
