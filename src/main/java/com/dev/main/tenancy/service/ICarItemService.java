@@ -22,4 +22,6 @@ public interface ICarItemService {
     int repairCarItemList(String dataList);
 
     int quantityPlusOne(Long carId);
+
+    int quantitySubOne(Integer id);
 }

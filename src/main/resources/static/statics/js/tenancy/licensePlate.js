@@ -54,6 +54,11 @@ layui.use('table', function(){
                         console.log(res);
                         if (res.code ==0){
                             layer.msg("删除成功");
+                            tableIns.reload({
+                                page: {
+                                    curr: 1 //重新从第 1 页开始
+                                }
+                            });
                         }
                     }
                 })

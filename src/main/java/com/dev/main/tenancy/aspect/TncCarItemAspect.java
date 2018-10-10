@@ -28,4 +28,11 @@ public class TncCarItemAspect {
             TncCarItem tncCarItem = (TncCarItem) ob[0];
             int n = carItemService.quantityPlusOne(tncCarItem.getCarId());
     }
+
+    @After(value = "execution(* com.dev.main.tenancy.service.impl.CarItemServiceImpl.deleteCarItem(..))")
+    public void doSubQuantityAndResidual(JoinPoint joinPoint){
+        Object[] ob = joinPoint.getArgs();
+        Integer id  = (Integer) ob[0];
+        int n = carItemService.quantitySubOne(id);
+    }
 }

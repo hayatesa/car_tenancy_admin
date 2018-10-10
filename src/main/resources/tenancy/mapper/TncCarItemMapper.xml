@@ -146,7 +146,12 @@
   <update id="quantityPlusOne">
       UPDATE tnc_car SET quantity = quantity+1,residual = residual+1 WHERE id = #{carId}
   </update>
+  <update id="quantitySubOne">
+      UPDATE tnc_car SET quantity = quantity-1,residual = residual-1
+      WHERE id in (SELECT DISTINCT car_id  from tnc_car_item where id = #{carId})
+  </update>
 
+  
   <select id="checkRepetive"  resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />

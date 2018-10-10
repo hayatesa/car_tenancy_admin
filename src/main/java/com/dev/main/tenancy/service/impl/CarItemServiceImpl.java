@@ -115,4 +115,9 @@ public class CarItemServiceImpl implements ICarItemService {
     public int quantityPlusOne(Long carId) {
         return tncCarItemMapper.quantityPlusOne(carId);
     }
+
+    @Override
+    public int quantitySubOne(Integer id) {
+        return tncCarItemMapper.quantitySubOne(id);
+    }
 }
