@@ -54,7 +54,7 @@
                 [{field:'title', title:'标题', style:'height:100px;',width:200,fixed: 'left', unresize: true, align:'center'}
                     ,{field:'url', title:'跳转链接',align:'center'}
                     ,{field:'imagePath', style:'height:100px;',width:200,align:'center',title: '图片',templet:function (res) {
-                        return '<img src="/api/pic/item?imagePath='+res.imagePath+'"/>';
+                        return '<img  src="/api/pic/item?imagePath='+res.imagePath+'"/>';
                     }}
                     ,{field:'type', title:'类型',align:'center', totalRow: true,templet:function(d){
                         if(d.type==0)
@@ -67,6 +67,9 @@
                     ,{fixed: 'right', title:'操作',align:'center', toolbar: '#barDemo'}]
             ]
             ,page: true
+            ,done:function(){
+                hoverOpenImg();//显示大图
+            }
         });
 
 
@@ -98,3 +101,17 @@
             });
         })
     });
+    function hoverOpenImg(){
+        var img_show = null; // tips提示
+        $('td img').hover(function(){
+            //alert($(this).attr('src'));
+            var img = "<img class='img_msg' src='"+$(this).attr('src')+"' style='width:330px;' />";
+            img_show = layer.tips(img, this,{
+                tips:[2, 'rgba(41,41,41,.5)']
+                ,area: ['360px']
+            });
+        },function(){
+            layer.close(img_show);
+        });
+        $('td img').attr('style','max-width:250px;height:80px;');
+    }
