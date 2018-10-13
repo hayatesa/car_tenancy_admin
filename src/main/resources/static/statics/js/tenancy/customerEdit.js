@@ -46,7 +46,6 @@ $(document).ready(function () {
         success:function(res) {
             if(res.code == 0) {
                 customerEdit_app.customer = res.data;
-                console.log(res.data);
                 genderId = "gender"+customerEdit_app.customer.gender;
                 if(customerEdit_app.customer.gender==1) {
                     $($("#gender").siblings().eq(0).children("div").children("input")[0]).attr('value', "男");

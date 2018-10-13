@@ -103,4 +103,16 @@
       gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <select id="query" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"></include>
+    FROM tnc_coupon_point c
+    <where>
+      <if test="search!=null">AND (
+        c.name LIKE CONCAT('%',#{search},'%')
+        OR c.phone LIKE CONCAT('%',#{search},'%')
+        )
+      </if>
+    </where>
+  </select>
 </mapper>

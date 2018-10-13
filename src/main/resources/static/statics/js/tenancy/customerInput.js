@@ -33,7 +33,6 @@ layui.use('form', function () {
 });
 var addCustomer = function () {
     var data = JSON.stringify(customerAdd_app.customer);
-    console.log(data);
     $.ajax({
         type: "post",
         url: "/api/customer/save",

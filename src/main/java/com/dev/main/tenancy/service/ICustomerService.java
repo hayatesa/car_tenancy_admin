@@ -1,9 +1,7 @@
 package com.dev.main.tenancy.service;
 
-import com.alibaba.fastjson.JSONObject;
 import com.dev.main.common.util.Page;
 import com.dev.main.common.util.QueryObject;
-import com.dev.main.common.util.ResultMap;
 import com.dev.main.tenancy.domain.TncCustomer;
 import com.dev.main.tenancy.vo.TncCustomerVo;
 

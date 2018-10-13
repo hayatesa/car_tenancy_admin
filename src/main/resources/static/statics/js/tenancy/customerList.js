@@ -155,7 +155,6 @@ layui.use('table', function () {
                 layer.setTop(layero); //重点2
             }
         });
-
     };
     /*编辑用户*/
     var editCustomer = function (id) {

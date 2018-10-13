@@ -29,7 +29,6 @@ public class CustomerServiceImpl implements ICustomerService {
 
     @Override
     public Page queryByPage(QueryObject queryObject) {
-        System.out.println(queryObject);
         PageHelper.startPage((int) queryObject.get("page"), (int)queryObject.get("limit"), true);
         List<TncCustomerVo> list = tncCustomerMapper.queryVo(queryObject);
         PageInfo pageInfo = new PageInfo(list);
@@ -42,8 +41,6 @@ public class CustomerServiceImpl implements ICustomerService {
         TncCustomer tncCustomer = new TncCustomer();
         tncCustomer.setId(uid);
         tncCustomer.setGmtModified(new Date());
-        ResultMap resultMap = new ResultMap();
-
         if(select==1) {
             tncCustomer.setStatus((byte)1);
             tncCustomerMapper.updateByPrimaryKeySelective(tncCustomer);

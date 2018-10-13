@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加优惠券</title>
+    <link rel="stylesheet" href="/statics/fonts/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="/statics/layui-v2.4.3/css/layui.css">
+</head>
+<style>
+    .input_width {
+        width: 100%;
+    }
+    .div_margin {
+        margin-bottom: 20px;
+    }
+</style>
+<body style="padding: 10px;">
+
+<form id="couponSave" class="layui-form layui-form-pane" action="">
+    <div class="layui-form-item div_margin">
+        <label class="layui-form-label">面值</label>
+        <div class="layui-input-block">
+            <input type="text" name="amount" v-model="coupon.amount" lay-verify="required" placeholder="请输入优惠券额" class="layui-input input_width">
+        </div>
+    </div>
+    <div class="layui-form-item div_margin">
+        <label class="layui-form-label">兑换积分</label>
+        <div class="layui-input-block">
+            <input type="text" name="point" v-model="coupon.point" lay-verify="required" placeholder="请输入兑换积分" class="layui-input input_width">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block" style="padding-left: 40px;">
+            <button class="layui-btn" lay-submit lay-filter="demo1" id="add"><i class="layui-icon layui-icon-add-1"></i>确定</button>
+            <button type="reset" class="layui-btn layui-btn-danger">
+                <i class="layui-icon layui-icon-refresh"></i> 重置
+            </button>
+        </div>
+    </div>
+</form>
+<script src="/statics/js/jquery-3.3.1.min.js"></script>
+<script src="/statics/vue-2.5.17/vue.min.js"></script>
+<script src="/statics/layui-v2.4.3/layui.all.js"></script>
+<script src="/statics/js/common/common.js"></script>
+<script src="/statics/js/tenancy/pointToCoupon.js"></script>
+<script>
+    $(document).ready(function () {
+        var id = T.p('id');
+        if (id != null) {
+            findCoupon(id);
+        }
+    })
+    function findCoupon(id) {
+        console.log(id);
+        $.ajax({
+            type: "post",
+            url: "/api/tncCouponPoint/find",
+            data:{
+                cid: id
+            },
+            success:function(res) {
+                console.log(res);
+                if(res.code===0) {
+                    console.log(res);
+                    couponData.coupon = res.coupon;
+                }else {
+                    handleAjax();
+                }
+            }
+        })
+    }
+</script>
+</body>
+</html>
