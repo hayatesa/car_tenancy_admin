@@ -110,7 +110,21 @@ public class OrderServiceImpl implements IOrderService {
         //System.out.println(tncCouponMapper.selectByPrimaryKey(order.getCouponId()).getAmount());
         //获取用户信息
         TncCustomer tc = tncCustomerMapper.selectByPhone(order.getPhone());
-        tncOrderVo.setTncOrder(order);tncOrderVo.setTncCustomer(tc);
+        tncOrderVo.setTncOrder(order);
+        if(tc.getName().equals(order.getName())){
+            tncOrderVo.setTncCustomer(tc);
+        }
+        else {
+            TncCustomer tcc = new TncCustomer();
+            tcc.setName(order.getName());
+            tcc.setEmail(order.getEmail());
+            tcc.setPhone(order.getPhone());
+            tcc.setIdCard(order.getCredentialsNumber());
+            tcc.setEmergencyName(tc.getName());
+            tcc.setEmergencyPhone(order.getPhone());
+            tncOrderVo.setTncCustomer(tcc);
+        }
+
         //获取车辆信息
         CarVo carVo = tncOrderMapper.getCar(order.getCarItemId());
         tncOrderVo.setCarNub(carVo.getNub());
@@ -182,8 +196,23 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     @Override
-    public TncCustomerVo findUser(String phone) {
-        return tncCustomerMapper.findVo(tncCustomerMapper.selectByPhone(phone).getId());
+    public TncCustomerVo findUser(Long id) {
+        System.out.println(id);
+        TncOrder order = tncOrderMapper.selectByPrimaryKey(id);
+        System.out.println(order.toString());
+        String phone = order.getPhone();
+        TncCustomerVo tncCustomerVo = tncCustomerMapper.findVo(tncCustomerMapper.selectByPhone(phone).getId());
+        if(tncCustomerVo.getName().equals(order.getName())) return tncCustomerVo;
+        else {
+            TncCustomerVo tcc = new TncCustomerVo();
+            tcc.setName(order.getName());
+            tcc.setEmail(order.getEmail());
+            tcc.setPhone(order.getPhone());
+            tcc.setIdCard(order.getCredentialsNumber());
+            tcc.setEmergencyName(tncCustomerVo.getName());
+            tcc.setEmergencyPhone(order.getPhone());
+            return tcc;
+        }
     }
 
     @Override

@@ -22,7 +22,7 @@ public interface IOrderService {
 
     int update(TncOrder tncOrder);
 
-    TncCustomerVo findUser(String phone);
+    TncCustomerVo findUser(Long phone);
 
     int delete(Long id);
 

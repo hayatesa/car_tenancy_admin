@@ -270,7 +270,7 @@ function getuserdetail(gg){
         , content: $('#mydiv')
         , success: function () {
             $.ajax({
-                url:'/api/order/selectUser?phone='+gg,
+                url:'/api/order/selectUser?id='+gg,
                 dataType:'json',
                 success:function(data){
                     //console.log(data);

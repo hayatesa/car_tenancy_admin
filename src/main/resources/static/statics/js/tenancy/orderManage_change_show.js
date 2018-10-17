@@ -76,5 +76,5 @@ function getdate() {
     orderchange_data.order.startDate = orderchange_data.order.startDate.substr(0,orderchange_data.order.startDate.length-3)
     orderchange_data.order.payTime = orderchange_data.order.payTime.substr(0,orderchange_data.order.payTime.length-3)
     orderchange_data.order.returnDate = orderchange_data.order.returnDate.substr(0,orderchange_data.order.returnDate.length-3)
-    // orderchange_data.order.startDate = orderchange_data.order.startDate.substr(0,orderchange_data.order.startDate.length-3)
+    orderchange_data.order.gmtModified = orderchange_data.order.gmtModified.substr(0,orderchange_data.order.gmtModified.length-3)
 }

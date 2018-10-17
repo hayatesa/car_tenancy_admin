@@ -98,8 +98,8 @@ public class TncOrderController {
         return orderService.findByPrimaryKey(id);
     }
     @GetMapping("/selectUser")
-    public ResultMap selectUser(String phone){
-        TncCustomerVo tncCustomer = orderService.findUser(phone);
+    public ResultMap selectUser(Long id){
+        TncCustomerVo tncCustomer = orderService.findUser(id);
         ResultMap resultMap = new ResultMap();
         resultMap.put("data", tncCustomer);
         return resultMap;
