@@ -213,7 +213,6 @@ $(function () {
 
             var data = {
                 id:orderchange_data.order.id,
-                carItemId:orderchange_data.order.carItemId,
                 status:3,
             }
             $.ajax({
@@ -246,20 +245,28 @@ $(function () {
 //确认还车
     $('#change_back').click(function () {
         var say = "是否退还"+orderchange_data.order.deposit+"元押金，确认还车？";
-        if($('#zongshu').val()!=""){
+        if($('#zongshu').val()!=""&&$('#zongshu').val()!="0"){
             var detl = $('#beizhu').val();
             detl = detl.substr(1);
             say = "是否退还"+orderchange_data.order.deposit+"元押金，收取"+detl+",共计"+$('#zongshu').val()+"元，确认还车？";
         }
             layer.confirm(say, function(index) {
             //do something
-            var data = {
-                id:orderchange_data.order.id,
-                isDepositReturned:2,
-                otherAmount:$('#zongshu').val(),
-                description:$('#beizhu').val(),
-                status:4,
-            }
+                var data = {};
+                if($('#zongshu').val()!=""&&$('#zongshu').val()!="0"&&$('#beizhu').val()!=""){
+                    data = {
+                        id:orderchange_data.order.id,
+                        isDepositReturned:2,
+                        otherAmount:$('#zongshu').val(),
+                        description:$('#beizhu').val(),
+                        status:4,
+                    }
+                }else data = {
+                    id:orderchange_data.order.id,
+                    isDepositReturned:2,
+                    status:4,
+                }
+
             $.ajax({
                 type: "post",
                 url: "/api/order/updateStatus",

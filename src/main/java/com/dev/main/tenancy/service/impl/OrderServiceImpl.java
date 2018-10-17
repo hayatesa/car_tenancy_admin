@@ -135,7 +135,7 @@ public class OrderServiceImpl implements IOrderService {
         int status = tncOrder.getStatus();
         System.out.println("-----------"+tncOrder.toString());
         if (status == 4) {//确认还车
-            if (tncOrder.getOtherAmount() != null) {//有其他费用
+            if (tncOrder.getOtherAmount() != null&& new BigDecimal(0).compareTo(tncOrder.getOtherAmount())!=0) {//有其他费用
                 String des = tncOrder.getDescription();
                 BigDecimal otham = tncOrder.getOtherAmount();
                 TncOrder to = tncOrderMapper.selectByPrimaryKey(tncOrder.getId());
@@ -165,8 +165,11 @@ public class OrderServiceImpl implements IOrderService {
             return tncOrderMapper.updateByPrimaryKeySelective(tncOrder);
         } else if (status == 3) {//取消提车、确认退款
             int rs1 = tncOrderMapper.updateByPrimaryKeySelective(tncOrder);
-            int rs2 = tncCarItemMapper.updateCarItemStatus(Integer.parseInt(tncOrder.getCarItemId().toString()), (byte) 0);
+            System.out.println("前台传入的orderid"+tncOrder.getId());
             TncOrder tt = tncOrderMapper.selectByPrimaryKey(tncOrder.getId());
+            System.out.println(tt.toString());
+            System.out.println("catitemid-----------"+tt.getCarItemId());
+            int rs2 = tncCarItemMapper.updateCarItemStatus(Integer.parseInt(tt.getCarItemId().toString()), (byte) 0);
             Long carid = tncOrderMapper.getCarId(tt.getCarItemId());
             int rs3 = tncOrderMapper.updateCarNubUp(carid);
             if (rs1 > 0 && rs2 > 0 && rs3 > 0 ) {

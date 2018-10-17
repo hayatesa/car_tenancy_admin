@@ -110,7 +110,7 @@
                     </div>
                     <div class="layui-row" >
                         <div class="layui-col-md6">
-                            <label class="mylabel_2"><a onclick="getother()">其他费用：</a></label>
+                            <label class="mylabel_2"><a onclick="getother()" style="color: #00a7d0">其他费用：</a></label>
                         </div>
                         <div class="layui-col-md6">
                             <label class="mylabel_money">{{order.otherAmount}}</label>
@@ -129,7 +129,7 @@
             </div>
         </div>
         <div class="layui-col-md8">
-            <div class="layui-card" style="height: 280px">
+            <div class="layui-card" style="height: 265px">
                 <div class="layui-card-header">订单跟踪</div>
                 <div class="layui-card-body">
                     <div class="layui-row" >
@@ -171,7 +171,7 @@
                     </div>
                     <div class="layui-row" >
                         <div class="layui-col-md6">
-                            <label class="mylabel">提车时间：{{order.gmt_modified}}</label>
+                            <label class="mylabel">提车时间：{{order.gmtModified}}</label>
                         </div>
                         <div class="layui-col-md6">
                             <label class="mylabel">还车时间：{{order.realReturnDate}}</label>
