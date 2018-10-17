@@ -108,7 +108,7 @@ function addCoupon() {
                     parent.layui.table.reload("tableDemo");
                 })
             }else {
-                handleAjax();
+                handleAjax(res);
             }
         }
     })
