@@ -87,7 +87,7 @@ function del(id) {
         },
         // contentType:"application/json",
         success:function (res) {
-            console.log(res)
+            //console.log(res)
             if(res.code == 0){
                 layer.msg(res.msg,
                     {
@@ -97,6 +97,7 @@ function del(id) {
                  layui.table.reload("PackageScheme")
                 })
             }else{
+                handleAjax(res)
             }
         }
     })

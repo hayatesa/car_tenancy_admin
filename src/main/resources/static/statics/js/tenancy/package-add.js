@@ -58,6 +58,8 @@
      * 编辑套餐 id != null
      */
     function doSave() {
+        p_app.package.daysMax = Number(p_app.package.daysMax);
+        p_app.package.daysMin = Number(p_app.package.daysMin);
         let data = JSON.stringify(p_app.package)
         console.log(data)
         $.ajax({
@@ -66,7 +68,7 @@
             data:data,
             contentType:"application/json",
             success:function (res) {
-                console.log(res)
+                //console.log(res)
                 if(res.code == 0){
                     layer.msg(res.msg,
                         {
@@ -78,6 +80,7 @@
                     })
                 }else{
                     //layer.msg(res.msg)
+                    handleAjax(res)
                 }
             },
             fail:function (res) {
@@ -103,6 +106,7 @@
                         result = "use"
                     }
                 }else{
+                    handleAjax(res)
                     //layer.msg(res.msg)
                 }
             },
@@ -125,19 +129,34 @@
         //表单校验
         form.verify({
             day_min: function (value, item) { //value：表单的值、item：表单的DOM对象
+                var r = new RegExp("^[1-9]\\d*$");
+
+                if(!r.test(Number($('#minDay').val()))){
+                    return "天数不能为小数"
+                }
+
                 if (value <= 0) {
                     return "天数不能少于一天"
                 }
             }
             , day_max: function (value, item) { //value：表单的值、item：表单的DOM对象
+                var r = new RegExp("^[1-9]\\d*$");
+
+                if(!r.test(Number($('#maxDay').val()))){
+                    return "天数不能为小数"
+                }
                 if (value <= 0) {
                     return "天数不能少于一天"
+                }
+                if (value > 89) {
+                    return "天数上限为89天"
                 }
                 if (Number($('#minDay').val()) >= value) {
                     return "上限比下限小？"
                 }
             },
             discount: function (value, item) {
+
                 if (value <= 0) {
                     return "大于0"
                 }
