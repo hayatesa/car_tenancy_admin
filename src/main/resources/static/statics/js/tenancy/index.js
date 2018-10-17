@@ -66,7 +66,7 @@ function logout() {
             type: "get",
             url: "/security/logout",
             success: function(result){
-                if(result.code == 200){//退出登录成功
+                if(result.code == 0){//退出登录成功
                     window.location.href ='/index';
                 } else {
                     handleAjax(result);
