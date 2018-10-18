@@ -9,9 +9,9 @@ public interface ICarItemService {
 
     int addCarItem(TncCarItem tncCarItem);
 
-    int deleteCarItem(Integer id);
+    int deleteCarItem(TncCarItem id);
 
-    int updateCarItem(Integer id, Byte status);
+    int updateCarItemStatus(Integer id, Byte status);
 
     int updateCarItem(TncCarItem tncCarItem);
 
@@ -21,7 +21,7 @@ public interface ICarItemService {
 
     int repairCarItemList(String dataList);
 
-    int quantityPlusOne(Long carId);
+    int quantityAndResidualPlusOne(Long carId);
 
     int quantitySubOne(Integer id);
 
@@ -30,4 +30,10 @@ public interface ICarItemService {
     int residualSubOne(Integer id);
 
     int quantityAndResidualSubOne(Integer id);
+
+    TncCarItem checkRepetive(String number);
+
+    int updateCarItemStatusSubQ(Integer id, Byte status);
+
+    int deleteCarItemSubQ(TncCarItem tncCarItem);
 }

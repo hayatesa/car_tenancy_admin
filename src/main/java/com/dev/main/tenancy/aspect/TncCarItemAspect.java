@@ -26,22 +26,36 @@ public class TncCarItemAspect {
     public void doAddQuantityAndResidual(JoinPoint joinPoint){
             Object[] ob = joinPoint.getArgs();
             TncCarItem tncCarItem = (TncCarItem) ob[0];
-            int n = carItemService.quantityPlusOne(tncCarItem.getCarId());
+            int n = carItemService.quantityAndResidualPlusOne(tncCarItem.getCarId());
     }
 
     @After(value = "execution(* com.dev.main.tenancy.service.impl.CarItemServiceImpl.deleteCarItem(..))")
     public void doSubQuantityAndResidual(JoinPoint joinPoint){
         Object[] ob = joinPoint.getArgs();
-        Integer id  = (Integer) ob[0];
-        int n = carItemService.quantitySubOne(id);
+        TncCarItem tncCarItem = (TncCarItem) ob[0];
+        System.out.println(tncCarItem.getStatus()+"status");
+        if(tncCarItem.getStatus() == 0 ){
+            int n = carItemService.quantityAndResidualSubOne(new Integer(tncCarItem.getId().toString()));
+        }else {
+            int n = carItemService.quantitySubOne(new Integer(tncCarItem.getId().toString()));
+        }
     }
 
-    @After(value = "execution(* com.dev.main.tenancy.service.impl.CarItemServiceImpl.updateCarItem(..))")
+    @After(value = "execution(* com.dev.main.tenancy.service.impl.CarItemServiceImpl.deleteCarItemSubQ(..))")
+    public void doSubQuantityBySubQ(JoinPoint joinPoint){
+        Object[] ob = joinPoint.getArgs();
+        TncCarItem tncCarItem = (TncCarItem) ob[0];
+        System.out.println(tncCarItem.getStatus()+"status");
+        int n = carItemService.quantitySubOne(new Integer(tncCarItem.getId().toString()));
+
+    }
+
+    @After(value = "execution(* com.dev.main.tenancy.service.impl.CarItemServiceImpl.updateCarItemStatus(..))")
     public void doSubResidual(JoinPoint joinPoint){
         Object[] ob = joinPoint.getArgs();
         Integer id  = (Integer) ob[0];
         Byte status  =  new Byte(ob[1].toString());
-        System.out.println(status);
+//        System.out.println(status);
         if(status == 0){
             int n = carItemService.residualAddOne(id);
         }else if(status ==2){
@@ -50,5 +64,14 @@ public class TncCarItemAspect {
             int n = carItemService.residualSubOne(id);
         }
 
+    }
+
+    @After(value = "execution(* com.dev.main.tenancy.service.impl.CarItemServiceImpl.updateCarItemStatusSubQ(..))")
+    public void doSubQuantity(JoinPoint joinPoint){
+        Object[] ob = joinPoint.getArgs();
+        Integer id  = (Integer) ob[0];
+        Byte status  =  new Byte(ob[1].toString());
+//        System.out.println(status);
+        int n = carItemService.quantitySubOne(id);
     }
 }

@@ -19,9 +19,9 @@ layui.use('table', function() {
                 , {field: 'tncStore', title: '门店',templet:function (res) {
                     return res.tncStore.name;
                 }}
-                , {field: 'quantity', title: '数量', sort: true}
-                , {field: 'residual', title: '剩余车辆', sort: true}
-                , {field: 'accessTimes', title: '访问次数', sort: true}
+                , {field: 'quantity', title: '总数量', sort: true}
+                , {field: 'residual', title: '剩余数', sort: true}
+                , {field: 'accessTimes', title: '热度', sort: true}
                 , {field: 'status', title: '状态',templet:function (res) {
                     if(res.status == 1)
                         return "上架";

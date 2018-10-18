@@ -1,5 +1,6 @@
 package com.dev.main.tenancy.controller;
 
+import com.dev.main.common.controller.exception.GlobalExceptionResolver;
 import com.dev.main.common.util.ResultMap;
 import com.dev.main.tenancy.domain.TncCarType;
 import com.dev.main.tenancy.service.ITncCarTypeService;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/carType")
+@GlobalExceptionResolver
 public class TncCarTypeController {
 
     @Autowired

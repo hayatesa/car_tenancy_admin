@@ -43,31 +43,74 @@ public class TncCarItemController {
             int n = carItemService.addCarItem(tncCarItem);
             if(n == 1){
                 return  ResultMap.success();
-            }else if(n==-1){
-                return  ResultMap.fail("车牌已重复");
             }else {
                 return ResultMap.fail("添加失败");
             }
 
     }
 
+    @RequestMapping(value = "/checkRepeat",method = RequestMethod.GET)
+    public ResultMap checkRepeat(TncCarItem tncCarItem){
+        TncCarItem flag =carItemService.checkRepetive(tncCarItem.getNumber());
+
+        if(flag == null){
+            return  ResultMap.success();
+        }else {
+            return  ResultMap.fail("车牌已重复");
+        }
+    }
+
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     public ResultMap updateCarItem(@RequestBody TncCarItem tncCarItem){
         int n = carItemService.updateCarItem(tncCarItem);
-        return  ResultMap.success();
+        if(n==1){
+            return  ResultMap.success();
+        }else {
+            return  ResultMap.fail("修改失败");
+        }
+
     }
 
-    @RequestMapping(value = "/{id}",method = RequestMethod.DELETE)
-    public ResultMap deleteCarItem(@PathVariable("id") Integer id ){
-        int n = carItemService.deleteCarItem(id);
-        return  ResultMap.success();
+    @RequestMapping(value = "/delete",method = RequestMethod.GET)
+    public ResultMap deleteCarItem(TncCarItem tncCarItem){
+        int n = carItemService.deleteCarItem(tncCarItem);
+        if(n==1){
+            return  ResultMap.success();
+        }else {
+            return  ResultMap.fail("删除失败");
+        }
+
     }
+
+    @RequestMapping(value = "/deleteSubQ",method = RequestMethod.GET)
+    public ResultMap deleteCarItemSubQ(TncCarItem tncCarItem){
+        int n = carItemService.deleteCarItemSubQ(tncCarItem);
+        if(n==1){
+            return  ResultMap.success();
+        }else {
+            return  ResultMap.fail("删除失败");
+        }
+
+    }
+
 
     @RequestMapping(value = "/{id}/{status}",method = RequestMethod.PUT)
     public ResultMap updateCarItem(@PathVariable("id") Integer id,@PathVariable("status") Byte status ){
-        int n = carItemService.updateCarItem(id,status);
+        int n = carItemService.updateCarItemStatus(id,status);
         return  ResultMap.success();
     }
+
+    @RequestMapping(value = "scrapSubQ/{id}/{status}",method = RequestMethod.PUT)
+    public ResultMap updateCarItemSubQ(@PathVariable("id") Integer id,@PathVariable("status") Byte status ){
+        int n = carItemService.updateCarItemStatusSubQ(id,status);
+        if(n==1){
+            return  ResultMap.success();
+        }else {
+            return  ResultMap.fail("报废失败");
+        }
+    }
+
+
     @RequestMapping(value = "/search" ,method = RequestMethod.POST)
     public Page findCarItem( @RequestParam(required = false) Integer page,
                                   @RequestParam(required = false) Integer limit,

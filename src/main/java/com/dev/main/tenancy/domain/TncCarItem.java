@@ -16,6 +16,7 @@ public class TncCarItem extends BaseDomain {
 
     // 车（型号）外键
     private Long carId;
+
     private TncCar car;
 
     public TncCar getCar() {

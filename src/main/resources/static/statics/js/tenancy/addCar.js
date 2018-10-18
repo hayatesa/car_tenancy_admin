@@ -219,6 +219,7 @@ function doCheckData() {
          success:function (res) {
              if (res.code == 0){
                  layer.msg("上传成功");
+                 $("#uploadCar").hide();
              }else{
                  layer.msg(res.msg);
              }

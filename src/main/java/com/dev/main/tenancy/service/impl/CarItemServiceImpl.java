@@ -1,9 +1,7 @@
 package com.dev.main.tenancy.service.impl;
 
-import com.alibaba.druid.sql.visitor.functions.If;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.dev.main.common.util.JsonUtils;
 import com.dev.main.common.util.Page;
 import com.dev.main.common.util.QueryObject;
 import com.dev.main.tenancy.dao.TncCarItemMapper;
@@ -23,8 +21,17 @@ public class CarItemServiceImpl implements ICarItemService {
     private TncCarItemMapper tncCarItemMapper;
 
     @Override
-    public int deleteCarItem(Integer id) {
-        return tncCarItemMapper.updateDeleteFieldByPrimaryKey(id);
+    public int deleteCarItem(TncCarItem tncCarItem) {
+        tncCarItem.setGmtModified(new Date());
+        tncCarItem.setIsDeleted(new Byte("1"));
+        return tncCarItemMapper.updateDeleteFieldByPrimaryKey(new Integer(tncCarItem.getId().toString()));
+    }
+
+    @Override
+    public int deleteCarItemSubQ(TncCarItem tncCarItem) {
+        tncCarItem.setGmtModified(new Date());
+        tncCarItem.setIsDeleted(new Byte("1"));
+        return tncCarItemMapper.updateDeleteFieldByPrimaryKey(new Integer(tncCarItem.getId().toString()));
     }
 
     @Override
@@ -43,15 +50,16 @@ public class CarItemServiceImpl implements ICarItemService {
 
     @Override
     public int addCarItem(TncCarItem tncCarItem) {
-        TncCarItem flag =tncCarItemMapper.checkRepetive(tncCarItem.getNumber());
-        if(flag != null){
-            return -1;
-        }
         tncCarItem.setStatus((byte) 0);
         tncCarItem.setIsDeleted((byte) 0);
         tncCarItem.setGmtCreate(new Date());
         tncCarItem.setGmtModified(new Date());
         return tncCarItemMapper.insertSelective(tncCarItem);
+    }
+
+    @Override
+    public TncCarItem checkRepetive(String number) {
+        return tncCarItemMapper.checkRepetive(number);
     }
 
     @Override
@@ -61,7 +69,7 @@ public class CarItemServiceImpl implements ICarItemService {
     }
 
     @Override
-    public int updateCarItem(Integer id, Byte status) {
+    public int updateCarItemStatus(Integer id, Byte status) {
 //        TncCarItem tncCarItem = new TncCarItem();
 //        tncCarItem.setNumber(null);
 //        tncCarItem.setCarId(Long.valueOf(id));
@@ -72,6 +80,12 @@ public class CarItemServiceImpl implements ICarItemService {
         //return tncCarItemMapper.updateByPrimaryKeySelective(tncCarItem);
 
         return tncCarItemMapper.updateCarItemStatus(id,status);
+    }
+
+    @Override
+    public int updateCarItemStatusSubQ(Integer id, Byte status) {
+
+        return  tncCarItemMapper.updateCarItemStatus(id,status);
     }
 
     @Override
@@ -112,8 +126,8 @@ public class CarItemServiceImpl implements ICarItemService {
     }
 
     @Override
-    public int quantityPlusOne(Long carId) {
-        return tncCarItemMapper.quantityPlusOne(carId);
+    public int quantityAndResidualPlusOne(Long carId) {
+        return tncCarItemMapper.quantityAndResidualPlusOne(carId);
     }
 
     @Override

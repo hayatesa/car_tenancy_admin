@@ -18,7 +18,7 @@ layui.use('table', function(){
                 ,{field:'status', title:'状态', sort: true,templet:function (res) {
                     return getStatus(res.status);
                 }}
-                ,{fixed: 'right', title:'操作', toolbar: '#barDemo',align:'center'}]
+                ,{fixed: 'right', title:'操作', toolbar: '#barDemo',align:'center',width:400}]
         ]
     });
 
@@ -39,17 +39,24 @@ layui.use('table', function(){
                 success: function (res) {
                     //console.log(res);
                     if (res.code == 0) {
+                        layer.msg("修改成功");
                         tableIns.reload();
+                    }else {
+                        layer.msg(res.msg);
                     }
                 }
             })
         }
 
         function doDelete(obj, data) {
-                //向服务端发送删除指令
+            delete data.car;
+            delete data.gmtCreate;
+            delete data.gmtModified;
+            console.log(data);
+            //向服务端发送删除指令
                 $.ajax({
-                    url: "/api/carItem/"+data.id,
-                    method:"DELETE",
+                    url: "/api/carItem/delete",
+                    data:data,
                     success:function (res) {
                         //console.log(res);
                         if (res.code ==0){
@@ -59,11 +66,54 @@ layui.use('table', function(){
                                     curr: 1 //重新从第 1 页开始
                                 }
                             });
+                        }else{
+                            layer.msg(res.msg);
                         }
                     }
                 })
         }
+        function doDeleteSubQ(obj, data) {
+            delete data.car;
+            delete data.gmtCreate;
+            delete data.gmtModified;
+            console.log(data);
+            //向服务端发送删除指令
+            $.ajax({
+                url: "/api/carItem/deleteSubQ",
+                data:data,
+                success:function (res) {
+                    //console.log(res);
+                    if (res.code ==0){
+                        layer.msg("删除成功");
+                        tableIns.reload({
+                            page: {
+                                curr: 1 //重新从第 1 页开始
+                            }
+                        });
+                    }else{
+                        layer.msg(res.msg);
+                    }
+                }
+            })
+        }
 
+        function doUpdateCarItemStatusByScrapSubQ(obj, data, options) {
+            $.ajax({
+                url: "/api/carItem/scrapSubQ/"+data.id+"/"+data.status,
+                contentType:"application/json",
+                success:function (res) {
+                    //console.log(res);
+                    if (res.code ==0){
+                        showOptionsTips(options);
+                        //同步更新缓存对应的值
+                        obj.update({
+                            status:data.status
+                        });
+                        table.reload("car_num");
+                    }
+                }
+            })
+        }
         function doUpdateCarItemStatus(obj, data, options) {
             $.ajax({
                 url: "/api/carItem/"+data.id+"/"+data.status,
@@ -92,7 +142,14 @@ layui.use('table', function(){
                 break;
             case  'del':
                 layer.confirm('真的删除行么', function(index){
-                    doDelete(obj,data,-1);
+                    doDelete(obj,data);
+                    layer.close(index);
+                });
+                break;
+            case  'delSubQ':
+                layer.confirm('真的删除行么', function(index){
+
+                    doDeleteSubQ(obj,data);
                     layer.close(index);
                 });
                 break;
@@ -100,6 +157,13 @@ layui.use('table', function(){
                 layer.confirm('确定下架维修么', function(index){
                     data.status = 2;
                     doUpdateCarItemStatus(obj,data,2);
+                    layer.close(index);
+                });
+                break;
+            case 'scrapSubQ':
+                layer.confirm('确定报废么，报废后该车将无法再次上架', function(index){
+                    data.status = 3;
+                    doUpdateCarItemStatusByScrapSubQ(obj,data,3);
                     layer.close(index);
                 });
                 break;
@@ -279,20 +343,7 @@ function showOptionsTips(code) {
 
     }
 }
-
-
-function addCarItem(){
-    var text = $("#carItemInput").val();
-    if( text== ""){
-        layer.msg("车牌号不能为空！");
-        $("#carItemInput").focus();
-        return;
-    }
-    var data = {
-        "number":text,
-        "carId":carId,
-        "status":0
-    }
+function doAddLicense(data) {
     $.ajax({
         url: "/api/carItem/upload",
         data:data,
@@ -309,6 +360,35 @@ function addCarItem(){
             }
         }
     })
+}
+
+
+function addCarItem(){
+    var text = $("#carItemInput").val();
+    if( text== ""){
+        layer.msg("车牌号不能为空！");
+        $("#carItemInput").focus();
+        return;
+    }
+    var data = {
+        "number":text,
+        "carId":carId,
+        "status":0
+    }
+    $.ajax({
+        url: "/api/carItem/checkRepeat",
+        data:data,
+        success:function (res) {
+            if (res.code ==0){
+                doAddLicense(data);
+            }else{
+                layer.msg(res.msg);
+            }
+        }
+    })
+
+
+
 
 
 }
