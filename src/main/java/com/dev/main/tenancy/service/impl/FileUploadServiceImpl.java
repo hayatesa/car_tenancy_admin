@@ -6,6 +6,7 @@ import com.dev.main.tenancy.service.IFileUploadService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
@@ -17,6 +18,8 @@ public class FileUploadServiceImpl implements IFileUploadService {
     private String dir = ""; // 存储路径
     private String LINUX_PATH = "/opt/zuche/images";
     private String WIN_PATH = "D:/zuche/images";
+    private String DefaultImgPath = "/d/b/db0506094e3e4260b75cd967d72b4609.jpg";
+
 
     @Override
     public String uploadCover(MultipartFile multipartFile) {
@@ -86,15 +89,32 @@ public class FileUploadServiceImpl implements IFileUploadService {
 
     /**
      * 获取图片文件
-     * @param imagePath 图片相对路径
-     * @param defaultImg*/
+     * @param defaultImg
+     * @param imagePath 图片相对路径 */
     @Override
-    public File getImageFile(String imagePath) {
+    public FileInputStream getImageFile(String imagePath) throws FileNotFoundException {
+        System.out.println(imagePath);
+        // 如果文件不存在,读取备选封面
+        if(StringUtils.isBlank(imagePath)){
+            imagePath = this.DefaultImgPath;
+        }
+
         // 获取磁盘路径
         String diskDir = getDiskPath();
         //文件绝对路径
         String filePath = diskDir + imagePath;
-        File file = new File(filePath);
-        return file;
+
+        File file  = new File(filePath);
+
+        if (file == null ||!file.exists()) { // 如果文件不存在,读取备选封面
+
+            String imgPath = this.DefaultImgPath;
+            filePath = diskDir + imgPath;
+//            String defaultImg = ResourceUtils.getURL("classpath:").getPath() +imgPath;
+            file = new File(filePath);
+        }
+
+        FileInputStream fis = new FileInputStream(file);
+        return fis;
     }
 }

@@ -52,19 +52,9 @@ public class PictureController {
      */
     @RequestMapping("/item")
     public void loadImage(String imagePath,  HttpServletResponse response) throws IOException {
-        File file = null;
-        if(!StringUtils.isBlank(imagePath)){
-            file = fileUploadService.getImageFile(imagePath);
-        }
 
-        FileInputStream fis = null;
+        FileInputStream fis = fileUploadService.getImageFile(imagePath);
 
-        if (file == null ||!file.exists()) { // 如果文件不存在,读取备选封面
-            String imgPath = "/static/statics/img/defaultNull.jpg";
-            String defaultImg = ResourceUtils.getURL("classpath:").getPath() +imgPath;
-            file = new File(defaultImg);
-        }
-        fis = new FileInputStream(file);
         response.setContentType("image/jpg"); // 设置返回的文件类型
         response.setHeader("Access-Control-Allow-Origin", "*");// 设置该图片允许跨域访问
         IOUtils.copy(fis, response.getOutputStream());
