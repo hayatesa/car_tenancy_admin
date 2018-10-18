@@ -93,7 +93,6 @@ public class FileUploadServiceImpl implements IFileUploadService {
      * @param imagePath 图片相对路径 */
     @Override
     public FileInputStream getImageFile(String imagePath) throws FileNotFoundException {
-        System.out.println(imagePath);
         // 如果文件不存在,读取备选封面
         if(StringUtils.isBlank(imagePath)){
             imagePath = this.DefaultImgPath;
