@@ -3,6 +3,7 @@ package com.dev.main.tenancy.dao;
 import com.dev.main.common.util.QueryObject;
 import com.dev.main.tenancy.domain.TncOrder;
 import com.dev.main.tenancy.vo.*;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -39,11 +40,11 @@ public interface TncOrderMapper extends BaseMapper<TncOrder> {
     List<String> getCarNub(Long carId);
 
     //根据车牌号修改车item的状态
-    int updateCarNub(String carNub1, Byte status);
+    int updateCarNub(@Param("arg0") String carNub1, @Param("arg1")Byte status);
 
     //根据车牌号获取车itemid
     Long getCarItemIdByNub(String carNubBefore);
 
     //更改order对应的caritemid
-    int updateCarItemId(Long orderId, Long newItemId);
+    int updateCarItemId(@Param("arg0") Long orderId,@Param("arg1") Long newItemId);
 }

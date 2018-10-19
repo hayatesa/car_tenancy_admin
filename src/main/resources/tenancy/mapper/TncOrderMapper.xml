@@ -194,7 +194,7 @@
     from tnc_car_item
     where number = #{xxx}
   </select>
-  <update id="updateCarItemId">
+  <update id="updateCarItemId"  parameterType="java.lang.Long">
     update tnc_order
     set car_item_id = #{arg1}
     where id = #{arg0}
