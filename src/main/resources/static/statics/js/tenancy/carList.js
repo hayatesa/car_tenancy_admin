@@ -275,7 +275,7 @@ function showCarPic(carId) {
         ,anim: 4
         ,maxmin: true
         ,offset: 'auto'
-        ,content: './carPic.html?carId='+carId
+        ,content: './pic.html?carId='+carId
         ,zIndex: layer.zIndex //重点1
         ,success: function(layero){
             layer.setTop(layero); //重点2

@@ -3,8 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="/statics/fonts/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="/statics/layui-v2.4.3/css/layui.css">
+    <link rel="stylesheet" href="/statics/css/pic.css">
 </head>
 <body>
+<div class="video">
+    <div class="container">
+        <div class="video-wrap">
+            <div class="vr-big">
+                <div class="inner" >
+                    <img id="imgCover" src="/api/pic/item?imagePath=/0/5/05d0dc4e841ae99416036079de3e8.jpg" alt="">
+                    <div class="text">
+                        <h3>封面</h3>
+                        <!--<p>通过视频介绍，你将更加深入了解什么是新零售</p>-->
+                    </div>
+                </div>
+                <!--显示操作-->
+                <div id="coveruploadId" class="link">上传</div>
+                <div id="coverId"  class="link layui-hide">更改</div>
+            </div>
+            <div class="vr-right">
+                <div class="vr-small">
+                    <div class="inner">
+                        <img id="imgNotCover1" src="/api/pic/item?imagePath=/0/5/05d0dc641ae99416036079de3e8.jpg" alt="">
+                        <span class="text">非封面</span>
+                    </div>
+                    <!--显示操作-->
+                    <div id="notCover1Upload" class="link notCover">上传</div>
+                    <div id="notCover1Update"  class="link layui-hide">更改</div>
+                    <input id="notCover1Id" class="layui-hide">
+                </div>
+                <div class="vr-small">
+                    <div class="inner" >
+                        <img  id="imgNotCover2" src="/api/pic/item?imagePath=/0/5/05d0dc6cb4e1ae99416036079de3e8.jpg" alt="">
+                        <span class="text">非封面</span>
+                    </div>
+                    <div id="notCover2Upload" class="link notCover">上传</div>
+                    <div id="notCover2Update"  class="link layui-hide">更改</div>
+                    <input id="notCover2Id" class="layui-hide">
+                </div>
+            </div>
+        </div>
+        <div class="vr-bottom">
+            <div class="vr-bsmall">
+                <div class="inner">
+                    <img  id="imgNotCover3" src="/api/pic/item?imagePath=/0/5/05d0db4e841ae99416036079de3e8.jpg" alt="">
+                    <span class="text">非封面</span>
+                </div>
+                <!--显示操作-->
+                <div id="notCover3Upload" class="link notCover">上传</div>
+                <div id="notCover3Update"  class="link layui-hide">更改</div>
+                <input id="notCover3Id" class="layui-hide">
+            </div>
+            <div class="vr-bsmall">
+                <div class="inner">
+                    <img  id="imgNotCover4" src="/api/pic/item?imagePath=/0/5/05d0dc6cb4e8e99416036079de3e8.jpg" alt="">
+                    <span class="text">非封面</span>
+                </div>
+                <!--显示操作-->
+                <div id="notCover4Upload" class="link notCover">上传</div>
+                <div id="notCover4Update"  class="link layui-hide">更改</div>
+                <input id="notCover4Id" class="layui-hide">
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<script src="/statics/js/jquery-3.3.1.min.js"></script>
+<script src="/statics/js/common/common.js"></script>
+<script src="/statics/vue-2.5.17/vue.min.js"></script>
+<script src="/statics/layui-v2.4.3/layui.all.js"></script>
+<script src="/statics/js/tenancy/index.js"></script>
+<script src="/statics/js/tenancy/pic.js"></script>
 
 </body>
 </html>
