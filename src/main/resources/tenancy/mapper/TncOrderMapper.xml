@@ -186,8 +186,11 @@
 </update>
   <update id="updateCarNub">
     update tnc_car_item
-    set status = #{arg1}
-    where number = #{arg0}
+    set status = #{status,jdbcType=TINYINT}
+    where number = #{carNub,jdbcType=VARCHAR}
+  </update>
+  <update id="updateCarItemStatus">
+     update  tnc_car_item set status = #{status,jdbcType=TINYINT} where id=#{caritemid,jdbcType=BIGINT}
   </update>
   <select id="getCarItemIdByNub" resultType="java.lang.Long" parameterType="String">
     select id

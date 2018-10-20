@@ -16,7 +16,9 @@ import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static sun.security.krb5.Confounder.intValue;
 
@@ -168,7 +170,11 @@ public class OrderServiceImpl implements IOrderService {
                 System.out.println("carid"+carid);
                 int rs3 = tncOrderMapper.updateCarNubUp(carid);
                 //将caritem标记为可用
-                int rs2 = tncCarItemMapper.updateCarItemStatus(Integer.parseInt(tt.getCarItemId().toString()), (byte) 0);
+            Map<String,Object> map = new HashMap<>();
+            map.put("caritemid",tt.getCarItemId());
+            map.put("status",(byte) 0);
+            int rs2 = tncOrderMapper.updateCarItemStatus(map);
+                //int rs2 = tncCarItemMapper.updateCarItemStatus(Integer.parseInt(tt.getCarItemId().toString()), (byte) 0);
                 if (rs1 > 0 && rs2 > 0 && rs3 > 0) {
                     return 1;
                 } else {
@@ -183,7 +189,11 @@ public class OrderServiceImpl implements IOrderService {
             TncOrder tt = tncOrderMapper.selectByPrimaryKey(tncOrder.getId());
             System.out.println(tt.toString());
             System.out.println("catitemid-----------"+tt.getCarItemId());
-            int rs2 = tncCarItemMapper.updateCarItemStatus(Integer.parseInt(tt.getCarItemId().toString()), (byte) 0);
+            Map<String,Object> map = new HashMap<>();
+            map.put("caritemid",tt.getCarItemId());
+            map.put("status",(byte) 0);
+            int rs2 = tncOrderMapper.updateCarItemStatus(map);
+            //int rs2 = tncCarItemMapper.updateCarItemStatus(Integer.parseInt(tt.getCarItemId().toString()), (byte) 0);
             Long carid = tncOrderMapper.getCarId(tt.getCarItemId());
             int rs3 = tncOrderMapper.updateCarNubUp(carid);
             if (rs1 > 0 && rs2 > 0 && rs3 > 0 ) {
@@ -228,9 +238,14 @@ public class OrderServiceImpl implements IOrderService {
 
     @Override
     public int updateCarNub(String carNubBefore, String carNubNew) {
-
-        int rs1 = tncOrderMapper.updateCarNub(carNubBefore,(byte)0);
-        int rs2 = tncOrderMapper.updateCarNub(carNubNew,(byte)1);
+        Map<String, Object> map = new HashMap<>();
+        map.put("carNub",carNubBefore);
+        map.put("status",(byte)0);
+        int rs1 = tncOrderMapper.updateCarNub(map);
+        HashMap<String, Object> map2 = new HashMap<String,Object>();
+        map.put("carNub",carNubNew);
+        map.put("status",(byte)1);
+        int rs2 = tncOrderMapper.updateCarNub(map2);
         if(rs1>0 && rs2>0) return 1;
         else return 0;
     }

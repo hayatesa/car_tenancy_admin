@@ -6,6 +6,7 @@ import com.dev.main.tenancy.vo.*;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface TncOrderMapper extends BaseMapper<TncOrder> {
     int deleteByPrimaryKey(Long id);
@@ -30,6 +31,7 @@ public interface TncOrderMapper extends BaseMapper<TncOrder> {
     int updateCarNubDown(Long carid);
     int updateCarNubUp(Long carid);
 
+    int updateCarItemStatus(Map map);
 
     StoreVo getStore(Long id);
     CarVo getCar(Long id);
@@ -40,7 +42,7 @@ public interface TncOrderMapper extends BaseMapper<TncOrder> {
     List<String> getCarNub(Long carId);
 
     //根据车牌号修改车item的状态
-    int updateCarNub(@Param("arg0") String carNub1, @Param("arg1")Byte status);
+    int updateCarNub(Map<String,Object> map);
 
     //根据车牌号获取车itemid
     Long getCarItemIdByNub(String carNubBefore);
