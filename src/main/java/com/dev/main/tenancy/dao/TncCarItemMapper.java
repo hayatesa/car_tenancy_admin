@@ -2,6 +2,7 @@ package com.dev.main.tenancy.dao;
 
 import com.dev.main.common.util.QueryObject;
 import com.dev.main.tenancy.domain.TncCarItem;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ public interface TncCarItemMapper extends BaseMapper<TncCarItem> {
 
     int updateDeleteFieldByPrimaryKey(Integer id);
 
-    int updateCarItemStatus(Integer id, Byte status);
+    int updateCarItemStatus(@Param("id") Integer id, @Param("status")Byte status);
 
 
     List<TncCarItem> getCarItemList(QueryObject queryObject);

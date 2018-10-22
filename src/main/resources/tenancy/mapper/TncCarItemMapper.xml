@@ -123,7 +123,7 @@
     update tnc_car_item set is_deleted = 1 where id=#{id}
   </update>
   <update id="updateCarItemStatus">
-    update  tnc_car_item set status = #{arg1} where id=#{arg0}
+    update  tnc_car_item set status = #{status} where id=#{id}
   </update>
 
   <select id="getCarItemList" resultMap="BaseResultMap">
