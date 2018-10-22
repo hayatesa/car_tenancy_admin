@@ -78,8 +78,19 @@ function doCheck() {
     if ($("#discount").val() == ""){
         showTips("折扣");
         return false;
+    }else if(!isDecimal($("#discount").val())){
+        layer.msg("折扣请输入[0,1]之间的小数");
+        return false;
     }
     return true;
+}
+
+function isDecimal(n){
+    if(/^(0.\d+|0|1)$/.test(n)){
+        return true;
+    }else{
+        return false;
+    }
 }
 function addPriceScheme() {
     if(!doCheck())

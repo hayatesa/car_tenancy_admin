@@ -17,7 +17,7 @@ function doGetCar() {
         url: '/api/car/get',
         data: {carId: carId},
         success: function (res) {
-            //console.log(res);
+            console.log(res);
             if (res.code == 0) {
                 doSetBlank(res.data);
             }
@@ -75,7 +75,7 @@ function doRequestBrand() {
                     $("#brand_id").append('<option value="' + b_data[i].id + '">' + b_data[i].name + '</option>');
                     // //console.log(i);
                 }
-                $("#brand_id").val(carcar.brand_id);
+                // $("#brand_id").val(carcar.brand_id);
                 layui.form.render('select', 'brandFilter');
             }
 
