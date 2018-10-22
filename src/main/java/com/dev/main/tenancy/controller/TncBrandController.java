@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 
 @RestController
 @ShiroExceptionResolver
@@ -45,6 +46,18 @@ public class TncBrandController {
         return iTncBrandService.queryByPage(queryObject);
     }
 
+    /*查询所有品牌*/
+    @GetMapping("/allband")
+    public ResultMap branList() {
+
+        List<TncBrand> list = iTncBrandService.getBandList();
+
+        ResultMap map  = new ResultMap();
+
+        map.put("data",list);
+
+        return map;
+    }
     /**
      * 添加品牌
      *

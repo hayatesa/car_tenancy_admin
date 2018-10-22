@@ -66,7 +66,7 @@ function doSetBlank(data) {
 function doRequestBrand() {
     $.ajax({
         type: "GET",
-        url: "/api/tncBrand/list",
+        url: "/api/tncBrand/allband",
         success: function (res) {
             if (res.code == 0) {
                 //console.log(res);

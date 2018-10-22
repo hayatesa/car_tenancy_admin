@@ -51,4 +51,8 @@ public class TncBrandServiceImpl implements ITncBrandService {
         return tncBrandMapper.selectByName(record);
     }
 
+    @Override
+    public List<TncBrand> getBandList() {
+        return tncBrandMapper.selectAllBand();
+    }
 }

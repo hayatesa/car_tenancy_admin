@@ -2,6 +2,8 @@ package com.dev.main.tenancy.dao;
 
 import com.dev.main.tenancy.domain.TncBrand;
 
+import java.util.List;
+
 public interface TncBrandMapper extends BaseMapper<TncBrand> {
     int deleteByPrimaryKey(Long id);
 
@@ -16,4 +18,6 @@ public interface TncBrandMapper extends BaseMapper<TncBrand> {
     int updateByPrimaryKey(TncBrand record);
 
     TncBrand selectByName(TncBrand record);
+
+    List<TncBrand> selectAllBand();
 }

@@ -4,6 +4,8 @@ import com.dev.main.common.util.Page;
 import com.dev.main.common.util.QueryObject;
 import com.dev.main.tenancy.domain.TncBrand;
 
+import java.util.List;
+
 public interface ITncBrandService {
 
     /**
@@ -47,4 +49,6 @@ public interface ITncBrandService {
      * @return
      */
     TncBrand findByName(TncBrand record);
+
+    List<TncBrand> getBandList();
 }

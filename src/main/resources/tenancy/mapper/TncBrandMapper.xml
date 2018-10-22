@@ -119,4 +119,12 @@
       </if>
     </where>
   </select>
+
+  <select id="selectAllBand" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from tnc_brand
+    where
+     is_deleted = 0
+  </select>
 </mapper>
