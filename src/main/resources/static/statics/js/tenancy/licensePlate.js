@@ -110,6 +110,8 @@ layui.use('table', function(){
                             status:data.status
                         });
                         table.reload("car_num");
+                    }else{
+                        layer.msg(res.msg);
                     }
                 }
             })
@@ -128,6 +130,8 @@ layui.use('table', function(){
                             status:data.status
                         });
                         table.reload("car_num");
+                    }else{
+                        layer.msg(res.msg);
                     }
                 }
             })
@@ -199,6 +203,8 @@ layui.use('table', function(){
                         layer.msg("下架成功");
                         tableIns.reload();
                         // window.location.reload();
+                    }else{
+                        layer.msg(res.msg);
                     }
                 }
             })
@@ -218,6 +224,8 @@ layui.use('table', function(){
                         layer.msg("上架成功");
                         tableIns.reload();
                         // window.location.reload();
+                    }else{
+                        layer.msg(res.msg);
                     }
                 }
             })

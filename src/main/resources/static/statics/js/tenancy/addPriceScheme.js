@@ -19,6 +19,8 @@ function doRequestPackage() {
                     $("#package_id").append('<option value="'+b_data[i].id+'">'+b_data[i].name+'</option>');
                 }
                 form.render('select','package_form');
+            }else{
+                layer.msg(res.msg);
             }
         },
     })
@@ -104,6 +106,8 @@ function addPriceScheme() {
                 layer.msg("添加成功!");
                 doResetForm();
                 doRequestPackage();
+            }else{
+                layer.msg(res.msg);
             }
         }
     })

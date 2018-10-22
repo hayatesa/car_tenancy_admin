@@ -45,6 +45,8 @@ function  doRequestBrand() {
                     //console.log(i);
                 }
                 layui.form.render('select','brandFilter');
+            }else{
+                layer.msg(res.msg);
             }
 
         },
@@ -65,6 +67,8 @@ function doRequestCarType() {
                     // //console.log(i+"ui");
                 }
                 layui.form.render('select','carTypeFilter');
+            }else{
+                layer.msg(res.msg);
             }
 
         },
@@ -281,6 +285,8 @@ function doRequestProvince() {
                     $("#province_id").append('<option value="'+b_data[i].id+'">'+b_data[i].name+'</option>');
                 }
                 layui.form.render('select','store_addr');
+            }else{
+                layer.msg(res.msg);
             }
         },
     })
@@ -304,6 +310,8 @@ function doRequestStore(data) {
                     // //console.log(i+"store_id");
                 }
                 layui.form.render('select','store_addr');
+            }else{
+                layer.msg(res.msg);
             }
         },
     })
@@ -324,6 +332,8 @@ function doRequestAddr(data,comIdName){
                     $(comIdName).append('<option value="'+b_data[i].id+'">'+b_data[i].name+'</option>');
                 }
                 layui.form.render('select','store_addr');
+            }else{
+                layer.msg(res.msg);
             }
         },
     })

@@ -17,9 +17,11 @@ function doGetCar() {
         url: '/api/car/get',
         data: {carId: carId},
         success: function (res) {
-            console.log(res);
+            // console.log(res);
             if (res.code == 0) {
                 doSetBlank(res.data);
+            }else{
+                layer.msg(res.msg);
             }
         }
     })
@@ -77,6 +79,8 @@ function doRequestBrand() {
                 }
                 // $("#brand_id").val(carcar.brand_id);
                 layui.form.render('select', 'brandFilter');
+            }else{
+                layer.msg(res.msg);
             }
 
         },
@@ -98,6 +102,8 @@ function doRequestCarType() {
                     // //console.log(i+"ui");
                 }
                 layui.form.render('select', 'carTypeFilter');
+            }else{
+                layer.msg(res.msg);
             }
 
         },
@@ -315,6 +321,8 @@ function doRequestProvince() {
                     $("#province_id").append('<option value="' + b_data[i].id + '">' + b_data[i].name + '</option>');
                 }
                 layui.form.render('select', 'store_addr');
+            }else{
+                layer.msg(res.msg);
             }
         },
     })
@@ -338,6 +346,8 @@ function doRequestStore(data) {
                     // //console.log(i+"store_id");
                 }
                 layui.form.render('select', 'store_addr');
+            }else{
+                layer.msg(res.msg);
             }
         },
     })
@@ -358,6 +368,8 @@ function doRequestAddr(data, comIdName) {
                     $(comIdName).append('<option value="' + b_data[i].id + '">' + b_data[i].name + '</option>');
                 }
                 layui.form.render('select', 'store_addr');
+            }else{
+                layer.msg(res.msg);
             }
         },
     })
