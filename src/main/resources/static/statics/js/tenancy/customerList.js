@@ -139,10 +139,10 @@ layui.use('table', function () {
     }
     //跳转添加页面
     var userList_add = function() {
-        var url = './CustomerInput.html';
+        var url = './customerInput.html';
         layer.open({
             type: 2 //此处以iframe举例
-            , title: '添加KEHU'
+            , title: '添加客户'
             , area: ['500px', '380px']
             , shade: 0
             , id: "2"
